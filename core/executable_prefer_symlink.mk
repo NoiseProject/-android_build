@@ -42,7 +42,11 @@ endif
 # $(my_symlink) doesn't need to depend on $(PRIVATE_SRC_BINARY_NAME): we can generate symlink to nonexistent file.
 # If you add the dependency, make would compare the timestamp of a file against that of its symlink:
 # they are always equal, because make follows symlink.
+<<<<<<< HEAD
 $(my_symlink): $(LOCAL_MODULE_MAKEFILE)
+=======
+$(my_symlink): $(LOCAL_MODULE_MAKEFILE_DEP)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	@echo "Symlink: $@ -> $(PRIVATE_SRC_BINARY_NAME)"
 	@mkdir -p $(dir $@)
 	@rm -rf $@

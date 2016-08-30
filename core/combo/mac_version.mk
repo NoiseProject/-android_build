@@ -9,7 +9,11 @@ ifndef build_mac_version
 
 build_mac_version := $(shell sw_vers -productVersion)
 
+<<<<<<< HEAD
 mac_sdk_versions_supported :=  10.6 10.7 10.8 10.9
+=======
+mac_sdk_versions_supported :=  10.8 10.9 10.10 10.11
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifneq ($(strip $(MAC_SDK_VERSION)),)
 mac_sdk_version := $(MAC_SDK_VERSION)
 ifeq ($(filter $(mac_sdk_version),$(mac_sdk_versions_supported)),)
@@ -19,10 +23,18 @@ $(warning ****************************************************************)
 $(error Stop.)
 endif
 else
+<<<<<<< HEAD
 mac_sdk_versions_installed := $(shell xcodebuild -showsdks | grep macosx | sort | sed -e "s/.*macosx//g")
 mac_sdk_version := $(firstword $(filter $(mac_sdk_versions_installed), $(mac_sdk_versions_supported)))
 ifeq ($(mac_sdk_version),)
 mac_sdk_version := $(firstword $(mac_sdk_versions_supported))
+=======
+mac_sdk_versions_installed := $(shell xcodebuild -showsdks | grep macosx | sed -e "s/.*macosx//g")
+mac_sdk_version := $(firstword $(filter $(mac_sdk_versions_installed), $(mac_sdk_versions_supported)))
+ifeq ($(mac_sdk_version),)
+mac_sdk_version := $(firstword $(mac_sdk_versions_supported))
+$(warning none of the installed SDKs ($mac_sdk_versions_installed) match supported versions ($(mac_sdk_versions_supported)), trying $(mac_sdk_version))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 endif
 
@@ -32,6 +44,10 @@ mac_sdk_path := $(shell xcode-select -print-path)
 mac_sdk_root := $(mac_sdk_path)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(mac_sdk_version).sdk
 ifeq ($(wildcard $(mac_sdk_root)),)
 # try legacy /Developer/SDKs/MacOSX10.?.sdk
+<<<<<<< HEAD
+=======
+$(warning no SDK $(mac_sdk_version) at $(mac_sdk_root), trying legacy dir)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 mac_sdk_root := /Developer/SDKs/MacOSX$(mac_sdk_version).sdk
 endif
 ifeq ($(wildcard $(mac_sdk_root)),)

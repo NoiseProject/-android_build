@@ -2,7 +2,15 @@
 ## Track NOTICE files
 ###########################################################
 
+<<<<<<< HEAD
 notice_file:=$(strip $(wildcard $(LOCAL_PATH)/NOTICE))
+=======
+ifneq ($(LOCAL_NOTICE_FILE),)
+notice_file:=$(strip $(LOCAL_NOTICE_FILE))
+else
+notice_file:=$(strip $(wildcard $(LOCAL_PATH)/NOTICE))
+endif
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifeq ($(LOCAL_MODULE_CLASS),GYP)
   # We ignore NOTICE files for modules of type GYP.
@@ -14,6 +22,10 @@ ifeq ($(LOCAL_MODULE_CLASS),NOTICE_FILES)
 # so my_prefix is not set at this point.
 ifeq ($(LOCAL_IS_HOST_MODULE),true)
   my_prefix := HOST_
+<<<<<<< HEAD
+=======
+  LOCAL_HOST_PREFIX :=
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 else
   my_prefix := TARGET_
 endif
@@ -56,13 +68,21 @@ endif
 
 # In case it's actually a host file
 module_installed_filename := $(patsubst $(HOST_OUT)%,%,$(module_installed_filename))
+<<<<<<< HEAD
+=======
+module_installed_filename := $(patsubst $(HOST_CROSS_OUT)%,%,$(module_installed_filename))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 installed_notice_file := $($(my_prefix)OUT_NOTICE_FILES)/src/$(module_installed_filename).txt
 
 $(installed_notice_file): PRIVATE_INSTALLED_MODULE := $(module_installed_filename)
 
 $(installed_notice_file): $(notice_file)
+<<<<<<< HEAD
 	@echo -e ${CL_CYN}Notice file:${CL_RST} $< -- $@
+=======
+	@echo Notice file: $< -- $@
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(hide) mkdir -p $(dir $@)
 	$(hide) cat $< > $@
 

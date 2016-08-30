@@ -14,7 +14,11 @@
 # limitations under the License.
 #
 
+<<<<<<< HEAD
 ifneq ($(USE_CCACHE),)
+=======
+ifneq ($(filter-out false,$(USE_CCACHE)),)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   # The default check uses size and modification time, causing false misses
   # since the mtime depends when the repo was checked out
   export CCACHE_COMPILERCHECK := content
@@ -37,11 +41,14 @@ ifneq ($(USE_CCACHE),)
   export CCACHE_CPP2 := true
 
   CCACHE_HOST_TAG := $(HOST_PREBUILT_TAG)
+<<<<<<< HEAD
   # If we are cross-compiling Windows binaries on Linux
   # then use the linux ccache binary instead.
   ifeq ($(HOST_OS)-$(BUILD_OS),windows-linux)
     CCACHE_HOST_TAG := linux-$(HOST_PREBUILT_ARCH)
   endif
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   ccache := prebuilts/misc/$(CCACHE_HOST_TAG)/ccache/ccache
   # Check that the executable is here.
   ccache := $(strip $(wildcard $(ccache)))

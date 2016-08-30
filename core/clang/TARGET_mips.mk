@@ -60,7 +60,11 @@ $(clang_2nd_arch_prefix)CLANG_TARGET_GLOBAL_LDFLAGS := \
   $(call $(clang_2nd_arch_prefix)convert-to-clang-flags,$($(clang_2nd_arch_prefix)TARGET_GLOBAL_LDFLAGS)) \
   $(CLANG_CONFIG_mips_TARGET_EXTRA_LDFLAGS)
 
+<<<<<<< HEAD
 $(clang_2nd_arch_prefix)RS_TRIPLE := armv7-none-linux-gnueabi
+=======
+$(clang_2nd_arch_prefix)RS_TRIPLE := armv7-linux-androideabi
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(clang_2nd_arch_prefix)RS_TRIPLE_CFLAGS :=
 RS_COMPAT_TRIPLE := mipsel-linux-android
 

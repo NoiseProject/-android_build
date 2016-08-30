@@ -1,4 +1,5 @@
 # This file defines the rule to fuse the platform.zip into the current PDK build.
+<<<<<<< HEAD
 
 .PHONY: pdk fusion
 pdk fusion: $(DEFAULT_GOAL)
@@ -42,6 +43,8 @@ endif
 endif  # fusion
 endif  # pdk or fusion
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 PDK_PLATFORM_JAVA_ZIP_JAVA_TARGET_LIB_DIR :=
 PDK_PLATFORM_JAVA_ZIP_JAVA_HOST_LIB_DIR := \
 	host/common/obj/JAVA_LIBRARIES/bouncycastle-host_intermediates
@@ -58,6 +61,10 @@ PDK_PLATFORM_JAVA_ZIP_JAVA_TARGET_LIB_DIR += \
   target/common/obj/JAVA_LIBRARIES/android_stubs_current_intermediates \
   target/common/obj/JAVA_LIBRARIES/bouncycastle_intermediates \
   target/common/obj/JAVA_LIBRARIES/conscrypt_intermediates \
+<<<<<<< HEAD
+=======
+  target/common/obj/JAVA_LIBRARIES/core-oj_intermediates \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   target/common/obj/JAVA_LIBRARIES/core-libart_intermediates \
   target/common/obj/JAVA_LIBRARIES/core-junit_intermediates \
   target/common/obj/JAVA_LIBRARIES/ext_intermediates \
@@ -78,7 +85,13 @@ PDK_PLATFORM_JAVA_ZIP_JAVA_LIB_DIR := \
 	$(PDK_PLATFORM_JAVA_ZIP_JAVA_HOST_LIB_DIR)
 
 PDK_PLATFORM_JAVA_ZIP_CONTENTS += $(foreach lib_dir,$(PDK_PLATFORM_JAVA_ZIP_JAVA_LIB_DIR),\
+<<<<<<< HEAD
     $(lib_dir)/classes.jack $(lib_dir)/classes.jar $(lib_dir)/javalib.jar)
+=======
+    $(lib_dir)/classes.jack $(lib_dir)/classes.jar $(lib_dir)/classes.jar.toc \
+    $(lib_dir)/javalib.jar  $(lib_dir)/classes*.dex \
+    $(lib_dir)/classes.dex.toc )
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # check and override java support level
 ifneq ($(TARGET_BUILD_PDK)$(PDK_FUSION_PLATFORM_ZIP),)
@@ -91,11 +104,14 @@ endif
 endif # PDK
 
 ifdef PDK_FUSION_PLATFORM_ZIP
+<<<<<<< HEAD
 TARGET_BUILD_PDK := true
 ifeq (,$(wildcard $(PDK_FUSION_PLATFORM_ZIP)))
   $(error Cannot find file $(PDK_FUSION_PLATFORM_ZIP).)
 endif
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 _pdk_fusion_intermediates := $(call intermediates-dir-for, PACKAGING, pdk_fusion)
 _pdk_fusion_stamp := $(_pdk_fusion_intermediates)/pdk_fusion.stamp
 
@@ -116,7 +132,11 @@ endif
 endif
 
 $(_pdk_fusion_stamp) : $(PDK_FUSION_PLATFORM_ZIP)
+<<<<<<< HEAD
 	@echo -e ${CL_YLW}"Unzip"${CL_RST}" $(dir $@) <- $<"
+=======
+	@echo "Unzip $(dir $@) <- $<"
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(hide) rm -rf $(dir $@) && mkdir -p $(dir $@)
 	$(hide) unzip -qo $< -d $(dir $@)
 	$(call split-long-arguments,-touch,$(_pdk_fusion_files))
@@ -149,10 +169,15 @@ PDK_FUSION_OUT_DIR := $(DEBUG_OUT_DIR)
 endif
 
 define JAVA_dependency_template
+<<<<<<< HEAD
 $(PDK_FUSION_OUT_DIR)/$(strip $(1)): $(_pdk_fusion_intermediates)/$(strip $(1)) \
   $(PDK_FUSION_OUT_DIR)/$(strip $(2)) $(_pdk_fusion_stamp)
 	@mkdir -p $$(dir $$@)
 	$(hide) cp -fpPR $$< $$@
+=======
+$(call add-dependency,$(PDK_FUSION_OUT_DIR)/$(strip $(1)),\
+  $(foreach d,$(filter $(2),$(_pdk_fusion_java_file_list)),$(PDK_FUSION_OUT_DIR)/$(d)))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endef
 
 # needs explicit dependency as package-export.apk is not explicitly pulled
@@ -165,6 +190,17 @@ $(foreach lib_dir,$(PDK_PLATFORM_JAVA_ZIP_JAVA_TARGET_LIB_DIR),\
 $(eval $(call JAVA_dependency_template,$(lib_dir)/javalib.jar,\
 $(lib_dir)/classes.jar)))
 
+<<<<<<< HEAD
+=======
+# pull .jack and .dex files
+$(foreach lib_dir,$(PDK_PLATFORM_JAVA_ZIP_JAVA_TARGET_LIB_DIR),\
+  $(eval $(call JAVA_dependency_template,$(lib_dir)/classes.jar.toc,\
+    $(lib_dir)/classes.jar $(lib_dir)/classes.jack)))
+$(foreach lib_dir,$(PDK_PLATFORM_JAVA_ZIP_JAVA_TARGET_LIB_DIR),\
+  $(eval $(call JAVA_dependency_template,$(lib_dir)/classes.dex.toc,\
+    $(lib_dir)/classes.jar $(lib_dir)/classes.jack $(lib_dir)/classes%.dex)))
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # implicit rules for all other target files
 $(TARGET_COMMON_OUT_ROOT)/% : $(_pdk_fusion_intermediates)/target/common/% $(_pdk_fusion_stamp)
 	@mkdir -p $(dir $@)

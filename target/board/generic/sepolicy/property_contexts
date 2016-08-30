@@ -1,2 +1,9 @@
 qemu.                   u:object_r:qemu_prop:s0
+<<<<<<< HEAD
 radio.noril             u:object_r:radio_noril_prop:s0
+=======
+ro.emu.                 u:object_r:qemu_prop:s0
+ro.emulator.            u:object_r:qemu_prop:s0
+ro.radio.noril          u:object_r:radio_noril_prop:s0
+ro.opengles.            u:object_r:opengles_prop:s0
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

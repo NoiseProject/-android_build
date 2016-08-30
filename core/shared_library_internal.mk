@@ -40,16 +40,29 @@ include $(BUILD_SYSTEM)/dynamic_binary.mk
 
 # Define PRIVATE_ variables from global vars
 my_target_global_ld_dirs := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_GLOBAL_LD_DIRS)
+<<<<<<< HEAD
 my_target_libprofile_rt := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_LIBPROFILE_RT)
 my_target_libgcov := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_LIBGCOV)
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifeq ($(LOCAL_NO_LIBGCC),true)
 my_target_libgcc :=
 else
 my_target_libgcc := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_LIBGCC)
 endif
 my_target_libatomic := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_LIBATOMIC)
+<<<<<<< HEAD
 my_target_crtbegin_so_o := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_CRTBEGIN_SO_O)
 my_target_crtend_so_o := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_CRTEND_SO_O)
+=======
+ifeq ($(LOCAL_NO_CRT),true)
+my_target_crtbegin_so_o :=
+my_target_crtend_so_o :=
+else
+my_target_crtbegin_so_o := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_CRTBEGIN_SO_O)
+my_target_crtend_so_o := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_CRTEND_SO_O)
+endif
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifdef LOCAL_SDK_VERSION
 # Make sure the prebuilt NDK paths are put ahead of the TARGET_GLOBAL_LD_DIRS,
 # so we don't have race condition when the system libraries (such as libc, libstdc++) are also built in the tree.
@@ -63,8 +76,11 @@ my_target_crtend_so_o := $(wildcard $(my_ndk_sysroot_lib)/crtend_so.o)
 endif
 $(linked_module): PRIVATE_TARGET_GLOBAL_LD_DIRS := $(my_target_global_ld_dirs)
 $(linked_module): PRIVATE_TARGET_GLOBAL_LDFLAGS := $(my_target_global_ldflags)
+<<<<<<< HEAD
 $(linked_module): PRIVATE_TARGET_LIBPROFILE_RT := $(my_target_libprofile_rt)
 $(linked_module): PRIVATE_TARGET_LIBGCOV := $(my_target_libgcov)
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(linked_module): PRIVATE_TARGET_LIBGCC := $(my_target_libgcc)
 $(linked_module): PRIVATE_TARGET_LIBATOMIC := $(my_target_libatomic)
 $(linked_module): PRIVATE_TARGET_CRTBEGIN_SO_O := $(my_target_crtbegin_so_o)
@@ -75,7 +91,11 @@ $(linked_module): \
         $(all_libraries) \
         $(my_target_crtbegin_so_o) \
         $(my_target_crtend_so_o) \
+<<<<<<< HEAD
         $(LOCAL_MODULE_MAKEFILE) \
+=======
+        $(LOCAL_MODULE_MAKEFILE_DEP) \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
         $(LOCAL_ADDITIONAL_DEPENDENCIES)
 	$(transform-o-to-shared-lib)
 

@@ -13,6 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+<<<<<<< HEAD
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_mips.mk)
+=======
+include $(SRC_TARGET_DIR)/product/full_mips.mk
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 PRODUCT_NAME := aosp_mips

@@ -5,11 +5,14 @@
 <body class="gc-documentation develop samples" itemscope itemtype="http://schema.org/Article">
 <?cs include:"header.cs" ?>
 
+<<<<<<< HEAD
 <div <?cs if:fullpage
 ?>class="fullpage"<?cs elif:design||tools||about||sdk||distribute
 ?>class="col-13" id="doc-col"<?cs else
 ?>class="col-12" id="doc-col"<?cs /if ?> >
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 <!-- start breadcrumb block -->
 <div id="api-info-block">
   <div class="sum-details-links">
@@ -30,7 +33,11 @@
 <div id="pathCrumb">
 <?cs each:item = parentdirs ?>
   <?cs if:LinkifyPathCrumb
+<<<<<<< HEAD
     ?><a href="<?cs var:toroot ?><?cs var:item.Link ?>"><?cs var:item.Name ?></a> / 
+=======
+    ?><a href="<?cs var:toroot ?><?cs var:item.Link ?>"><?cs var:item.Name ?></a> /
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   <?cs else
     ?><?cs var:item.Name ?> / <?cs /if ?>
 <?cs /each ?>
@@ -92,9 +99,15 @@
 
       <div class="content-footer <?cs
                     if:fullpage ?>wrap<?cs
+<<<<<<< HEAD
                     else ?>layout-content-row<?cs /if ?>"
                     itemscope itemtype="http://schema.org/SiteNavigationElement">
         <div class="layout-content-col <?cs
+=======
+                    else ?>cols<?cs /if ?>"
+                    itemscope itemtype="http://schema.org/SiteNavigationElement">
+        <div class="<?cs
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
                     if:fullpage ?>col-16<?cs
                     elif:training||guide ?>col-8<?cs
                     else ?>col-9<?cs /if ?>" style="padding-top:4px">
@@ -103,7 +116,11 @@
           <?cs /if ?>
         </div>
         <?cs if:!fullscreen ?>
+<<<<<<< HEAD
         <div class="paging-links layout-content-col col-4">
+=======
+        <div class="paging-links col-4">
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
           <?cs if:(design||training||walkthru) && !page.landing && !page.trainingcourse && !footer.hide ?>
             <a href="#" class="prev-page-link hide"
                 zh-tw-lang="上一堂課"
@@ -128,13 +145,18 @@
 
       <?cs # for training classes, provide a different kind of link when the next page is a different class ?>
       <?cs if:training && !page.article ?>
+<<<<<<< HEAD
       <div class="layout-content-row content-footer next-class" style="display:none" itemscope itemtype="http://schema.org/SiteNavigationElement">
+=======
+      <div class="content-footer next-class" style="display:none" itemscope itemtype="http://schema.org/SiteNavigationElement">
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
           <a href="#" class="next-class-link hide">Next class: </a>
       </div>
       <?cs /if ?>
 
   </div> <!-- end jd-content -->
 
+<<<<<<< HEAD
 <?cs include:"footer.cs" ?>
 </div><!-- end doc-content -->
 
@@ -149,3 +171,12 @@
 
 
 
+=======
+  <?cs if:!devsite ?>
+  <?cs include:"footer.cs" ?>
+  <?cs include:"trailer.cs" ?>
+  <?cs /if ?>
+
+</body>
+</html>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

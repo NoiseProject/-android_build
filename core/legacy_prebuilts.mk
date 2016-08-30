@@ -22,6 +22,7 @@
 # to add any new such module in the system
 
 GRANDFATHERED_ALL_PREBUILT := \
+<<<<<<< HEAD
 	akmd2 \
 	ap_gain.bin \
 	AVRCP.kl \
@@ -87,3 +88,13 @@ GRANDFATHERED_ALL_PREBUILT := \
 	ueventd.stingray.rc \
 	vold.fstab \
 	wl1271.bin
+=======
+	bmgr \
+	ime \
+	input \
+	monkey \
+	pm \
+	RFFspeed_501.bmd \
+	RFFstd_501.bmd \
+	svc
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

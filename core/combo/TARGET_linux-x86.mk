@@ -49,6 +49,7 @@ $(combo_2nd_arch_prefix)TARGET_TOOLCHAIN_ROOT := prebuilts/gcc/$(HOST_PREBUILT_T
 $(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX := $($(combo_2nd_arch_prefix)TARGET_TOOLCHAIN_ROOT)/bin/x86_64-linux-android-
 endif
 
+<<<<<<< HEAD
 $(combo_2nd_arch_prefix)TARGET_CC := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX)
 $(combo_2nd_arch_prefix)TARGET_CXX := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)g++$(HOST_EXECUTABLE_SUFFIX)
 $(combo_2nd_arch_prefix)TARGET_AR := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)ar$(HOST_EXECUTABLE_SUFFIX)
@@ -56,6 +57,20 @@ $(combo_2nd_arch_prefix)TARGET_OBJCOPY := $($(combo_2nd_arch_prefix)TARGET_TOOLS
 $(combo_2nd_arch_prefix)TARGET_LD := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)ld$(HOST_EXECUTABLE_SUFFIX)
 $(combo_2nd_arch_prefix)TARGET_READELF := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)readelf$(HOST_EXECUTABLE_SUFFIX)
 $(combo_2nd_arch_prefix)TARGET_STRIP := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)strip$(HOST_EXECUTABLE_SUFFIX)
+=======
+$(combo_2nd_arch_prefix)TARGET_CC := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)gcc
+$(combo_2nd_arch_prefix)TARGET_CXX := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)g++
+$(combo_2nd_arch_prefix)TARGET_AR := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)ar
+$(combo_2nd_arch_prefix)TARGET_OBJCOPY := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)objcopy
+$(combo_2nd_arch_prefix)TARGET_LD := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)ld
+$(combo_2nd_arch_prefix)TARGET_READELF := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)readelf
+$(combo_2nd_arch_prefix)TARGET_STRIP := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)strip
+$(combo_2nd_arch_prefix)TARGET_NM := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)nm
+
+define $(combo_var_prefix)transform-shared-lib-to-toc
+$(call _gen_toc_command_for_elf,$(1),$(2))
+endef
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifneq ($(wildcard $($(combo_2nd_arch_prefix)TARGET_CC)),)
 $(combo_2nd_arch_prefix)TARGET_LIBGCC := \
@@ -72,11 +87,18 @@ libc_root := bionic/libc
 libm_root := bionic/libm
 
 KERNEL_HEADERS_COMMON := $(libc_root)/kernel/uapi
+<<<<<<< HEAD
 KERNEL_HEADERS_ARCH   := $(libc_root)/kernel/uapi/asm-x86 # x86 covers both x86 and x86_64.
 KERNEL_HEADERS := $(KERNEL_HEADERS_COMMON) $(KERNEL_HEADERS_ARCH)
 
 android_config_h := $(call select-android-config-h,target_linux-x86)
 
+=======
+KERNEL_HEADERS_COMMON += $(libc_root)/kernel/common
+KERNEL_HEADERS_ARCH   := $(libc_root)/kernel/uapi/asm-x86 # x86 covers both x86 and x86_64.
+KERNEL_HEADERS := $(KERNEL_HEADERS_COMMON) $(KERNEL_HEADERS_ARCH)
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += \
 			-O2 \
 			-Wa,--noexecstack \
@@ -90,12 +112,19 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += \
 			-fstrict-aliasing \
 			-funswitch-loops \
 			-funwind-tables \
+<<<<<<< HEAD
 			-fstack-protector \
 			-m32 \
 			-no-canonical-prefixes \
 			-fno-canonical-system-headers \
 			-include $(android_config_h) \
 			-I $(dir $(android_config_h))
+=======
+			-fstack-protector-strong \
+			-m32 \
+			-no-canonical-prefixes \
+			-fno-canonical-system-headers \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += $(arch_variant_cflags)
 
@@ -127,6 +156,10 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_LDFLAGS += -Wl,--warn-shared-textrel
 $(combo_2nd_arch_prefix)TARGET_GLOBAL_LDFLAGS += -Wl,--fatal-warnings
 $(combo_2nd_arch_prefix)TARGET_GLOBAL_LDFLAGS += -Wl,--gc-sections
 $(combo_2nd_arch_prefix)TARGET_GLOBAL_LDFLAGS += -Wl,--hash-style=gnu
+<<<<<<< HEAD
+=======
+$(combo_2nd_arch_prefix)TARGET_GLOBAL_LDFLAGS += -Wl,--no-undefined-version
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 $(combo_2nd_arch_prefix)TARGET_C_INCLUDES := \
 	$(libc_root)/arch-x86/include \
@@ -144,8 +177,11 @@ $(combo_2nd_arch_prefix)TARGET_CRTEND_SO_O := $($(combo_2nd_arch_prefix)TARGET_O
 
 $(combo_2nd_arch_prefix)TARGET_PACK_MODULE_RELOCATIONS := true
 
+<<<<<<< HEAD
 $(combo_2nd_arch_prefix)TARGET_DEFAULT_SYSTEM_SHARED_LIBRARIES := libc libm
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(combo_2nd_arch_prefix)TARGET_LINKER := /system/bin/linker
 
 $(combo_2nd_arch_prefix)TARGET_GLOBAL_YASM_FLAGS := -f elf32 -m x86

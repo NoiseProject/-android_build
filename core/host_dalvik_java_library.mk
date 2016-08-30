@@ -28,13 +28,21 @@ include $(BUILD_SYSTEM)/host_java_library_common.mk
 #######################################
 
 ifneq ($(LOCAL_NO_STANDARD_LIBRARIES),true)
+<<<<<<< HEAD
   LOCAL_JAVA_LIBRARIES +=  core-libart-hostdex
+=======
+  LOCAL_JAVA_LIBRARIES += core-oj-hostdex core-libart-hostdex
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 full_classes_compiled_jar := $(intermediates.COMMON)/classes-full-debug.jar
 full_classes_jarjar_jar := $(intermediates.COMMON)/classes-jarjar.jar
 full_classes_jar := $(intermediates.COMMON)/classes.jar
 full_classes_jack := $(intermediates.COMMON)/classes.jack
+<<<<<<< HEAD
+=======
+jack_check_timestamp := $(intermediates.COMMON)/jack.check.timestamp
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 built_dex := $(intermediates.COMMON)/classes.dex
 
 LOCAL_INTERMEDIATE_TARGETS += \
@@ -42,23 +50,46 @@ LOCAL_INTERMEDIATE_TARGETS += \
     $(full_classes_jarjar_jar) \
     $(full_classes_jack) \
     $(full_classes_jar) \
+<<<<<<< HEAD
     $(built_dex)
 
 # See comment in java.mk
 java_alternative_checked_module := $(full_classes_compiled_jar)
+=======
+    $(jack_check_timestamp) \
+    $(built_dex)
+
+# See comment in java.mk
+ifndef LOCAL_CHECKED_MODULE
+ifdef LOCAL_JACK_ENABLED
+LOCAL_CHECKED_MODULE := $(jack_check_timestamp)
+else
+LOCAL_CHECKED_MODULE := $(full_classes_compiled_jar)
+endif
+endif
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 #######################################
 include $(BUILD_SYSTEM)/base_rules.mk
 #######################################
+<<<<<<< HEAD
 
 $(full_classes_compiled_jar): PRIVATE_JAVAC_DEBUG_FLAGS := -g
 
 java_alternative_checked_module :=
+=======
+java_sources := $(addprefix $(LOCAL_PATH)/, $(filter %.java,$(LOCAL_SRC_FILES))) \
+                $(filter %.java,$(LOCAL_GENERATED_SOURCES))
+all_java_sources := $(java_sources)
+
+include $(BUILD_SYSTEM)/java_common.mk
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # The layers file allows you to enforce a layering between java packages.
 # Run build/tools/java-layers.py for more details.
 layers_file := $(addprefix $(LOCAL_PATH)/, $(LOCAL_JAVA_LAYERS_FILE))
 
+<<<<<<< HEAD
 $(LOCAL_INTERMEDIATE_TARGETS): \
 	PRIVATE_CLASS_INTERMEDIATES_DIR := $(intermediates.COMMON)/classes
 $(LOCAL_INTERMEDIATE_TARGETS): \
@@ -69,6 +100,12 @@ $(cleantarget): PRIVATE_CLEAN_FILES += $(intermediates.COMMON)
 
 $(full_classes_compiled_jar): PRIVATE_JAVA_LAYERS_FILE := $(layers_file)
 $(full_classes_compiled_jar): PRIVATE_JAVACFLAGS := $(LOCAL_JAVACFLAGS)
+=======
+$(cleantarget): PRIVATE_CLEAN_FILES += $(intermediates.COMMON)
+
+$(full_classes_compiled_jar): PRIVATE_JAVA_LAYERS_FILE := $(layers_file)
+$(full_classes_compiled_jar): PRIVATE_JAVACFLAGS := $(GLOBAL_JAVAC_DEBUG_FLAGS) $(LOCAL_JAVACFLAGS)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(full_classes_compiled_jar): PRIVATE_JAR_EXCLUDE_FILES :=
 $(full_classes_compiled_jar): PRIVATE_JAR_PACKAGES :=
 $(full_classes_compiled_jar): PRIVATE_JAR_EXCLUDE_PACKAGES :=
@@ -78,7 +115,11 @@ $(full_classes_compiled_jar): \
         $(full_java_lib_deps) \
         $(jar_manifest_file) \
         $(proto_java_sources_file_stamp) \
+<<<<<<< HEAD
         $(LOCAL_MODULE_MAKEFILE) \
+=======
+        $(LOCAL_MODULE_MAKEFILE_DEP) \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
         $(LOCAL_ADDITIONAL_DEPENDENCIES)
 	$(transform-host-java-to-package)
 
@@ -99,10 +140,13 @@ $(full_classes_jar): $(full_classes_jarjar_jar) | $(ACP)
 	$(hide) $(ACP) -fp $< $@
 
 ifndef LOCAL_JACK_ENABLED
+<<<<<<< HEAD
 $(built_dex): PRIVATE_INTERMEDIATES_DIR := $(intermediates.COMMON)
 $(built_dex): PRIVATE_DX_FLAGS := $(LOCAL_DX_FLAGS)
 $(built_dex): $(full_classes_jar) $(DX)
 	$(transform-classes.jar-to-dex)
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 $(LOCAL_BUILT_MODULE): PRIVATE_DEX_FILE := $(built_dex)
 $(LOCAL_BUILT_MODULE): PRIVATE_SOURCE_ARCHIVE := $(full_classes_jarjar_jar)
@@ -123,6 +167,7 @@ else
 $(LOCAL_INTERMEDIATE_TARGETS): \
 	PRIVATE_JACK_INCREMENTAL_DIR :=
 endif
+<<<<<<< HEAD
 $(LOCAL_INTERMEDIATE_TARGETS):  PRIVATE_JACK_DEBUG_FLAGS := -g
 
 $(built_dex): PRIVATE_CLASSES_JACK := $(full_classes_jack)
@@ -133,6 +178,24 @@ $(built_dex): $(java_sources) $(java_resource_sources) $(full_jack_lib_deps) \
 	@echo Building with Jack: $@
 	$(jack-java-to-dex)
 
+=======
+$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_JACK_FLAGS := $(GLOBAL_JAVAC_DEBUG_FLAGS) $(LOCAL_JACK_FLAGS)
+$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_JACK_VERSION := $(LOCAL_JACK_VERSION)
+$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_JACK_MIN_SDK_VERSION := $(PLATFORM_JACK_MIN_SDK_VERSION)
+
+jack_all_deps := $(java_sources) $(java_resource_sources) $(full_jack_deps) \
+        $(jar_manifest_file) $(proto_java_sources_file_stamp) $(LOCAL_MODULE_MAKEFILE_DEP) \
+        $(LOCAL_ADDITIONAL_DEPENDENCIES) $(JACK)
+$(built_dex): PRIVATE_CLASSES_JACK := $(full_classes_jack)
+$(built_dex): $(jack_all_deps) | setup-jack-server
+	@echo Building with Jack: $@
+	$(jack-java-to-dex)
+
+$(jack_check_timestamp): $(jack_all_deps) | setup-jack-server
+	@echo Checking build with Jack: $@
+	$(jack-check-java)
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # $(full_classes_jack) is just by-product of $(built_dex).
 # The dummy command was added because, without it, make misses the fact the $(built_dex) also
 # change $(full_classes_jack).

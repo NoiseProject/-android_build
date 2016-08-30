@@ -1,5 +1,9 @@
 <?cs include:"doctype.cs" ?>
 <?cs include:"macros.cs" ?>
+<<<<<<< HEAD
+=======
+<?cs include:"../../../../frameworks/base/docs/html/sdk/sdk_vars.cs" ?>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 <html<?cs if:devsite ?> devsite<?cs /if ?>>
 <?cs if:sdk.redirect ?>
   <head>
@@ -80,21 +84,35 @@
       <th>Platform</th>
       <th>Package</th>
       <th style="white-space:nowrap">Size (Bytes)</th>
+<<<<<<< HEAD
       <th>MD5 Checksum</th>
+=======
+      <th>SHA1 Checksum</th>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   </tr>
   <tr>
     <td>Windows 32-bit</td>
     <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.win32_download ?>"><?cs var:ndk.win32_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.win32_download ?>"><?cs var:ndk.win32_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.win32_bytes ?></td>
     <td><?cs var:ndk.win32_checksum ?></td>
   </tr>
  <!-- <tr>
    <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.win32.legacy_download ?>"><?cs var:ndk.win32.legacy_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/ndk/<?cs var:ndk.win32.legacy_download ?>"><?cs var:ndk.win32.legacy_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.win32.legacy_bytes ?></td>
     <td><?cs var:ndk.win32.legacy_checksum ?></td>
@@ -102,16 +120,26 @@
   <tr>
     <td>Windows 64-bit</td>
     <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.win64_download ?>"><?cs var:ndk.win64_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.win64_download ?>"><?cs var:ndk.win64_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.win64_bytes ?></td>
     <td><?cs var:ndk.win64_checksum ?></td>
   </tr>
  <!--  <tr>
     <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.win64.legacy_download ?>"><?cs var:ndk.win64.legacy_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.win64.legacy_download ?>"><?cs var:ndk.win64.legacy_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.win64.legacy_bytes ?></td>
     <td><?cs var:ndk.win64.legacy_checksum ?></td>
@@ -120,8 +148,13 @@
   <tr>
     <td>Mac OS X 32-bit</td>
     <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.mac32_download ?>"><?cs var:ndk.mac32_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.mac32_download ?>"><?cs var:ndk.mac32_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.mac32_bytes ?></td>
     <td><?cs var:ndk.mac32_checksum ?></td>
@@ -129,28 +162,44 @@
  <!-- (this item is deprecated)
   <tr>
     <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.mac32.legacy_download ?>"><?cs var:ndk.mac32.legacy_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.mac32.legacy_download ?>"><?cs var:ndk.mac32.legacy_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.mac32.legacy_bytes ?></td>
     <td><?cs var:ndk.mac32.legacy_checksum ?></td>
   </tr> -->
     <td>Mac OS X 64-bit</td>
     <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.mac64_download ?>"><?cs var:ndk.mac64_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.mac64_download ?>"><?cs var:ndk.mac64_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.mac64_bytes ?></td>
     <td><?cs var:ndk.mac64_checksum ?></td>
   </tr>
  <!--  <tr>
     <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.mac64.legacy_download ?>"><?cs var:ndk.mac64.legacy_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.mac64.legacy_download ?>"><?cs var:ndk.mac64.legacy_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.mac64.legacy_bytes ?></td>
     <td><?cs var:ndk.mac64.legacy_checksum ?></td>
   </tr> -->
+<<<<<<< HEAD
   <tr>
     <td>Linux 32-bit (x86)</td>
     <td>
@@ -164,6 +213,12 @@
     <td>
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.linux32.legacy_download ?>"><?cs var:ndk.linux32.legacy_download ?></a>
+=======
+ <!--  <tr>
+    <td>
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.linux32.legacy_download ?>"><?cs var:ndk.linux32.legacy_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.linux32.legacy_bytes ?></td>
     <td><?cs var:ndk.linux32.legacy_checksum ?></td>
@@ -171,16 +226,26 @@
   <tr>
     <td>Linux 64-bit (x86)</td>
     <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.linux64_download ?>"><?cs var:ndk.linux64_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.linux64_download ?>"><?cs var:ndk.linux64_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.linux64_bytes ?></td>
     <td><?cs var:ndk.linux64_checksum ?></td>
   </tr>
   <!--  <tr>
     <td>
+<<<<<<< HEAD
   <a onClick="return onDownload(this)"
      href="http://dl.google.com/android/ndk/<?cs var:ndk.linux64.legacy_download ?>"><?cs var:ndk.linux64.legacy_download ?></a>
+=======
+  <a onClick="return onDownload(this)" data-modal-toggle="ndk_tos"
+     href="//dl.google.com/android/repository/<?cs var:ndk.linux64.legacy_download ?>"><?cs var:ndk.linux64.legacy_download ?></a>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </td>
     <td><?cs var:ndk.linux64.legacy_bytes ?></td>
     <td><?cs var:ndk.linux64.legacy_checksum ?></td>
@@ -192,16 +257,23 @@
   <?cs call:tag_list(root.descr) ?>
 
 
+<<<<<<< HEAD
 
+=======
+<?cs ########  The NDK version of the download script ######### ?>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 <script>
   function onDownload(link) {
 
     $("#downloadForRealz").html("Download " + $(link).text());
     $("#downloadForRealz").attr('href',$(link).attr('href'));
 
+<<<<<<< HEAD
     $("#tos").fadeIn('slow');
 
     location.hash = "download";
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     return false;
   }
 
@@ -214,6 +286,7 @@
     }
   }
 
+<<<<<<< HEAD
   function onDownloadNdkForRealz(link) {
     if ($("input#agree").is(':checked')) {
       $("#tos").fadeOut('slow');
@@ -229,10 +302,33 @@
       $("label#agreeLabel").parent().stop().animate({color: "#258AAF"}, 200,
         function() {$("label#agreeLabel").parent().stop().animate({color: "#222"}, 200)}
       );
+=======
+
+  function onDownloadForRealz(link) {
+    if ($("input#agree").is(':checked')) {
+      $("div.sdk-terms").slideUp();
+      $("h2#tos-header").text('Now downloading...');
+      $(".sdk-terms-intro").text('Your download is in progress.');
+      $("#sdk-terms-form").fadeOut('slow', function() {
+        setTimeout(function() {
+          // close the dialog
+          $('#ndk_tos').trigger('modal-close');
+          // reload to refresh the tos or optionally forward the user
+           location.reload();
+        }, 3000);
+      });
+      ga('send', 'event', 'SDK', 'NDK tools', $("#downloadForRealz").html());
+      return true;
+    } else {
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
       return false;
     }
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   $(window).hashchange( function(){
     if (location.hash == "") {
       location.reload();
@@ -264,6 +360,7 @@
 <?cs call:tag_list(root.descr) ?>
 
 
+<<<<<<< HEAD
 
 
 <div class="pax col-13 online" style="margin:0;">
@@ -411,6 +508,13 @@ var:sdk.linux_download
 	 $('.ide').show();
   }
 
+=======
+<?cs #######  TODO: Remove this whole file from processing. ######## ?>
+
+
+<?cs ########  The Android Studio version of the download script ######### ?>
+<script>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   var os;
   var bundlename;
   var $toolslink;
@@ -435,7 +539,13 @@ var:sdk.linux_download
     $('#not-supported').hide();
 
     /* set up primary Android Studio download button */
+<<<<<<< HEAD
     $('.download-bundle-button > .small').html(" for " + os);
+=======
+    idname = bundlename + "-size";
+    sizeMB = $(idname).text().split(' MB')[0];
+    $('.download-bundle-button > .small').html(" for " + os + " <em>(" + sizeMB + " MB)</em>");
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     $('.download-bundle-button').click(function() {return onDownload(this,true,true);}).attr('href', bundlename);
   }
 
@@ -453,6 +563,7 @@ var:sdk.linux_download
     if (bundle && !button) {
       $("a#downloadForRealz").attr("name", "#" + $(link).attr('id'));
     } else {
+<<<<<<< HEAD
       $("a#downloadForRealz").attr("name", $(link).attr('href'));
     }
 
@@ -460,6 +571,12 @@ var:sdk.linux_download
     $("#landing").hide();
 
     location.hash = "top";
+=======
+      $("h2#tos-header").text('Download the Android SDK Tools');
+      $("a#downloadForRealz").attr("name", $(link).attr('href'));
+    }
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     return false;
   }
 
@@ -487,6 +604,7 @@ var:sdk.linux_download
 
   function onDownloadForRealz(link) {
     if ($("input#agree").is(':checked')) {
+<<<<<<< HEAD
       location.hash = "";
       location.hash = "top";
       $("div.sdk-terms").slideUp();
@@ -503,6 +621,26 @@ var:sdk.linux_download
           }
         }, 3000);
       });
+=======
+      $("div.sdk-terms").slideUp();
+      if ($("#downloadForRealz").attr('bundle') == 'true') {
+        $("h2#tos-header").text('Now downloading Android Studio!');
+        $(".sdk-terms-intro").text('Redirecting to the install instructions...');
+        $("#sdk-terms-form").slideUp(function() {
+          setTimeout(function() {
+            window.location = "/sdk/installing/index.html";
+          }, 2000);
+        });
+      } else {
+        $("h2#tos-header").text('Now downloading the Android SDK Tools!');
+        $(".sdk-terms-intro").html("<p>Because you've chosen to download " +
+          "only the Android SDK tools (and not Android Studio), there are no " +
+          "setup procedures to follow.</p><p>For information about how to " +
+          "keep your SDK tools up to date, refer to the " +
+          "<a href='/tools/help/sdk-manager.html'>SDK Manager</a> guide.</p>");
+        $("#sdk-terms-form").slideUp();
+      }
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
       ga('send', 'event', 'SDK', 'IDE and Tools', $("#downloadForRealz").html());
       return true;
     } else {
@@ -520,7 +658,11 @@ var:sdk.linux_download
 
 
 
+<<<<<<< HEAD
 </div><!-- end the wrapper used for relative/absolute positions  -->
+=======
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 <?cs # THIS DIV WAS OPENED IN INDEX.JD ?>
 
 
@@ -569,6 +711,14 @@ var:sdk.linux_download
 </div><!-- end g-unit -->
 
 <?cs include:"trailer.cs" ?>
+<<<<<<< HEAD
+=======
+<script src="https://developer.android.com/ytblogger_lists_unified.js?v=17" type="text/javascript"></script>
+<script src="/jd_lists_unified.js?v=17" type="text/javascript"></script>
+<script src="/jd_extras.js?v=17" type="text/javascript"></script>
+<script src="/jd_collections.js?v=17" type="text/javascript"></script>
+<script src="/jd_tag_helpers.js?v=17" type="text/javascript"></script>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 <!-- Start of Tag -->
 <script type="text/javascript">

@@ -194,6 +194,7 @@ private:
             delete[] mComment;
         }
 
+<<<<<<< HEAD
         status_t readBuf(const unsigned char* buf, int len);
         status_t write(FILE* fp);
 
@@ -206,6 +207,20 @@ private:
         unsigned long   mCentralDirOffset;      // offset from first disk
         unsigned short  mCommentLen;
         unsigned char*  mComment;
+=======
+        status_t readBuf(const uint8_t* buf, int len);
+        status_t write(FILE* fp);
+
+        //uint32_t mSignature;
+        uint16_t mDiskNumber;
+        uint16_t mDiskWithCentralDir;
+        uint16_t mNumEntries;
+        uint16_t mTotalNumEntries;
+        uint32_t mCentralDirSize;
+        uint32_t mCentralDirOffset;      // offset from first disk
+        uint16_t mCommentLen;
+        uint8_t* mComment;
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
         enum {
             kSignature      = 0x06054b50,
@@ -235,6 +250,7 @@ private:
         ZipEntry** ppEntry);
 
     /* copy all of "srcFp" into "dstFp" */
+<<<<<<< HEAD
     status_t copyFpToFp(FILE* dstFp, FILE* srcFp, unsigned long* pCRC32);
     /* copy all of "data" into "dstFp" */
     status_t copyDataToFp(FILE* dstFp,
@@ -242,11 +258,24 @@ private:
     /* copy some of "srcFp" into "dstFp" */
     status_t copyPartialFpToFp(FILE* dstFp, FILE* srcFp, long length,
         unsigned long* pCRC32);
+=======
+    status_t copyFpToFp(FILE* dstFp, FILE* srcFp, uint32_t* pCRC32);
+    /* copy all of "data" into "dstFp" */
+    status_t copyDataToFp(FILE* dstFp,
+        const void* data, size_t size, uint32_t* pCRC32);
+    /* copy some of "srcFp" into "dstFp" */
+    status_t copyPartialFpToFp(FILE* dstFp, FILE* srcFp, long length,
+        uint32_t* pCRC32);
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     /* like memmove(), but on parts of a single file */
     status_t filemove(FILE* fp, off_t dest, off_t src, size_t n);
     /* compress all of "srcFp" into "dstFp", using Deflate */
     status_t compressFpToFp(FILE* dstFp, FILE* srcFp,
+<<<<<<< HEAD
         const void* data, size_t size, unsigned long* pCRC32);
+=======
+        const void* data, size_t size, uint32_t* pCRC32);
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     /* get modification date from a file descriptor */
     time_t getModTime(int fd);

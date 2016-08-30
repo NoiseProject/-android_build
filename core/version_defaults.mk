@@ -24,6 +24,10 @@
 #     DEFAULT_APP_TARGET_SDK
 #     BUILD_ID
 #     BUILD_NUMBER
+<<<<<<< HEAD
+=======
+#     BUILD_DATETIME
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 #     SECURITY_PATCH
 #
 
@@ -42,7 +46,11 @@ ifeq "" "$(PLATFORM_VERSION)"
   # which is the version that we reveal to the end user.
   # Update this value when the platform version changes (rather
   # than overriding it somewhere else).  Can be an arbitrary string.
+<<<<<<< HEAD
   PLATFORM_VERSION := 6.0.1
+=======
+  PLATFORM_VERSION := 7.0
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 ifeq "" "$(PLATFORM_SDK_VERSION)"
@@ -54,7 +62,20 @@ ifeq "" "$(PLATFORM_SDK_VERSION)"
   # intermediate builds).  During development, this number remains at the
   # SDK version the branch is based on and PLATFORM_VERSION_CODENAME holds
   # the code-name of the new development work.
+<<<<<<< HEAD
   PLATFORM_SDK_VERSION := 23
+=======
+  PLATFORM_SDK_VERSION := 24
+endif
+
+ifeq "" "$(PLATFORM_JACK_MIN_SDK_VERSION)"
+  # This is definition of the min SDK version given to Jack for the current
+  # platform. For released version it should be the same as
+  # PLATFORM_SDK_VERSION. During development, this number may be incremented
+  # before PLATFORM_SDK_VERSION if the plateform starts to add new java
+  # language supports.
+  PLATFORM_JACK_MIN_SDK_VERSION := 24
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 ifeq "" "$(PLATFORM_VERSION_CODENAME)"
@@ -100,10 +121,17 @@ endif
 
 ifeq "" "$(PLATFORM_SECURITY_PATCH)"
   # Used to indicate the security patch that has been applied to the device.
+<<<<<<< HEAD
   # Can be an arbitrary string, but must be a single word.
   #
   # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
   PLATFORM_SECURITY_PATCH := 2016-03-01
+=======
+  # Must be of the form "YYYY-MM-DD" on production devices.
+  #
+  # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+  PLATFORM_SECURITY_PATCH := 2016-08-05
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 ifeq "" "$(PLATFORM_BASE_OS)"
@@ -123,6 +151,21 @@ ifeq "" "$(BUILD_ID)"
   BUILD_ID := UNKNOWN
 endif
 
+<<<<<<< HEAD
+=======
+ifeq "" "$(BUILD_DATETIME)"
+  # Used to reproduce builds by setting the same time. Must be the number
+  # of seconds since the Epoch.
+  BUILD_DATETIME := $(shell date +%s)
+endif
+
+ifneq (,$(findstring Darwin,$(shell uname -sm)))
+DATE := date -r $(BUILD_DATETIME)
+else
+DATE := date -d @$(BUILD_DATETIME)
+endif
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifeq "" "$(BUILD_NUMBER)"
   # BUILD_NUMBER should be set to the source control value that
   # represents the current state of the source code.  E.g., a
@@ -133,5 +176,9 @@ ifeq "" "$(BUILD_NUMBER)"
   # If no BUILD_NUMBER is set, create a useful "I am an engineering build
   # from this date/time" value.  Make it start with a non-digit so that
   # anyone trying to parse it as an integer will probably get "0".
+<<<<<<< HEAD
   BUILD_NUMBER := eng.$(USER).$(shell date +%Y%m%d.%H%M%S)
+=======
+  BUILD_NUMBER := eng.$(shell echo $${USER:0:6}).$(shell $(DATE) +%Y%m%d.%H%M%S)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif

@@ -11,6 +11,10 @@
 <?cs call:custom_masthead() ?>
 
 <div id="body-content">
+<<<<<<< HEAD
+=======
+<div>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 <div id="doc-content" style="position:relative;">
 
 <?cs call:tag_list(root.descr) ?>

@@ -14,6 +14,7 @@
 */
 
 @media screen, projection, print {
+<<<<<<< HEAD
 .full {
 	padding: 2.5em 0;
 	border-top: solid 1px #ddd;
@@ -206,3 +207,9 @@ body {
     clear: both;
     width: 97.0238096%}
 }
+=======
+  .wrap {
+    max-width: none;
+  }
+}
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

@@ -1,5 +1,9 @@
 # qemu support daemon
+<<<<<<< HEAD
 type qemud, domain;
+=======
+type qemud, domain, domain_deprecated;
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 type qemud_exec, exec_type, file_type;
 
 init_daemon_domain(qemud)

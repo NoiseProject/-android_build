@@ -21,6 +21,14 @@
 # core_tiny.mk in addition to core_minimal.mk.
 
 PRODUCT_PACKAGES += \
+<<<<<<< HEAD
+=======
+    BasicDreams \
+    BlockedNumberProvider \
+    BookmarkProvider \
+    Browser2 \
+    Calendar \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     CalendarProvider \
     CaptivePortalLogin \
     CertInstaller \
@@ -28,6 +36,10 @@ PRODUCT_PACKAGES += \
     DeskClock \
     DocumentsUI \
     DownloadProviderUi \
+<<<<<<< HEAD
+=======
+    Email \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     ExactCalculator \
     ExternalStorageProvider \
     FusedLocation \
@@ -35,12 +47,25 @@ PRODUCT_PACKAGES += \
     KeyChain \
     Keyguard \
     LatinIME \
+<<<<<<< HEAD
     Launcher3 \
     ManagedProvisioning \
     PacProcessor \
     libpac \
     PrintSpooler \
     ProxyHandler \
+=======
+    Launcher2 \
+    ManagedProvisioning \
+    MtpDocumentsProvider \
+    PicoTts \
+    PacProcessor \
+    libpac \
+    PrintSpooler \
+    PrintRecommendationService \
+    ProxyHandler \
+    QuickSearchBox \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     Settings \
     SharedStorageBackup \
     Telecom \

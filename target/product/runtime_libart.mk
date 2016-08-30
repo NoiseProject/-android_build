@@ -18,9 +18,17 @@
 
 PRODUCT_PACKAGES += \
     apache-xml \
+<<<<<<< HEAD
     bouncycastle \
     cacerts \
     conscrypt \
+=======
+    ahat \
+    bouncycastle \
+    cacerts \
+    conscrypt \
+    core-oj \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     core-junit \
     core-libart \
     dalvikvm \
@@ -33,17 +41,31 @@ PRODUCT_PACKAGES += \
     ext \
     hprof-conv \
     libart \
+<<<<<<< HEAD
+=======
+    libart_fake \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     libcrypto \
     libexpat \
     libicui18n \
     libicuuc \
     libjavacore \
+<<<<<<< HEAD
+=======
+    libopenjdk \
+    libopenjdkjvm \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     libnativehelper \
     libssl \
     libz \
     oatdump \
     okhttp \
+<<<<<<< HEAD
     patchoat
+=======
+    patchoat \
+    profman
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     dalvik.vm.image-dex2oat-Xms=64m \
@@ -51,3 +73,9 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     dalvik.vm.dex2oat-Xms=64m \
     dalvik.vm.dex2oat-Xmx=512m \
     ro.dalvik.vm.native.bridge=0 \
+<<<<<<< HEAD
+=======
+    dalvik.vm.usejit=true \
+    dalvik.vm.usejitprofiles=true \
+    dalvik.vm.appimageformat=lz4
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

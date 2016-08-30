@@ -13,13 +13,27 @@ echo "ro.build.version.all_codenames=$PLATFORM_VERSION_ALL_CODENAMES"
 echo "ro.build.version.release=$PLATFORM_VERSION"
 echo "ro.build.version.security_patch=$PLATFORM_SECURITY_PATCH"
 echo "ro.build.version.base_os=$PLATFORM_BASE_OS"
+<<<<<<< HEAD
 echo "ro.build.date=`date`"
 echo "ro.build.date.utc=`date +%s`"
+=======
+echo "ro.build.date=`$DATE`"
+echo "ro.build.date.utc=`$DATE +%s`"
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 echo "ro.build.type=$TARGET_BUILD_TYPE"
 echo "ro.build.user=$USER"
 echo "ro.build.host=`hostname`"
 echo "ro.build.tags=$BUILD_VERSION_TAGS"
 echo "ro.build.flavor=$TARGET_BUILD_FLAVOR"
+<<<<<<< HEAD
+=======
+if [ -n "$BOARD_BUILD_SYSTEM_ROOT_IMAGE" ] ; then
+  echo "ro.build.system_root_image=$BOARD_BUILD_SYSTEM_ROOT_IMAGE"
+fi
+if [ -n "$AB_OTA_UPDATER" ] ; then
+  echo "ro.build.ab_update=$AB_OTA_UPDATER"
+fi
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 echo "ro.product.model=$PRODUCT_MODEL"
 echo "ro.product.brand=$PRODUCT_BRAND"
 echo "ro.product.name=$PRODUCT_NAME"
@@ -56,6 +70,9 @@ if [ -n "$BUILD_THUMBPRINT" ] ; then
 fi
 echo "ro.build.characteristics=$TARGET_AAPT_CHARACTERISTICS"
 
+<<<<<<< HEAD
 echo "ro.np.device=$NP_DEVICE"
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 echo "# end build properties"

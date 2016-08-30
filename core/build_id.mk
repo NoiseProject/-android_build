@@ -18,5 +18,9 @@
 # (like "CRB01").  It must be a single word, and is
 # capitalized by convention.
 
+<<<<<<< HEAD
 export BUILD_ID=MHC19J
 
+=======
+export BUILD_ID=NRD90M
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

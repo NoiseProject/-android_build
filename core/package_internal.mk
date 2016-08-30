@@ -57,6 +57,12 @@ $(error $(LOCAL_PATH): Package modules may not set LOCAL_MODULE_CLASS)
 endif
 LOCAL_MODULE_CLASS := APPS
 
+<<<<<<< HEAD
+=======
+intermediates := $(call local-intermediates-dir)
+intermediates.COMMON := $(call local-intermediates-dir,COMMON)
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 #################################
 include $(BUILD_SYSTEM)/configure_local_jack.mk
 #################################
@@ -112,6 +118,48 @@ ifneq ($(all_assets),)
 need_compile_asset := true
 endif
 
+<<<<<<< HEAD
+=======
+my_res_package :=
+ifdef LOCAL_USE_AAPT2
+# In aapt2 the last takes precedence.
+my_resource_dirs := $(call reverse-list,$(LOCAL_RESOURCE_DIR))
+my_res_dir :=
+my_overlay_res_dirs :=
+
+ifneq ($(LOCAL_STATIC_ANDROID_LIBRARIES),)
+# If we are using static android libraries, every source file becomes an overlay.
+# This is to emulate old AAPT behavior which simulated library support.
+my_res_dir :=
+my_overlay_res_dirs := $(my_resource_dirs)
+else
+# Without static libraries, the first directory is our directory, which can then be
+# overlaid by the rest. (First directory in my_resource_dirs is last directory in
+# $(LOCAL_RESOURCE_DIR) due to it being reversed.
+my_res_dir := $(firstword $(my_resource_dirs))
+my_overlay_res_dirs := $(wordlist 2,999,$(my_resource_dirs))
+endif
+
+my_overlay_resources := $(strip \
+  $(foreach d,$(my_overlay_res_dirs),\
+    $(addprefix $(d)/, \
+        $(call find-subdir-assets,$(d)))))
+
+my_res_resources := $(strip \
+    $(addprefix $(my_res_dir)/, \
+        $(call find-subdir-assets,$(my_res_dir))))
+
+all_resources := $(strip $(my_res_resources) $(my_overlay_resources))
+
+# The linked resource package.
+my_res_package := $(intermediates)/package-res.apk
+LOCAL_INTERMEDIATE_TARGETS += $(my_res_package)
+
+# Always run aapt2, because we need to at least compile the AndroidManifest.xml.
+need_compile_res := true
+
+else  # LOCAL_USE_AAPT2
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 all_resources := $(strip \
     $(foreach dir, $(LOCAL_RESOURCE_DIR), \
       $(addprefix $(dir)/, \
@@ -121,13 +169,21 @@ all_resources := $(strip \
        ) \
      ))
 
+<<<<<<< HEAD
+=======
+endif  # LOCAL_USE_AAPT2
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifneq ($(all_resources),)
   need_compile_res := true
 endif
 
 all_res_assets := $(strip $(all_assets) $(all_resources))
 
+<<<<<<< HEAD
 intermediates.COMMON := $(call local-intermediates-dir,COMMON)
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # If no assets or resources were found, clear the directory variables so
 # we don't try to build them.
@@ -176,7 +232,11 @@ endif # LOCAL_JACK_ENABLED
 ifeq (true,$(EMMA_INSTRUMENT))
 ifndef LOCAL_EMMA_INSTRUMENT
 # No emma for test apks.
+<<<<<<< HEAD
 ifeq (,$(filer tests,$(LOCAL_MODULE_TAGS))$(LOCAL_INSTRUMENTATION_FOR))
+=======
+ifeq (,$(LOCAL_INSTRUMENTATION_FOR))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 LOCAL_EMMA_INSTRUMENT := true
 endif # No test apk
 endif # LOCAL_EMMA_INSTRUMENT is not set
@@ -186,6 +246,7 @@ endif # EMMA_INSTRUMENT is true
 
 ifeq (true,$(LOCAL_EMMA_INSTRUMENT))
 ifeq (true,$(EMMA_INSTRUMENT_STATIC))
+<<<<<<< HEAD
 LOCAL_STATIC_JAVA_LIBRARIES += emma
 else
 ifdef LOCAL_SDK_VERSION
@@ -197,6 +258,48 @@ else
 # we have to use prebiult emma.jar to make Proguard happy;
 # Otherwise emma classes are included in core.jar.
 LOCAL_PROGUARD_FLAGS += -libraryjars $(EMMA_JAR)
+=======
+ifdef LOCAL_JACK_ENABLED
+# Jack supports coverage with Jacoco
+ifneq ($(LOCAL_SRC_FILES)$(LOCAL_STATIC_JAVA_LIBRARIES)$(LOCAL_SOURCE_FILES_ALL_GENERATED),)
+# Only add jacocoagent if the package contains some java code
+LOCAL_STATIC_JAVA_LIBRARIES += jacocoagent
+endif # Contains java code
+else
+LOCAL_STATIC_JAVA_LIBRARIES += emma
+endif # LOCAL_JACK_ENABLED
+else
+ifdef LOCAL_SDK_VERSION
+ifdef TARGET_BUILD_APPS
+# In unbundled build, merge the coverage library into the apk.
+ifdef LOCAL_JACK_ENABLED
+# Jack supports coverage with Jacoco
+ifneq ($(LOCAL_SRC_FILES)$(LOCAL_STATIC_JAVA_LIBRARIES)$(LOCAL_SOURCE_FILES_ALL_GENERATED),)
+# Only add jacocoagent if the package contains some java code
+LOCAL_STATIC_JAVA_LIBRARIES += jacocoagent
+# Exclude jacoco classes from proguard
+LOCAL_PROGUARD_FLAGS += -include $(BUILD_SYSTEM)/proguard.jacoco.flags
+LOCAL_JACK_PROGUARD_FLAGS += -include $(BUILD_SYSTEM)/proguard.jacoco.flags
+endif # Contains java code
+else
+LOCAL_STATIC_JAVA_LIBRARIES += emma
+endif # LOCAL_JACK_ENABLED
+else
+# If build against the SDK in full build, core.jar is not used
+# so coverage classes are not present.
+ifdef LOCAL_JACK_ENABLED
+# Jack needs jacoco on the classpath but we do not want it to be in
+# the final apk. While it is a static library, we add it to the
+# LOCAL_JAVA_LIBRARIES which are only present on the classpath.
+# Note: we have nothing to do for proguard since jacoco will be
+# on the classpath only, thus not modified during the compilation.
+LOCAL_JAVA_LIBRARIES += jacocoagent
+else
+# We have to use prebuilt emma.jar to make Proguard happy;
+# Otherwise emma classes are included in core.jar.
+LOCAL_PROGUARD_FLAGS += -libraryjars $(EMMA_JAR)
+endif # LOCAL_JACK_ENABLED
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif # full build
 endif # LOCAL_SDK_VERSION
 endif # EMMA_INSTRUMENT_STATIC
@@ -204,6 +307,27 @@ endif # LOCAL_EMMA_INSTRUMENT
 
 rs_compatibility_jni_libs :=
 
+<<<<<<< HEAD
+=======
+ifeq ($(LOCAL_DATA_BINDING),true)
+data_binding_intermediates := $(intermediates.COMMON)/data-binding
+
+LOCAL_JAVACFLAGS += -processorpath $(DATA_BINDING_COMPILER) -s $(data_binding_intermediates)/anno-src
+LOCAL_JACK_FLAGS += --processorpath $(DATA_BINDING_COMPILER)
+
+LOCAL_STATIC_JAVA_LIBRARIES += databinding-baselibrary
+LOCAL_STATIC_JAVA_AAR_LIBRARIES += databinding-library databinding-adapters
+
+data_binding_res_in := $(LOCAL_RESOURCE_DIR)
+data_binding_res_out := $(data_binding_intermediates)/res
+
+# Replace with the processed merged res dir.
+LOCAL_RESOURCE_DIR := $(data_binding_res_out)
+
+LOCAL_AAPT_FLAGS += --auto-add-overlay --extra-packages com.android.databinding.library
+endif  # LOCAL_DATA_BINDING
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 include $(BUILD_SYSTEM)/android_manifest.mk
 
 #################################
@@ -217,7 +341,11 @@ endif
 
 $(LOCAL_INTERMEDIATE_TARGETS): \
     PRIVATE_ANDROID_MANIFEST := $(full_android_manifest)
+<<<<<<< HEAD
 ifneq (,$(filter-out current system_current, $(LOCAL_SDK_VERSION)))
+=======
+ifneq (,$(filter-out current system_current test_current, $(LOCAL_SDK_VERSION)))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(LOCAL_INTERMEDIATE_TARGETS): \
     PRIVATE_DEFAULT_APP_TARGET_SDK := $(LOCAL_SDK_VERSION)
 else
@@ -225,7 +353,47 @@ $(LOCAL_INTERMEDIATE_TARGETS): \
     PRIVATE_DEFAULT_APP_TARGET_SDK := $(DEFAULT_APP_TARGET_SDK)
 endif
 
+<<<<<<< HEAD
 ifeq ($(need_compile_res),true)
+=======
+ifeq ($(LOCAL_DATA_BINDING),true)
+data_binding_stamp := $(data_binding_intermediates)/data-binding.stamp
+$(data_binding_stamp): PRIVATE_INTERMEDIATES := $(data_binding_intermediates)
+$(data_binding_stamp): PRIVATE_MANIFEST := $(full_android_manifest)
+# Generate code into $(LOCAL_INTERMEDIATE_SOURCE_DIR) so that the generated .java files
+# will be automatically picked up by function compile-java.
+$(data_binding_stamp): PRIVATE_SRC_OUT := $(LOCAL_INTERMEDIATE_SOURCE_DIR)/data-binding
+$(data_binding_stamp): PRIVATE_XML_OUT := $(data_binding_intermediates)/xml
+$(data_binding_stamp): PRIVATE_RES_OUT := $(data_binding_res_out)
+$(data_binding_stamp): PRIVATE_RES_IN := $(data_binding_res_in)
+$(data_binding_stamp): PRIVATE_ANNO_SRC_DIR := $(data_binding_intermediates)/anno-src
+
+$(data_binding_stamp) : $(all_res_assets) $(full_android_manifest) \
+    $(DATA_BINDING_COMPILER)
+	@echo "Data-binding process: $@"
+	@rm -rf $(PRIVATE_INTERMEDIATES) $(PRIVATE_SRC_OUT) && \
+	  mkdir -p $(PRIVATE_INTERMEDIATES) $(PRIVATE_SRC_OUT) \
+	      $(PRIVATE_XML_OUT) $(PRIVATE_RES_OUT) $(PRIVATE_ANNO_SRC_DIR)
+	$(hide) java -classpath $(DATA_BINDING_COMPILER) android.databinding.tool.MakeCopy \
+	  $(PRIVATE_MANIFEST) $(PRIVATE_SRC_OUT) $(PRIVATE_XML_OUT) $(PRIVATE_RES_OUT) $(PRIVATE_RES_IN)
+	$(hide) touch $@
+
+# Make sure the data-binding process happens before javac and generation of R.java.
+$(R_file_stamp) $(full_classes_compiled_jar) : $(data_binding_stamp)
+# The dependency path when jack is enabled
+$(built_dex_intermediate) : $(data_binding_stamp)
+endif  # LOCAL_DATA_BINDING
+
+ifeq ($(need_compile_res),true)
+ifdef LOCAL_USE_AAPT2
+my_compiled_res_base_dir := $(intermediates)/flat-res
+my_generated_res_dirs := $(rs_generated_res_dir)
+my_generated_res_dirs_deps := $(RenderScript_file_stamp)
+# Add AAPT2 link specific flags.
+$(my_res_package): PRIVATE_AAPT_FLAGS := $(LOCAL_AAPT_FLAGS) --no-static-lib-packages
+include $(BUILD_SYSTEM)/aapt2.mk
+else  # LOCAL_USE_AAPT2
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Since we don't know where the real R.java file is going to end up,
 # we need to use another file to stand in its place.  We'll just
@@ -241,6 +409,7 @@ $(R_file_stamp): PRIVATE_RESOURCE_PUBLICS_OUTPUT := \
 $(R_file_stamp): PRIVATE_PROGUARD_OPTIONS_FILE := $(proguard_options_file)
 $(R_file_stamp): $(all_res_assets) $(full_android_manifest) $(RenderScript_file_stamp) $(AAPT) | $(ACP)
 	@echo "target R.java/Manifest.java: $(PRIVATE_MODULE) ($@)"
+<<<<<<< HEAD
 	@rm -f $@
 	$(create-resource-java-files)
 	$(hide) for GENERATED_MANIFEST_FILE in `find $(PRIVATE_SOURCE_INTERMEDIATES_DIR) \
@@ -257,6 +426,11 @@ $(R_file_stamp): $(all_res_assets) $(full_android_manifest) $(RenderScript_file_
 			|| exit 31; \
 		$(ACP) -fp $$GENERATED_R_FILE $@ || exit 32; \
 	done; \
+=======
+	@rm -rf $@ && mkdir -p $(dir $@)
+	$(create-resource-java-files)
+	$(call find-generated-R.java)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 $(proguard_options_file): $(R_file_stamp)
 
@@ -278,6 +452,11 @@ $(resource_export_package): $(all_res_assets) $(full_android_manifest) $(RenderS
 	$(add-assets-to-package)
 endif
 
+<<<<<<< HEAD
+=======
+endif  # LOCAL_USE_AAPT2
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Other modules should depend on the BUILT module if
 # they want to use this module's R.java file.
 $(LOCAL_BUILT_MODULE): $(R_file_stamp)
@@ -291,6 +470,10 @@ $(noshrob_classes_jack): $(R_file_stamp)
 endif
 ifneq ($(full_classes_jack),)
 $(full_classes_jack): $(R_file_stamp)
+<<<<<<< HEAD
+=======
+$(jack_check_timestamp): $(R_file_stamp)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 endif # LOCAL_JACK_ENABLED
 
@@ -312,7 +495,11 @@ else
 # Most packages should link against the resources defined by framework-res.
 # Even if they don't have their own resources, they may use framework
 # resources.
+<<<<<<< HEAD
 ifneq ($(filter-out current system_current,$(LOCAL_SDK_RES_VERSION))$(if $(TARGET_BUILD_APPS),$(filter current system_current,$(LOCAL_SDK_RES_VERSION))),)
+=======
+ifneq ($(filter-out current system_current test_current,$(LOCAL_SDK_RES_VERSION))$(if $(TARGET_BUILD_APPS),$(filter current system_current test_current,$(LOCAL_SDK_RES_VERSION))),)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # for released sdk versions, the platform resources were built into android.jar.
 framework_res_package_export := \
     $(HISTORICAL_SDK_VERSIONS_ROOT)/$(LOCAL_SDK_RES_VERSION)/android.jar
@@ -335,10 +522,20 @@ all_library_res_package_export_deps := \
     $(framework_res_package_export_deps) \
     $(foreach lib,$(LOCAL_RES_LIBRARIES),\
         $(call intermediates-dir-for,APPS,$(lib),,COMMON)/src/R.stamp)
+<<<<<<< HEAD
 
 $(resource_export_package) $(R_file_stamp) $(LOCAL_BUILT_MODULE): $(all_library_res_package_export_deps)
 $(LOCAL_INTERMEDIATE_TARGETS): \
     PRIVATE_AAPT_INCLUDES := $(all_library_res_package_exports)
+=======
+$(resource_export_package) $(R_file_stamp) $(LOCAL_BUILT_MODULE): $(all_library_res_package_export_deps)
+$(LOCAL_INTERMEDIATE_TARGETS): \
+    PRIVATE_AAPT_INCLUDES := $(all_library_res_package_exports)
+
+ifdef LOCAL_USE_AAPT2
+$(my_res_package) : $(all_library_res_package_export_deps)
+endif
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif # LOCAL_NO_STANDARD_LIBRARIES
 
 ifneq ($(full_classes_jar),)
@@ -387,7 +584,10 @@ $(LOCAL_BUILT_MODULE): PRIVATE_ADDITIONAL_CERTIFICATES := $(foreach c,\
     $(LOCAL_ADDITIONAL_CERTIFICATES), $(c).x509.pem $(c).pk8)
 
 # Define the rule to build the actual package.
+<<<<<<< HEAD
 $(LOCAL_BUILT_MODULE): $(AAPT) | $(ZIPALIGN)
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # PRIVATE_JNI_SHARED_LIBRARIES is a list of <abi>:<path_of_built_lib>.
 $(LOCAL_BUILT_MODULE): PRIVATE_JNI_SHARED_LIBRARIES := $(jni_shared_libraries_with_abis)
 # PRIVATE_JNI_SHARED_LIBRARIES_ABI is a list of ABI names.
@@ -397,6 +597,7 @@ ifneq ($(TARGET_BUILD_APPS),)
     LOCAL_AAPT_INCLUDE_ALL_RESOURCES := true
 endif
 ifeq ($(LOCAL_AAPT_INCLUDE_ALL_RESOURCES),true)
+<<<<<<< HEAD
     $(LOCAL_BUILT_MODULE): PRIVATE_PRODUCT_AAPT_CONFIG :=
     $(LOCAL_BUILT_MODULE): PRIVATE_PRODUCT_AAPT_PREF_CONFIG :=
 else
@@ -410,6 +611,37 @@ endif
 $(LOCAL_BUILT_MODULE): PRIVATE_DONT_DELETE_JAR_DIRS := $(LOCAL_DONT_DELETE_JAR_DIRS)
 $(LOCAL_BUILT_MODULE): $(all_res_assets) $(jni_shared_libraries) $(full_android_manifest)
 	@echo "target Package: $(PRIVATE_MODULE) ($@)"
+=======
+    $(my_res_package) $(LOCAL_BUILT_MODULE): PRIVATE_PRODUCT_AAPT_CONFIG :=
+    $(my_res_package) $(LOCAL_BUILT_MODULE): PRIVATE_PRODUCT_AAPT_PREF_CONFIG :=
+else
+    $(my_res_package) $(LOCAL_BUILT_MODULE): PRIVATE_PRODUCT_AAPT_CONFIG := $(PRODUCT_AAPT_CONFIG)
+ifdef LOCAL_PACKAGE_SPLITS
+    $(my_res_package) $(LOCAL_BUILT_MODULE): PRIVATE_PRODUCT_AAPT_PREF_CONFIG :=
+else
+    $(my_res_package) $(LOCAL_BUILT_MODULE): PRIVATE_PRODUCT_AAPT_PREF_CONFIG := $(PRODUCT_AAPT_PREF_CONFIG)
+endif
+endif
+$(LOCAL_BUILT_MODULE): PRIVATE_DONT_DELETE_JAR_DIRS := $(LOCAL_DONT_DELETE_JAR_DIRS)
+$(LOCAL_BUILT_MODULE) : $(jni_shared_libraries)
+ifdef LOCAL_USE_AAPT2
+$(LOCAL_BUILT_MODULE): PRIVATE_RES_PACKAGE := $(my_res_package)
+$(LOCAL_BUILT_MODULE) : $(my_res_package) $(AAPT2) | $(ACP)
+else
+$(LOCAL_BUILT_MODULE) : $(all_res_assets) $(full_android_manifest) $(AAPT)
+endif
+	@echo "target Package: $(PRIVATE_MODULE) ($@)"
+ifdef LOCAL_USE_AAPT2
+ifdef LOCAL_JACK_ENABLED
+	$(call copy-file-to-new-target)
+else
+	@# TODO: implement merge-two-packages.
+	$(if $(PRIVATE_SOURCE_ARCHIVE),\
+	  $(call merge-two-packages,$(PRIVATE_RES_PACKAGE) $(PRIVATE_SOURCE_ARCHIVE),$@),
+	  $(call copy-file-to-new-target))
+endif
+else  # LOCAL_USE_AAPT2
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifdef LOCAL_JACK_ENABLED
 	$(create-empty-package)
 else
@@ -418,26 +650,46 @@ else
 	  $(create-empty-package))
 endif
 	$(add-assets-to-package)
+<<<<<<< HEAD
+=======
+endif  # LOCAL_USE_AAPT2
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifneq ($(jni_shared_libraries),)
 	$(add-jni-shared-libs-to-package)
 endif
 ifeq ($(full_classes_jar),)
 # We don't build jar, need to add the Java resources here.
 	$(if $(PRIVATE_EXTRA_JAR_ARGS),$(call add-java-resources-to,$@))
+<<<<<<< HEAD
 else
 	$(add-dex-to-package)
 endif
+=======
+else  # full_classes_jar
+	$(add-dex-to-package)
+endif  # full_classes_jar
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifdef LOCAL_JACK_ENABLED
 	$(add-carried-jack-resources)
 endif
 ifdef LOCAL_DEX_PREOPT
+<<<<<<< HEAD
+=======
+ifneq ($(BUILD_PLATFORM_ZIP),)
+	@# Keep a copy of apk with classes.dex unstripped
+	$(hide) cp -f $@ $(dir $@)package.dex.apk
+endif  # BUILD_PLATFORM_ZIP
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifneq (nostripping,$(LOCAL_DEX_PREOPT))
 	$(call dexpreopt-remove-classes.dex,$@)
 endif
 endif
 	$(sign-package)
+<<<<<<< HEAD
 	@# Alignment must happen after all other zip operations.
 	$(align-package)
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ###############################
 ## Build dpi-specific apks, if it's apps_only build.
@@ -472,7 +724,11 @@ built_apk_splits := $(foreach s,$(my_split_suffixes),$(built_module_path)/packag
 installed_apk_splits := $(foreach s,$(my_split_suffixes),$(my_module_path)/$(LOCAL_MODULE)_$(s).apk)
 
 # The splits should have been built in the same command building the base apk.
+<<<<<<< HEAD
 # This rule just runs signing and zipalign etc.
+=======
+# This rule just runs signing.
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Note that we explicily check the existence of the split apk and remove the
 # built base apk if the split apk isn't there.
 # That way the build system will rerun the aapt after the user changes the splitting parameters.
@@ -484,7 +740,10 @@ $(built_apk_splits) : $(built_module_path)/%.apk : $(LOCAL_BUILT_MODULE)
 	  rm $<; exit 1; \
 	fi
 	$(sign-package)
+<<<<<<< HEAD
 	$(align-package)
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Rules to install the splits
 $(installed_apk_splits) : $(my_module_path)/$(LOCAL_MODULE)_%.apk : $(built_module_path)/package_%.apk | $(ACP)
@@ -498,6 +757,21 @@ ALL_MODULES.$(my_register_name).BUILT_INSTALLED += \
 
 # Make sure to install the splits when you run "make <module_name>".
 $(my_register_name): $(installed_apk_splits)
+<<<<<<< HEAD
+=======
+
+ifdef LOCAL_COMPATIBILITY_SUITE
+cts_testcase_file := $(foreach s,$(my_split_suffixes),$(COMPATIBILITY_TESTCASES_OUT_$(LOCAL_COMPATIBILITY_SUITE))/$(LOCAL_MODULE)_$(s).apk)
+$(cts_testcase_file) : $(COMPATIBILITY_TESTCASES_OUT_$(LOCAL_COMPATIBILITY_SUITE))/$(LOCAL_MODULE)_%.apk : $(built_module_path)/package_%.apk | $(ACP)
+	$(copy-file-to-new-target)
+
+COMPATIBILITY.$(LOCAL_COMPATIBILITY_SUITE).FILES := \
+  $(COMPATIBILITY.$(LOCAL_COMPATIBILITY_SUITE).FILES) \
+  $(cts_testcase_file)
+
+$(my_register_name) : $(cts_testcase_file)
+endif # LOCAL_COMPATIBILITY_SUITE
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif # LOCAL_PACKAGE_SPLITS
 
 # Save information about this package
@@ -509,6 +783,7 @@ endif
 
 PACKAGES := $(PACKAGES) $(LOCAL_PACKAGE_NAME)
 
+<<<<<<< HEAD
 # Dist the files that can be bundled in system.img.
 # They include the jni shared libraries and the apk with jni libraries stripped.
 ifeq ($(LOCAL_DIST_BUNDLED_BINARIES),true)
@@ -542,6 +817,8 @@ lint-$(LOCAL_PACKAGE_NAME) :
 
 lintall : lint-$(LOCAL_PACKAGE_NAME)
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif # skip_definition
 
 # Reset internal variables.

@@ -1,2 +1,7 @@
 allow bootanim self:process execmem;
 allow bootanim ashmem_device:chr_file execute;
+<<<<<<< HEAD
+=======
+
+set_prop(bootanim, qemu_prop)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

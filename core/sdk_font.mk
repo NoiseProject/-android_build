@@ -18,7 +18,11 @@ fonttools_lib := external/fonttools/Lib
 SDK_FONT_TEMP := $(call intermediates-dir-for,PACKAGING,sdk-fonts,HOST,COMMON)
 
 # The font configuration files - system_fonts.xml, fallback_fonts.xml etc.
+<<<<<<< HEAD
 sdk_font_config := $(wildcard frameworks/base/data/fonts/*.xml)
+=======
+sdk_font_config := $(sort $(wildcard frameworks/base/data/fonts/*.xml))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 sdk_font_config :=  $(addprefix $(SDK_FONT_TEMP)/, $(notdir $(sdk_font_config)))
 
 $(sdk_font_config): $(SDK_FONT_TEMP)/%.xml: \

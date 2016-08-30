@@ -54,6 +54,7 @@ current_package_overlay_config :=
 current_all_packages_config :=
 
 #######################################################
+<<<<<<< HEAD
 # Check if we need to delete obsolete aidl-generated java files.
 # When an aidl file gets deleted (or renamed), the generated java file is obsolete.
 previous_aidl_config := $(TARGET_OUT_COMMON_INTERMEDIATES)/previous_aidl_config.mk
@@ -75,6 +76,32 @@ $(foreach p, $(ALL_MODULES), \
 intermediates_to_clean := $(strip $(intermediates_to_clean))
 ifdef intermediates_to_clean
 $(info *** Obsolete aidl-generated files detected, clean intermediate files...)
+=======
+# Check if we need to delete obsolete generated java files.
+# When an aidl/proto/etc file gets deleted (or renamed), the generated java file is obsolete.
+previous_gen_java_config := $(TARGET_OUT_COMMON_INTERMEDIATES)/previous_gen_java_config.mk
+current_gen_java_config := $(TARGET_OUT_COMMON_INTERMEDIATES)/current_gen_java_config.mk
+
+$(shell rm -rf $(current_gen_java_config) \
+  && mkdir -p $(dir $(current_gen_java_config))\
+  && touch $(current_gen_java_config))
+-include $(previous_gen_java_config)
+
+intermediates_to_clean :=
+modules_with_gen_java_files :=
+$(foreach p, $(ALL_MODULES), \
+  $(eval gs := $(strip $(ALL_MODULES.$(p).AIDL_FILES)\
+                       $(ALL_MODULES.$(p).PROTO_FILES)\
+                       $(ALL_MODULES.$(p).RS_FILES)))\
+  $(if $(gs),\
+    $(eval modules_with_gen_java_files += $(p))\
+    $(shell echo 'GEN_SRC_FILES.$(p) := $(gs)' >> $(current_gen_java_config)))\
+  $(if $(filter-out $(gs),$(GEN_SRC_FILES.$(p))),\
+    $(eval intermediates_to_clean += $(ALL_MODULES.$(p).INTERMEDIATE_SOURCE_DIR))))
+intermediates_to_clean := $(strip $(intermediates_to_clean))
+ifdef intermediates_to_clean
+$(info *** Obsolete generated java files detected, clean intermediate files...)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(info *** rm -rf $(intermediates_to_clean))
 $(shell rm -rf $(intermediates_to_clean))
 intermediates_to_clean :=
@@ -82,6 +109,7 @@ endif
 
 # For modules not loaded by the current build (e.g. you are running mm/mmm),
 # we copy the info from the previous bulid.
+<<<<<<< HEAD
 $(foreach p, $(filter-out $(ALL_MODULES),$(MODULES_WITH_AIDL_FILES)),\
   $(shell echo 'AIDL_FILES.$(p) := $(AIDL_FILES.$(p))' >> $(current_aidl_config)))
 MODULES_WITH_AIDL_FILES := $(sort $(MODULES_WITH_AIDL_FILES) $(modules_with_aidl_files))
@@ -94,3 +122,17 @@ MODULES_WITH_AIDL_FILES :=
 modules_with_aidl_files :=
 previous_aidl_config :=
 current_aidl_config :=
+=======
+$(foreach p, $(filter-out $(ALL_MODULES),$(MODULES_WITH_GEN_JAVA_FILES)),\
+  $(shell echo 'GEN_SRC_FILES.$(p) := $(GEN_SRC_FILES.$(p))' >> $(current_gen_java_config)))
+MODULES_WITH_GEN_JAVA_FILES := $(sort $(MODULES_WITH_GEN_JAVA_FILES) $(modules_with_gen_java_files))
+$(shell echo 'MODULES_WITH_GEN_JAVA_FILES := $(MODULES_WITH_GEN_JAVA_FILES)' >> $(current_gen_java_config))
+
+# Now current becomes previous.
+$(shell cmp $(current_gen_java_config) $(previous_gen_java_config) > /dev/null 2>&1 || mv -f $(current_gen_java_config) $(previous_gen_java_config))
+
+MODULES_WITH_GEN_JAVA_FILES :=
+modules_with_gen_java_files :=
+previous_gen_java_config :=
+current_gen_java_config :=
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

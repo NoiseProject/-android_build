@@ -59,4 +59,8 @@ $(my_package_zip) : $(my_built_modules)
 	$(call copy-tests-in-batch,$(wordlist 1201,9999,$(PRIVATE_COPY_PAIRS)))
 	$(hide) $(foreach f, $(PRIVATE_PICKUP_FILES),\
 	  cp -RfL $(f) $(dir $@);)
+<<<<<<< HEAD
 	$(hide) cd $(dir $@) && zip -rq $(notdir $@) *
+=======
+	$(hide) cd $(dir $@) && zip -rqX $(notdir $@) *
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

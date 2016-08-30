@@ -13,8 +13,12 @@ CLANG_CONFIG_arm64_UNKNOWN_CFLAGS := \
   -frerun-cse-after-loop \
   -frename-registers \
   -fno-strict-volatile-bitfields \
+<<<<<<< HEAD
   -fno-align-jumps \
   -Wa,--noexecstack
+=======
+  -fno-align-jumps
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # We don't have any arm64 flags to substitute yet.
 define subst-clang-incompatible-arm64-flags

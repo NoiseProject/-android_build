@@ -33,4 +33,16 @@
       <?cs set:count = count + #1 ?>
     <?cs /each ?>
   </table>
+<<<<<<< HEAD
 <?cs /def ?>
+=======
+<?cs /def ?>
+
+<?cs def:doc_root_override() ?><?cs
+  if:referenceonly
+    ?>https://developer.android.com/<?cs
+  else ?><?cs
+    var:toroot ?><?cs
+  /if ?><?cs
+/def ?>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

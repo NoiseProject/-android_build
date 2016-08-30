@@ -26,12 +26,22 @@ PRODUCT_PACKAGES += \
     android.test.runner \
     app_process \
     applypatch \
+<<<<<<< HEAD
     blkid \
     bmgr \
     bugreport \
     content \
     dhcpcd \
     dhcpcd-run-hooks \
+=======
+    audioserver \
+    blkid \
+    bmgr \
+    bugreport \
+    bugreportz \
+    cameraserver \
+    content \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     dnsmasq \
     dpm \
     framework \
@@ -50,6 +60,10 @@ PRODUCT_PACKAGES += \
     libbundlewrapper \
     libcamera_client \
     libcameraservice \
+<<<<<<< HEAD
+=======
+    libcamera2ndk \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     libdl \
     libdrmclearkeyplugin \
     libeffectproxy \
@@ -94,10 +108,21 @@ PRODUCT_PACKAGES += \
     libvisualizer \
     libvorbisidec \
     libmediandk \
+<<<<<<< HEAD
     libwifi-service \
     media \
     media_cmd \
     mediaserver \
+=======
+    libvulkan \
+    libwifi-service \
+    media \
+    media_cmd \
+    mediadrmserver \
+    mediaserver \
+    mediacodec \
+    mediaextractor \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     monkey \
     mtpd \
     ndc \

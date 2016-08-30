@@ -16,6 +16,7 @@
 
 LOCAL_PATH := $(call my-dir)
 
+<<<<<<< HEAD
 ifeq (,$(TARGET_BUILD_APPS))
 
 ifeq ($(TARGET_BUILD_PDK),true)
@@ -30,3 +31,6 @@ else # TARGET_BUILD_APPS
 include $(LOCAL_PATH)/apicheck/Android.mk
 
 endif
+=======
+include $(call all-makefiles-under,$(LOCAL_PATH))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

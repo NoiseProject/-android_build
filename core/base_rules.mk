@@ -34,14 +34,45 @@ ifdef LOCAL_IS_HOST_MODULE
   ifneq ($(LOCAL_IS_HOST_MODULE),true)
     $(error $(LOCAL_PATH): LOCAL_IS_HOST_MODULE must be "true" or empty, not "$(LOCAL_IS_HOST_MODULE)")
   endif
+<<<<<<< HEAD
   my_prefix := HOST_
+=======
+  ifeq ($(LOCAL_HOST_PREFIX),)
+    my_prefix := HOST_
+  else
+    my_prefix := $(LOCAL_HOST_PREFIX)
+  endif
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   my_host := host-
 else
   my_prefix := TARGET_
   my_host :=
 endif
 
+<<<<<<< HEAD
 my_module_tags := $(LOCAL_MODULE_TAGS)
+=======
+ifeq ($(my_prefix),HOST_CROSS_)
+  my_host_cross := true
+else
+  my_host_cross :=
+endif
+
+my_module_tags := $(LOCAL_MODULE_TAGS)
+ifeq ($(my_host_cross),true)
+  my_module_tags :=
+endif
+
+ifdef BUILDING_WITH_NINJA
+# Ninja has an implicit dependency on the command being run, and kati will
+# regenerate the ninja manifest if any read makefile changes, so there is no
+# need to have dependencies on makefiles.
+# This won't catch all the cases where LOCAL_ADDITIONAL_DEPENDENCIES contains
+# a .mk file, because a few users of LOCAL_ADDITIONAL_DEPENDENCIES don't include
+# base_rules.mk, but it will fix the most common ones.
+LOCAL_ADDITIONAL_DEPENDENCIES := $(filter-out %.mk,$(LOCAL_ADDITIONAL_DEPENDENCIES))
+endif
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ###########################################################
 ## Validate and define fallbacks for input LOCAL_* variables.
@@ -145,20 +176,37 @@ ifneq ($(strip $(LOCAL_BUILT_MODULE)$(LOCAL_INSTALLED_MODULE)),)
 endif
 
 my_register_name := $(LOCAL_MODULE)
+<<<<<<< HEAD
 ifdef LOCAL_2ND_ARCH_VAR_PREFIX
 ifndef LOCAL_NO_2ND_ARCH_MODULE_SUFFIX
 my_register_name := $(LOCAL_MODULE)$($(my_prefix)2ND_ARCH_MODULE_SUFFIX)
+=======
+ifeq ($(my_host_cross),true)
+  my_register_name := host_cross_$(LOCAL_MODULE)
+endif
+ifdef LOCAL_2ND_ARCH_VAR_PREFIX
+ifndef LOCAL_NO_2ND_ARCH_MODULE_SUFFIX
+my_register_name := $(my_register_name)$($(my_prefix)2ND_ARCH_MODULE_SUFFIX)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 endif
 # Make sure that this IS_HOST/CLASS/MODULE combination is unique.
 module_id := MODULE.$(if \
+<<<<<<< HEAD
     $(LOCAL_IS_HOST_MODULE),HOST,TARGET).$(LOCAL_MODULE_CLASS).$(my_register_name)
+=======
+    $(LOCAL_IS_HOST_MODULE),$($(my_prefix)OS),TARGET).$(LOCAL_MODULE_CLASS).$(my_register_name)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifdef $(module_id)
 $(error $(LOCAL_PATH): $(module_id) already defined by $($(module_id)))
 endif
 $(module_id) := $(LOCAL_PATH)
 
+<<<<<<< HEAD
 intermediates := $(call local-intermediates-dir,,$(LOCAL_2ND_ARCH_VAR_PREFIX))
+=======
+intermediates := $(call local-intermediates-dir,,$(LOCAL_2ND_ARCH_VAR_PREFIX),$(my_host_cross))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 intermediates.COMMON := $(call local-intermediates-dir,COMMON)
 generated_sources_dir := $(call local-generated-sources-dir)
 
@@ -194,6 +242,7 @@ endif
 # Assemble the list of targets to create PRIVATE_ variables for.
 LOCAL_INTERMEDIATE_TARGETS += $(LOCAL_BUILT_MODULE)
 
+<<<<<<< HEAD
 
 ###########################################################
 ## AIDL: Compile .aidl files to .java
@@ -236,11 +285,39 @@ endif
 
 ###########################################################
 ## logtags: Add .logtags files to global list, emit java source
+=======
+###########################################################
+## Create .toc files from shared objects to reduce unnecessary rebuild
+# .toc files have the list of external dynamic symbols without their addresses.
+# As .KATI_RESTAT is specified to .toc files and commit-change-for-toc is used,
+# dependent binaries of a .toc file will be rebuilt only when the content of
+# the .toc file is changed.
+###########################################################
+ifndef LOCAL_IS_HOST_MODULE
+# Disable .toc optimization for host modules: we may run the host binaries during the build process
+# and the libraries' implementation matters.
+ifeq ($(LOCAL_MODULE_CLASS),SHARED_LIBRARIES)
+LOCAL_INTERMEDIATE_TARGETS += $(LOCAL_BUILT_MODULE).toc
+$(LOCAL_BUILT_MODULE).toc: $(LOCAL_BUILT_MODULE)
+	$(call $(PRIVATE_2ND_ARCH_VAR_PREFIX)$(PRIVATE_PREFIX)transform-shared-lib-to-toc,$<,$@.tmp)
+	$(call commit-change-for-toc,$@)
+
+# Kati adds restat=1 to ninja. GNU make does nothing for this.
+.KATI_RESTAT: $(LOCAL_BUILT_MODULE).toc
+# Build .toc file when using mm, mma, or make $(my_register_name)
+$(my_register_name): $(LOCAL_BUILT_MODULE).toc
+endif
+endif
+
+###########################################################
+## logtags: Add .logtags files to global list
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ###########################################################
 
 logtags_sources := $(filter %.logtags,$(LOCAL_SRC_FILES))
 
 ifneq ($(strip $(logtags_sources)),)
+<<<<<<< HEAD
 
 event_log_tags := $(addprefix $(LOCAL_PATH)/,$(logtags_sources))
 
@@ -258,10 +335,15 @@ endif
 
 else
 logtags_java_sources :=
+=======
+event_log_tags := $(addprefix $(LOCAL_PATH)/,$(logtags_sources))
+else
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 event_log_tags :=
 endif
 
 ###########################################################
+<<<<<<< HEAD
 ## .proto files: Compile proto files to .java
 ###########################################################
 proto_sources := $(filter %.proto,$(LOCAL_SRC_FILES))
@@ -485,6 +567,8 @@ $(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_JAR_MANIFEST :=
 endif
 
 ###########################################################
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ## make clean- targets
 ###########################################################
 cleantarget := clean-$(my_register_name)
@@ -494,12 +578,17 @@ $(cleantarget) : PRIVATE_CLEAN_FILES := \
     $(LOCAL_INSTALLED_MODULE) \
     $(intermediates)
 $(cleantarget)::
+<<<<<<< HEAD
 	@echo -e ${CL_GRN}"Clean:"${CL_RST}" $(PRIVATE_MODULE)"
+=======
+	@echo "Clean: $(PRIVATE_MODULE)"
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(hide) rm -rf $(PRIVATE_CLEAN_FILES)
 
 ###########################################################
 ## Common definitions for module.
 ###########################################################
+<<<<<<< HEAD
 
 # aapt doesn't accept multiple --extra-packages flags.
 # We have to collapse them into a single --extra-packages flag here.
@@ -529,6 +618,14 @@ $(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_HOST:= $(my_host)
 
 $(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_INTERMEDIATES_DIR:= $(intermediates)
 
+=======
+$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_PATH:=$(LOCAL_PATH)
+$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_IS_HOST_MODULE := $(LOCAL_IS_HOST_MODULE)
+$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_HOST:= $(my_host)
+$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_PREFIX := $(my_prefix)
+
+$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_INTERMEDIATES_DIR:= $(intermediates)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_2ND_ARCH_VAR_PREFIX := $(LOCAL_2ND_ARCH_VAR_PREFIX)
 
 # Tell the module and all of its sub-modules who it is.
@@ -540,6 +637,18 @@ $(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_MODULE:= $(my_register_name)
 .PHONY: $(my_register_name)
 $(my_register_name): $(LOCAL_BUILT_MODULE) $(LOCAL_INSTALLED_MODULE)
 
+<<<<<<< HEAD
+=======
+# Set up phony targets that covers all modules under the given paths.
+# This allows us to build everything in given paths by running mmma/mma.
+my_path_components := $(subst /,$(space),$(LOCAL_PATH))
+my_path_prefix := MODULES-IN
+$(foreach c, $(my_path_components),\
+  $(eval my_path_prefix := $(my_path_prefix)-$(c))\
+  $(eval .PHONY : $(my_path_prefix))\
+  $(eval $(my_path_prefix) : $(my_register_name)))
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ###########################################################
 ## Module installation rule
 ###########################################################
@@ -549,24 +658,58 @@ ifneq ($(strip $(HOST_ACP_UNAVAILABLE)),)
   LOCAL_ACP_UNAVAILABLE := $(strip $(HOST_ACP_UNAVAILABLE))
 endif
 
+<<<<<<< HEAD
 ifndef LOCAL_UNINSTALLABLE_MODULE
+=======
+ifneq (true,$(LOCAL_UNINSTALLABLE_MODULE))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   # Define a copy rule to install the module.
   # acp and libraries that it uses can't use acp for
   # installation;  hence, LOCAL_ACP_UNAVAILABLE.
 $(LOCAL_INSTALLED_MODULE): PRIVATE_POST_INSTALL_CMD := $(LOCAL_POST_INSTALL_CMD)
 ifneq ($(LOCAL_ACP_UNAVAILABLE),true)
 $(LOCAL_INSTALLED_MODULE): $(LOCAL_BUILT_MODULE) | $(ACP)
+<<<<<<< HEAD
 	@echo -e ${CL_CYN}"Install: $@"${CL_RST}
+=======
+	@echo "Install: $@"
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(copy-file-to-new-target)
 	$(PRIVATE_POST_INSTALL_CMD)
 else
 $(LOCAL_INSTALLED_MODULE): $(LOCAL_BUILT_MODULE)
+<<<<<<< HEAD
 	@echo -e ${CL_CYN}"Install: $@"${CL_RST}
 	$(copy-file-to-target-with-cp)
 endif
 
 endif # !LOCAL_UNINSTALLABLE_MODULE
 
+=======
+	@echo "Install: $@"
+	$(copy-file-to-target-with-cp)
+endif
+
+# Rule to install the module's companion init.rc.
+my_init_rc := $(LOCAL_INIT_RC_$(my_32_64_bit_suffix))
+my_init_rc_src :=
+my_init_rc_installed :=
+ifndef my_init_rc
+my_init_rc := $(LOCAL_INIT_RC)
+# Make sure we don't define the rule twice in multilib module.
+LOCAL_INIT_RC :=
+endif
+ifdef my_init_rc
+my_init_rc_src := $(LOCAL_PATH)/$(my_init_rc)
+my_init_rc_installed := $(TARGET_OUT$(partition_tag)_ETC)/init/$(notdir $(my_init_rc_src))
+$(my_init_rc_installed) : $(my_init_rc_src) | $(ACP)
+	@echo "Install: $@"
+	$(copy-file-to-new-target)
+
+$(my_register_name) : $(my_init_rc_installed)
+endif # my_init_rc
+endif # !LOCAL_UNINSTALLABLE_MODULE
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ###########################################################
 ## CHECK_BUILD goals
@@ -576,8 +719,11 @@ my_checked_module :=
 # checked modules, use LOCAL_BUILT_MODULE.
 ifdef LOCAL_CHECKED_MODULE
   my_checked_module := $(LOCAL_CHECKED_MODULE)
+<<<<<<< HEAD
 else ifdef java_alternative_checked_module
   my_checked_module := $(java_alternative_checked_module)
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 else
   my_checked_module := $(LOCAL_BUILT_MODULE)
 endif
@@ -596,6 +742,53 @@ endif
 endif
 
 ###########################################################
+<<<<<<< HEAD
+=======
+## Compatibiliy suite files.
+###########################################################
+ifdef LOCAL_COMPATIBILITY_SUITE
+ifneq ($(words $(LOCAL_COMPATIBILITY_SUITE)),1)
+$(error $(LOCAL_PATH):$(LOCAL_MODULE) LOCAL_COMPATIBILITY_SUITE can be only one name)
+endif
+
+# The module itself.
+my_compat_dist := \
+  $(LOCAL_BUILT_MODULE):$(COMPATIBILITY_TESTCASES_OUT_$(LOCAL_COMPATIBILITY_SUITE))/$(my_installed_module_stem)
+
+# Make sure we only add the files once for multilib modules.
+ifndef $(my_prefix)$(LOCAL_MODULE_CLASS)_$(LOCAL_MODULE)_compat_files
+$(my_prefix)$(LOCAL_MODULE_CLASS)_$(LOCAL_MODULE)_compat_files := true
+
+# LOCAL_COMPATIBILITY_SUPPORT_FILES is a list of <src>[:<dest>].
+my_compat_dist += $(foreach f, $(LOCAL_COMPATIBILITY_SUPPORT_FILES),\
+  $(eval p := $(subst :,$(space),$(f)))\
+  $(eval s := $(word 1,$(p)))\
+  $(eval d := $(COMPATIBILITY_TESTCASES_OUT_$(LOCAL_COMPATIBILITY_SUITE))/$(or $(word 2,$(p)),$(notdir $(word 1,$(p)))))\
+  $(s):$(d))
+
+ifneq (,$(wildcard $(LOCAL_PATH)/AndroidTest.xml))
+my_compat_dist += \
+  $(LOCAL_PATH)/AndroidTest.xml:$(COMPATIBILITY_TESTCASES_OUT_$(LOCAL_COMPATIBILITY_SUITE))/$(LOCAL_MODULE).config
+endif
+
+ifneq (,$(wildcard $(LOCAL_PATH)/DynamicConfig.xml))
+my_compat_dist += \
+  $(LOCAL_PATH)/DynamicConfig.xml:$(COMPATIBILITY_TESTCASES_OUT_$(LOCAL_COMPATIBILITY_SUITE))/$(LOCAL_MODULE).dynamic
+endif
+endif # $(my_prefix)$(LOCAL_MODULE_CLASS)_$(LOCAL_MODULE)_compat_files
+
+my_compat_files := $(call copy-many-files, $(my_compat_dist))
+
+COMPATIBILITY.$(LOCAL_COMPATIBILITY_SUITE).FILES := \
+  $(COMPATIBILITY.$(LOCAL_COMPATIBILITY_SUITE).FILES) \
+  $(my_compat_files)
+
+# Copy over the compatibility files when user runs mm/mmm.
+$(my_register_name) : $(my_compat_files)
+endif  # LOCAL_COMPATIBILITY_SUITE
+
+###########################################################
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ## Register with ALL_MODULES
 ###########################################################
 
@@ -615,9 +808,18 @@ ALL_MODULES.$(my_register_name).BUILT := \
     $(ALL_MODULES.$(my_register_name).BUILT) $(LOCAL_BUILT_MODULE)
 ifneq (true,$(LOCAL_UNINSTALLABLE_MODULE))
 ALL_MODULES.$(my_register_name).INSTALLED := \
+<<<<<<< HEAD
     $(strip $(ALL_MODULES.$(my_register_name).INSTALLED) $(LOCAL_INSTALLED_MODULE))
 ALL_MODULES.$(my_register_name).BUILT_INSTALLED := \
     $(strip $(ALL_MODULES.$(my_register_name).BUILT_INSTALLED) $(LOCAL_BUILT_MODULE):$(LOCAL_INSTALLED_MODULE))
+=======
+    $(strip $(ALL_MODULES.$(my_register_name).INSTALLED) \
+    $(LOCAL_INSTALLED_MODULE) $(my_init_rc_installed))
+ALL_MODULES.$(my_register_name).BUILT_INSTALLED := \
+    $(strip $(ALL_MODULES.$(my_register_name).BUILT_INSTALLED) \
+    $(LOCAL_BUILT_MODULE):$(LOCAL_INSTALLED_MODULE) \
+    $(addprefix $(my_init_rc_src):,$(my_init_rc_installed)))
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 ifdef LOCAL_PICKUP_FILES
 # Files or directories ready to pick up by the build system
@@ -625,6 +827,7 @@ ifdef LOCAL_PICKUP_FILES
 ALL_MODULES.$(my_register_name).PICKUP_FILES := \
     $(ALL_MODULES.$(my_register_name).PICKUP_FILES) $(LOCAL_PICKUP_FILES)
 endif
+<<<<<<< HEAD
 ALL_MODULES.$(my_register_name).REQUIRED := \
     $(strip $(ALL_MODULES.$(my_register_name).REQUIRED) $(LOCAL_REQUIRED_MODULES) \
       $(LOCAL_REQUIRED_MODULES_$(TARGET_$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH)))
@@ -632,6 +835,17 @@ ALL_MODULES.$(my_register_name).EVENT_LOG_TAGS := \
     $(ALL_MODULES.$(my_register_name).EVENT_LOG_TAGS) $(event_log_tags)
 ALL_MODULES.$(my_register_name).INTERMEDIATE_SOURCE_DIR := \
     $(ALL_MODULES.$(my_register_name).INTERMEDIATE_SOURCE_DIR) $(LOCAL_INTERMEDIATE_SOURCE_DIR)
+=======
+my_required_modules := $(LOCAL_REQUIRED_MODULES) \
+    $(LOCAL_REQUIRED_MODULES_$(TARGET_$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH))
+ifdef LOCAL_IS_HOST_MODULE
+my_required_modules += $(LOCAL_REQUIRED_MODULES_$($(my_prefix)OS))
+endif
+ALL_MODULES.$(my_register_name).REQUIRED := \
+    $(strip $(ALL_MODULES.$(my_register_name).REQUIRED) $(my_required_modules))
+ALL_MODULES.$(my_register_name).EVENT_LOG_TAGS := \
+    $(ALL_MODULES.$(my_register_name).EVENT_LOG_TAGS) $(event_log_tags)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ALL_MODULES.$(my_register_name).MAKEFILE := \
     $(ALL_MODULES.$(my_register_name).MAKEFILE) $(LOCAL_MODULE_MAKEFILE)
 ifdef LOCAL_MODULE_OWNER
@@ -641,9 +855,13 @@ endif
 ifdef LOCAL_2ND_ARCH_VAR_PREFIX
 ALL_MODULES.$(my_register_name).FOR_2ND_ARCH := true
 endif
+<<<<<<< HEAD
 ifdef aidl_sources
 ALL_MODULES.$(my_register_name).AIDL_FILES := $(aidl_sources)
 endif
+=======
+ALL_MODULES.$(my_register_name).FOR_HOST_CROSS := $(my_host_cross)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 INSTALLABLE_FILES.$(LOCAL_INSTALLED_MODULE).MODULE := $(my_register_name)
 
@@ -698,6 +916,7 @@ endif
 endif
 
 ###########################################################
+<<<<<<< HEAD
 # JACK
 ###########################################################
 ifdef LOCAL_JACK_ENABLED
@@ -778,9 +997,14 @@ $(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_JARJAR_RULES := $(LOCAL_JARJAR_RULES)
 endif # LOCAL_JACK_ENABLED
 
 ###########################################################
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ## NOTICE files
 ###########################################################
 
 include $(BUILD_NOTICE_FILE)
+<<<<<<< HEAD
 
 #:vi noexpandtab
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

@@ -17,7 +17,11 @@ gpl_source_tgz := $(call intermediates-dir-for,PACKAGING,gpl_source,HOST,COMMON)
 # FORCE since we can't know whether any of the sources changed
 $(gpl_source_tgz): PRIVATE_PATHS := $(sort $(patsubst %/, %, $(dir $(ALL_GPL_MODULE_LICENSE_FILES))))
 $(gpl_source_tgz) : $(ALL_GPL_MODULE_LICENSE_FILES) FORCE
+<<<<<<< HEAD
 	@echo -e ${CL_GRN}"Package gpl sources:"${CL_RST}" $@"
+=======
+	@echo Package gpl sources: $@
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	@rm -rf $(dir $@) && mkdir -p $(dir $@)
 	$(hide) tar cfz $@ --exclude ".git*" $(PRIVATE_PATHS)
 

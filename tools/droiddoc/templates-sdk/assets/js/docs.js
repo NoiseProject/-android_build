@@ -985,7 +985,11 @@ function scrollIntoView(nav) {
     }
     // get the selected item's offset from its container nav by measuring the item's offset
     // relative to the document then subtract the container nav's offset relative to the document
+<<<<<<< HEAD
     var selectedOffset = $selected.offset().top - $nav.offset().top;
+=======
+    var selectedOffset = $selected.offset().top - $nav.offset().top + 60;
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     if (selectedOffset > $nav.height() * .8) { // multiply nav height by .8 so we move up the item
                                                // if it's more than 80% down the nav
       // scroll the item up by an amount equal to 80% the container nav's height
@@ -1328,7 +1332,11 @@ function requestAppendHL(uri) {
 function changeNavLang(lang) {
   if (lang === 'en') { return; }
 
+<<<<<<< HEAD
   var $links = $('a[' + lang + '-lang]');
+=======
+  var $links = $("a[" + lang + "-lang],p[" + lang + "-lang]");
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   $links.each(function(){ // for each link with a translation
     var $link = $(this);
     // put the desired language from the attribute as the text
@@ -1386,7 +1394,11 @@ function toggleContent(obj) {
     $(".toggle-content-text:eq(0)", obj).toggle();
     div.removeClass("closed").addClass("open");
     $(".toggle-content-img:eq(0)", div).attr("title", "hide").attr("src", toRoot
+<<<<<<< HEAD
                   + "assets/images/triangle-opened.png");
+=======
+                  + "assets/images/styles/disclosure_up.png");
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   } else { // if it's open, close it
     toggleMe.slideUp('fast', function() {  // Wait until the animation is done before closing arrow
       $(".toggle-content-text:eq(0)", obj).toggle();
@@ -1394,7 +1406,11 @@ function toggleContent(obj) {
       div.find(".toggle-content").removeClass("open").addClass("closed")
               .find(".toggle-content-toggleme").hide();
       $(".toggle-content-img", div).attr("title", "show").attr("src", toRoot
+<<<<<<< HEAD
                   + "assets/images/triangle-closed.png");
+=======
+                  + "assets/images/styles/disclosure_down.png");
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     });
   }
   return false;
@@ -2546,14 +2562,25 @@ function search_focus_changed(obj, focused)
 }
 
 function submit_search() {
+<<<<<<< HEAD
   var query = document.getElementById('search_autocomplete').value;
   location.hash = 'q=' + query;
   loadSearchResults();
+=======
+  var query = escapeHTML(document.getElementById('search_autocomplete').value);
+  location.hash = 'q=' + query;
+  searchControl.query = query;
+  searchControl.init();
+  searchControl.trackSearchRequest(query);
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   $("#searchResults").slideDown('slow', setStickyTop);
   return false;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 function hideResults() {
   $("#searchResults").slideUp('fast', setStickyTop);
   $("#search-close").addClass("hide");
@@ -2562,16 +2589,21 @@ function hideResults() {
   $("#search_autocomplete").val("").blur();
 
   // reset the ajax search callback to nothing, so results don't appear unless ENTER
+<<<<<<< HEAD
   searchControl.setSearchStartingCallback(this, function(control, searcher, query) {});
 
   // forcefully regain key-up event control (previously jacked by search api)
   $("#search_autocomplete").keyup(function(event) {
     return search_changed(event, false, toRoot);
   });
+=======
+  searchControl.reset();
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   return false;
 }
 
+<<<<<<< HEAD
 
 
 /* ########################################################## */
@@ -2666,15 +2698,251 @@ function loadSearchResults() {
 
 
 google.setOnLoadCallback(function(){
+=======
+/* ########################################################## */
+/* ################  CUSTOM SEARCH ENGINE  ################## */
+/* ########################################################## */
+var searchControl = null;
+var dacsearch = dacsearch || {};
+
+/**
+ * The custom search engine API.
+ * @constructor
+ */
+dacsearch.CustomSearchEngine = function() {
+  /**
+   * The last response from Google CSE.
+   * @private {Object}
+   */
+  this.resultQuery_ = {};
+
+  /** @private {?Element} */
+  this.searchResultEl_ = null;
+
+  /** @private {?Element} */
+  this.searchInputEl_ = null;
+
+  /** @private {string} */
+  this.query = '';
+};
+
+/**
+ * Initializes DAC's Google custom search engine.
+ * @export
+ */
+dacsearch.CustomSearchEngine.prototype.init = function() {
+  this.searchResultEl_ = $('#leftSearchControl');
+  this.searchResultEl_.empty();
+  this.searchInputEl_ = $('#search_autocomplete');
+  this.searchInputEl_.focus().val(this.query);
+  this.getResults_();
+  this.bindEvents_();
+};
+
+
+/**
+ * Binds the keyup event to the search input.
+ * @private
+ */
+dacsearch.CustomSearchEngine.prototype.bindEvents_ = function() {
+  this.searchInputEl_.keyup(this.debounce_(function(e) {
+    var code = e.which;
+    if (code != 13) {
+      this.query = escapeHTML(this.searchInputEl_.val());
+      location.hash = 'q=' + encodeURI(this.query);
+      this.searchResultEl_.empty();
+      this.getResults_();
+    }
+  }.bind(this), 250));
+};
+
+
+/**
+ * Resets the search control.
+ */
+dacsearch.CustomSearchEngine.prototype.reset = function() {
+  this.query = '';
+  this.searchInputEl_.off('keyup');
+  this.searchResultEl_.empty();
+  this.updateResultTitle_();
+};
+
+
+/**
+ * Updates the search query text at the top of the results.
+ * @private
+ */
+dacsearch.CustomSearchEngine.prototype.updateResultTitle_ = function() {
+  $("#searchTitle").html("Results for <em>" + this.query + "</em>");
+};
+
+
+/**
+ * Makes the CSE api call and gets the results.
+ * @param {number=} opt_start The optional start index.
+ * @private
+ */
+dacsearch.CustomSearchEngine.prototype.getResults_ = function(opt_start) {
+  var lang = getLangPref();
+  // Fix zh-cn to be zh-CN.
+  lang = lang.replace(/-\w+/, function(m) { return m.toUpperCase(); });
+  var cseUrl = 'https://content.googleapis.com/customsearch/v1?';
+  var searchParams = {
+    cx: '000521750095050289010:zpcpi1ea4s8',
+    key: 'AIzaSyCFhbGnjW06dYwvRCU8h_zjdpS4PYYbEe8',
+    q: this.query,
+    start: opt_start || 1,
+    num: 6,
+    hl: lang,
+    fields: 'queries,items(pagemap,link,title,htmlSnippet,formattedUrl)'
+  };
+
+  $.get(cseUrl + $.param(searchParams), function(data) {
+    this.resultQuery_ = data;
+    this.renderResults_(data);
+    this.updateResultTitle_(this.query);
+  }.bind(this));
+};
+
+
+/**
+ * Renders the results.
+ * @private
+ */
+dacsearch.CustomSearchEngine.prototype.renderResults_ = function(results) {
+  var el = this.searchResultEl_;
+
+  if (!results.items) {
+    el.append($('<div>').text('No results'));
+    return;
+  }
+
+  for (var i = 0; i < results.items.length; i++) {
+    var item = results.items[i];
+    var hasImage = item.pagemap && item.pagemap.cse_thumbnail;
+    var sectionMatch = item.link.match(/developer\.android\.com\/(\w*)/);
+    var section = (sectionMatch && sectionMatch[1]) || 'blog';
+
+    var entry = $('<div>').addClass('dac-custom-search-entry cols');
+
+    if (hasImage) {
+      var image = item.pagemap.cse_thumbnail[0];
+      entry.append($('<div>').addClass('col-1of6')
+        .append($('<div>').addClass('dac-custom-search-image').css(
+        'background-image', 'url(' + image.src + ')')));
+    }
+
+    var linkTitleEl = $('<a>').text(item.title).attr('href', item.link);
+    linkTitleEl.click(function(e) {
+      ga('send', 'event', 'Google Custom Search',
+          'clicked: ' + linkTitleEl.attr('href'),
+          'query: ' + $("#search_autocomplete").val().toLowerCase());
+    });
+
+    var linkUrlEl = $('<a>').addClass('dac-custom-search-link').text(
+        item.formattedUrl).attr('href', item.link);
+    linkUrlEl.click(function(e) {
+      ga('send', 'event', 'Google Custom Search',
+          'clicked: ' + linkUrlEl.attr('href'),
+          'query: ' + $("#search_autocomplete").val().toLowerCase());
+    });
+
+
+    entry.append($('<div>').addClass(hasImage ? 'col-5of6' : 'col-6of6')
+      .append($('<p>').addClass('dac-custom-search-section').text(section))
+      .append(
+        linkTitleEl.wrap('<h2>').parent().addClass('dac-custom-search-title'))
+      .append($('<p>').addClass('dac-custom-search-snippet')
+      .html(item.htmlSnippet.replace(/<br>/g, ''))).append(linkUrlEl));
+
+    el.append(entry);
+  }
+
+  if ($('#dac-custom-search-load-more')) {
+    $('#dac-custom-search-load-more').remove();
+  }
+
+  if (results.queries.nextPage) {
+    var loadMoreButton = $('<button id="dac-custom-search-load-more">')
+      .addClass('dac-custom-search-load-more')
+      .text('Load more')
+      .click(function() {
+        this.loadMoreResults_();
+      }.bind(this));
+
+    el.append(loadMoreButton);
+  }
+};
+
+
+/**
+ * Loads more results.
+ * @private
+ */
+dacsearch.CustomSearchEngine.prototype.loadMoreResults_ = function() {
+  this.query = this.resultQuery_.queries.request[0].searchTerms;
+  var start = this.resultQuery_.queries.nextPage[0].startIndex;
+  var loadMoreButton = this.searchResultEl_.find(
+      '#dac-custom-search-load-more');
+  loadMoreButton.text('Loading more...');
+  this.getResults_(start);
+  this.trackSearchRequest(this.query + ' startIndex = ' + start);
+};
+
+
+/**
+ * Tracks a search request.
+ * @param {string} query The query for the request,
+ *                       includes start index if loading more results.
+ */
+dacsearch.CustomSearchEngine.prototype.trackSearchRequest = function(query) {
+  ga('send', 'event', 'Google Custom Search Submit', 'submit search query',
+      'query: ' + query);
+};
+
+
+/**
+ * Returns a function, that, as long as it continues to be invoked, will not
+ * be triggered. The function will be called after it stops being called for
+ * N milliseconds.
+ * @param {Function} func The function to debounce.
+ * @param {number} wait The number of milliseconds to wait before calling the function.
+ * @private
+ */
+dacsearch.CustomSearchEngine.prototype.debounce_ = function(func, wait) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      func.apply(context, args);
+    };
+   clearTimeout(timeout);
+   timeout = setTimeout(later, wait);
+  };
+};
+
+
+google.setOnLoadCallback(function(){
+  searchControl = new dacsearch.CustomSearchEngine();
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   if (location.hash.indexOf("q=") == -1) {
     // if there's no query in the url, don't search and make sure results are hidden
     $('#searchResults').hide();
     return;
   } else {
     // first time loading search results for this page
+<<<<<<< HEAD
     $('#searchResults').slideDown('slow', setStickyTop);
     $("#search-close").removeClass("hide");
     loadSearchResults();
+=======
+    searchControl.query = escapeHTML(decodeURI(location.hash.split('q=')[1]));
+    searchControl.init();
+    searchControl.trackSearchRequest(searchControl.query);
+    $('#searchResults').slideDown('slow', setStickyTop);
+    $("#search-close").removeClass("hide");
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   }
 }, true);
 
@@ -2703,7 +2971,11 @@ $(window).hashchange( function(){
 
   // If the hash isn't a search query or there's an error in the query,
   // then adjust the scroll position to account for sticky header, then exit.
+<<<<<<< HEAD
   if ((location.hash.indexOf("q=") == -1) || (query == "undefined")) {
+=======
+  if ((location.hash.indexOf("q=") == -1) || (searchControl.query == "undefined")) {
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     // If the results pane is open, close it.
     if (!$("#searchResults").is(":hidden")) {
       hideResults();
@@ -2712,6 +2984,7 @@ $(window).hashchange( function(){
     return;
   }
 
+<<<<<<< HEAD
   // Otherwise, we have a search to do
   var query = decodeURI(getQuery(location.hash));
   searchControl.execute(query);
@@ -2771,6 +3044,13 @@ function getQuery(hash) {
   return queryParts[1];
 }
 
+=======
+  $('#searchResults').slideDown('slow', setStickyTop);
+  $("#search_autocomplete").focus();
+  $("#search-close").removeClass("hide");
+});
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 /* returns the given string with all HTML brackets converted to entities
     TODO: move this to the site's JS library */
 function escapeHTML(string) {
@@ -3371,13 +3651,21 @@ function toggleInherited(linkObj, expand) {
     if ( (expand == null && a.hasClass("closed")) || expand ) {
         list.style.display = "none";
         summary.style.display = "block";
+<<<<<<< HEAD
         trigger.src = toRoot + "assets/images/triangle-opened.png";
+=======
+        trigger.src = toRoot + "assets/images/styles/disclosure_up.png";
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
         a.removeClass("closed");
         a.addClass("opened");
     } else if ( (expand == null && a.hasClass("opened")) || (expand == false) ) {
         list.style.display = "block";
         summary.style.display = "none";
+<<<<<<< HEAD
         trigger.src = toRoot + "assets/images/triangle-closed.png";
+=======
+        trigger.src = toRoot + "assets/images/styles/disclosure_down.png";
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
         a.removeClass("opened");
         a.addClass("closed");
     }
@@ -3747,7 +4035,11 @@ function showSamples() {
 
     return $el;
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   function createResponsiveFlowColumn(cardSize) {
     var cardWidth = parseInt(cardSize.match(/(\d+)/)[1], 10);
     var column = $('<div>').addClass('col-' + (cardWidth / 3) + 'of6');
@@ -3788,7 +4080,11 @@ function showSamples() {
 
       var cardSize = cardSizes[j++ % cardSizes.length];
       cardSize = cardSize.replace(/^\s+|\s+$/,'');
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
       var column = createResponsiveFlowColumn(cardSize).appendTo(cardParent);
 
       // A stack has a third dimension which is the number of stacked items
@@ -4868,6 +5164,14 @@ function showSamples() {
     this.el.removeClass('dac-active');
     $('body').removeClass('dac-modal-open');
     this.isOpen = false;
+<<<<<<< HEAD
+=======
+    // When closing the modal for Android Studio downloads, reload the page
+    // because otherwise we might get stuck with post-download dialog state
+    if ($("[data-modal='studio_tos']").length) {
+      location.reload();
+    }
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   };
 
   Modal.prototype.open_ = function() {

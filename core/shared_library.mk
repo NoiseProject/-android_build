@@ -9,13 +9,21 @@ endif
 ifeq ($(my_module_multilib),both)
 ifneq ($(LOCAL_MODULE_PATH),)
 ifneq ($(TARGET_2ND_ARCH),)
+<<<<<<< HEAD
 $(warning $(LOCAL_MODULE): LOCAL_MODULE_PATH for shared libraries is unsupported in multiarch builds, use LOCAL_MODULE_RELATIVE_PATH instead)
+=======
+$(error $(LOCAL_MODULE): LOCAL_MODULE_PATH for shared libraries is unsupported in multiarch builds, use LOCAL_MODULE_RELATIVE_PATH instead)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 endif
 
 ifneq ($(LOCAL_UNSTRIPPED_PATH),)
 ifneq ($(TARGET_2ND_ARCH),)
+<<<<<<< HEAD
 $(warning $(LOCAL_MODULE): LOCAL_UNSTRIPPED_PATH for shared libraries is unsupported in multiarch builds)
+=======
+$(error $(LOCAL_MODULE): LOCAL_UNSTRIPPED_PATH for shared libraries is unsupported in multiarch builds)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 endif
 endif # my_module_multilib == both
@@ -38,9 +46,12 @@ ifeq ($(my_module_arch_supported),true)
 OVERRIDE_BUILT_MODULE_PATH :=
 LOCAL_BUILT_MODULE :=
 LOCAL_INSTALLED_MODULE :=
+<<<<<<< HEAD
 LOCAL_MODULE_STEM :=
 LOCAL_BUILT_MODULE_STEM :=
 LOCAL_INSTALLED_MODULE_STEM :=
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 LOCAL_INTERMEDIATE_TARGETS :=
 
 include $(BUILD_SYSTEM)/shared_library_internal.mk

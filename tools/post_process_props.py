@@ -37,11 +37,20 @@ def mangle_default_prop(prop):
   # (this is for userdebug builds)
   if prop.get("ro.debuggable") == "1":
     val = prop.get("persist.sys.usb.config")
+<<<<<<< HEAD
     if val == "":
       val = "adb"
     else:
       val = val + ",adb"
     prop.put("persist.sys.usb.config", val)
+=======
+    if "adb" not in val:
+      if val == "":
+        val = "adb"
+      else:
+        val = val + ",adb"
+      prop.put("persist.sys.usb.config", val)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   # UsbDeviceManager expects a value here.  If it doesn't get it, it will
   # default to "adb". That might not the right policy there, but it's better
   # to be explicit.

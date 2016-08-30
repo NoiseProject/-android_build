@@ -193,11 +193,19 @@ include:"header.cs" ?>
 </div><!-- end doc-content -->
 
 <?cs include:"trailer.cs" ?>
+<<<<<<< HEAD
   <script src="https://developer.android.com/ytblogger_lists_unified.js" type="text/javascript"></script>
   <script src="<?cs var:toroot ?>jd_lists_unified.js?v=15" type="text/javascript"></script>
   <script src="<?cs var:toroot ?>jd_extras.js?v=15" type="text/javascript"></script>
   <script src="<?cs var:toroot ?>jd_collections.js?v=15" type="text/javascript"></script>
   <script src="<?cs var:toroot ?>jd_tag_helpers.js?v=15" type="text/javascript"></script>
+=======
+  <script src="https://developer.android.com/ytblogger_lists_unified.js?v=19" type="text/javascript"></script>
+  <script src="<?cs var:toroot ?>jd_lists_unified.js?v=19" type="text/javascript"></script>
+  <script src="<?cs var:toroot ?>jd_extras.js?v=19" type="text/javascript"></script>
+  <script src="<?cs var:toroot ?>jd_collections.js?v=19" type="text/javascript"></script>
+  <script src="<?cs var:toroot ?>jd_tag_helpers.js?v=19" type="text/javascript"></script>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 </body>
 </html>

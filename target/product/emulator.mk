@@ -26,6 +26,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     egl.cfg \
     gralloc.goldfish \
+<<<<<<< HEAD
+=======
+    gralloc.ranchu \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     libGLESv1_CM_emulation \
     lib_renderControl_enc \
     libEGL_emulation \
@@ -38,8 +42,16 @@ PRODUCT_PACKAGES += \
     qemud \
     camera.goldfish \
     camera.goldfish.jpeg \
+<<<<<<< HEAD
     lights.goldfish \
     gps.goldfish \
+=======
+    camera.ranchu \
+    camera.ranchu.jpeg \
+    lights.goldfish \
+    gps.goldfish \
+    gps.ranchu \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     fingerprint.goldfish \
     sensors.goldfish \
     audio.primary.goldfish \
@@ -50,11 +62,23 @@ PRODUCT_PACKAGES += \
     sensors.ranchu
 
 PRODUCT_COPY_FILES += \
+<<<<<<< HEAD
     frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml \
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     device/generic/goldfish/fstab.goldfish:root/fstab.goldfish \
     device/generic/goldfish/init.goldfish.rc:root/init.goldfish.rc \
     device/generic/goldfish/init.goldfish.sh:system/etc/init.goldfish.sh \
     device/generic/goldfish/ueventd.goldfish.rc:root/ueventd.goldfish.rc \
     device/generic/goldfish/init.ranchu.rc:root/init.ranchu.rc \
     device/generic/goldfish/fstab.ranchu:root/fstab.ranchu \
+<<<<<<< HEAD
     device/generic/goldfish/ueventd.ranchu.rc:root/ueventd.ranchu.rc
+=======
+    device/generic/goldfish/ueventd.ranchu.rc:root/ueventd.ranchu.rc \
+    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml
+
+PRODUCT_PACKAGE_OVERLAYS := device/generic/goldfish/overlay
+
+PRODUCT_CHARACTERISTICS := emulator
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143

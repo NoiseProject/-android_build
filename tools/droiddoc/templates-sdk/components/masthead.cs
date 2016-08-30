@@ -80,7 +80,11 @@
         <?cs call:header_search_widget() ?>
         <?cs /if ?>
 
+<<<<<<< HEAD
         <?cs if:ndk ?><a class="dac-header-console-btn" href="http://developer.android.com">
+=======
+        <?cs if:ndk ?><a class="dac-header-console-btn" href="//developer.android.com">
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
           <span class="dac-visible-desktop-inline">Back to Android Developers</span>
         </a><?cs else ?><a class="dac-header-console-btn" href="https://play.google.com/apps/publish/">
           <span class="dac-sprite dac-google-play"></span>
@@ -140,7 +144,11 @@
   </nav>
   <!-- end NDK navigation-->
   <?cs else ?>
+<<<<<<< HEAD
   <!-- Navigation-->
+=======
+  <!-- Standard DAC Navigation-->
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   <nav class="dac-nav">
     <div class="dac-nav-dimmer" data-dac-toggle-nav></div>
 
@@ -151,8 +159,37 @@
                srcset="<?cs var:toroot ?>assets/images/android_logo@2x.png 2x"
                width="32" height="36" alt="Android" /> Developers
         </a>
+<<<<<<< HEAD
       </li>
       <li class="dac-nav-item home">
+=======
+      </li><?cs
+      #
+      # For the reference only docs, include just one tab
+      #
+      ?><?cs if:referenceonly ?>
+      <li class="dac-nav-item develop">
+        <a class="dac-nav-link has-subnav" href="<?cs var:toroot ?>reference/packages.html" zh-tw-lang="參考資源"
+        zh-cn-lang="参考" ru-lang="Справочник" ko-lang="참조문서" ja-lang="リファレンス"
+        es-lang="Referencia">API Reference</a>
+      <div class="dac-nav-secondary develop">
+        <h1 style="font-size: 20px; line-height: 24px; margin: 20px; color:#444"
+          ><?cs
+          if:sdk.preview
+            ?>Android <?cs var:sdk.codename ?>
+              Preview <?cs var:sdk.preview.version ?><?cs
+          else
+            ?>Android <?cs var:sdk.version ?>
+              r<?cs var:sdk.rel.id ?><?cs
+          /if ?></h1>
+      </div>
+      </li>
+      <?cs else ?><?cs
+      #
+      # End reference only docs, now the online DAC tabs...
+      #
+      ?><li class="dac-nav-item home">
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
         <a class="dac-nav-link dac-visible-mobile-block" href="<?cs var:toroot ?>index.html">Home</a>
         <ul class="dac-nav-secondary about">
           <li class="dac-nav-item about">
@@ -228,8 +265,12 @@
           <?cs if:android.hasSamples ?>
           <li class="dac-nav-item samples">
             <a class="dac-nav-link" href="<?cs var:toroot ?>samples/index.html">Samples</a>
+<<<<<<< HEAD
           </li>
           <?cs /if ?>
+=======
+          </li><?cs /if ?>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
           <li class="dac-nav-item preview">
             <a class="dac-nav-link" href="<?cs var:toroot ?>preview/index.html">Preview</a>
           </li>
@@ -262,7 +303,16 @@
             <a class="dac-nav-link" href="<?cs var:toroot ?>distribute/stories/index.html">Stories</a>
           </li>
         </ul>
+<<<<<<< HEAD
       </li>
+=======
+      </li><?cs
+      /if ?><?cs
+      #
+      # End if/else reference only docs
+      #
+      ?>
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     </ul>
   </nav>
   <!-- end navigation-->
@@ -281,7 +331,11 @@
     <div style="height:20px"><!-- spacer to bump header down --></div>
     <div id="butterbar-wrapper">
       <div id="butterbar">
+<<<<<<< HEAD
         <a href="http://googleblog.blogspot.com/" id="butterbar-message">
+=======
+        <a href="//googleblog.blogspot.com/" id="butterbar-message">
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
           The Android 5.0 SDK will be available on October 17th!
         </a>
       </div>

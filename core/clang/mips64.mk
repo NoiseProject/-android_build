@@ -12,8 +12,19 @@ CLANG_CONFIG_mips64_UNKNOWN_CFLAGS := \
   -frerun-cse-after-loop \
   -frename-registers \
   -msynci \
+<<<<<<< HEAD
   -mno-fused-madd
 
+=======
+  -mno-synci \
+  -mno-fused-madd
+
+# Temporary workaround for Mips clang++ problem creating
+#   relocated ptrs in read-only pic .gcc_exception_table;
+#   permanent fix pending at http://reviews.llvm.org/D9669
+CLANG_CONFIG_mips64_UNKNOWN_CFLAGS += -Wl,--warn-shared-textrel
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # We don't have any mips64 flags to substitute yet.
 define subst-clang-incompatible-mips64-flags
   $(1)

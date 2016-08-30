@@ -36,6 +36,7 @@ PRODUCT_PACKAGES += \
     power.default
 
 PRODUCT_PACKAGES += \
+<<<<<<< HEAD
     local_time.default
 
 PRODUCT_PACKAGES += \
@@ -43,6 +44,17 @@ PRODUCT_PACKAGES += \
     DefaultContainerService \
     SettingsProvider \
     Shell \
+=======
+    BackupRestoreConfirmation \
+    CtsShimPrebuilt \
+    CtsShimPrivPrebuilt \
+    DefaultContainerService \
+    ExtShared \
+    ExtServices \
+    SettingsProvider \
+    Shell \
+    WallpaperBackup \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     bcc \
     bu \
     com.android.location.provider \
@@ -57,13 +69,20 @@ PRODUCT_PACKAGES += \
     gatekeeperd \
     keystore \
     keystore.default \
+<<<<<<< HEAD
+=======
+    ld.mc \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     libOpenMAXAL \
     libOpenSLES \
     libdownmix \
     libfilterfw \
     libgatekeeper \
     libkeystore \
+<<<<<<< HEAD
     libsqlite_jni \
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     libwilhelm \
     libdrmframework_jni \
     libdrmframework \
@@ -82,6 +101,10 @@ PRODUCT_PACKAGES += \
 
 # The order matters
 PRODUCT_BOOT_JARS := \
+<<<<<<< HEAD
+=======
+    core-oj \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     core-libart \
     conscrypt \
     okhttp \
@@ -109,6 +132,29 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.carrier=unknown
 
+<<<<<<< HEAD
+=======
+# Different dexopt types for different package update/install times.
+# On eng builds, make "boot" reasons do pure JIT for faster turnaround.
+ifeq (eng,$(TARGET_BUILD_VARIANT))
+    PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+        pm.dexopt.first-boot=verify-at-runtime \
+        pm.dexopt.boot=verify-at-runtime
+else
+    PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+        pm.dexopt.first-boot=interpret-only \
+        pm.dexopt.boot=verify-profile
+endif
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    pm.dexopt.install=interpret-only \
+    pm.dexopt.bg-dexopt=speed-profile \
+    pm.dexopt.ab-ota=speed-profile \
+    pm.dexopt.nsys-library=speed \
+    pm.dexopt.shared-apk=speed \
+    pm.dexopt.forced-dexopt=speed \
+    pm.dexopt.core-app=speed
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(call inherit-product, $(SRC_TARGET_DIR)/product/runtime_libart.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
 $(call inherit-product-if-exists, frameworks/base/data/fonts/fonts.mk)

@@ -36,6 +36,13 @@ HOST_TOOLCHAIN_PREFIX := $(HOST_TOOLCHAIN_ROOT)/bin/i686-apple-darwin$(gcc_darwi
 HOST_CC  := $(HOST_TOOLCHAIN_PREFIX)-gcc
 HOST_CXX := $(HOST_TOOLCHAIN_PREFIX)-g++
 
+<<<<<<< HEAD
+=======
+define $(combo_var_prefix)transform-shared-lib-to-toc
+$(call _gen_toc_command_for_macho,$(1),$(2))
+endef
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # gcc location for clang; to be updated when clang is updated
 # HOST_TOOLCHAIN_ROOT is a Darwin-specific define
 HOST_TOOLCHAIN_FOR_CLANG := $(HOST_TOOLCHAIN_ROOT)
@@ -52,9 +59,12 @@ HOST_NO_UNDEFINED_LDFLAGS := -Wl,-undefined,error
 HOST_SHLIB_SUFFIX := .dylib
 HOST_JNILIB_SUFFIX := .jnilib
 
+<<<<<<< HEAD
 HOST_GLOBAL_CFLAGS += \
     -include $(call select-android-config-h,darwin-x86)
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 HOST_GLOBAL_ARFLAGS := cqs
 
 # We Reuse the following functions with the same name from HOST_darwin-x86.mk:

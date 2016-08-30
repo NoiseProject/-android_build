@@ -1630,7 +1630,14 @@ function search_changed(e, kd, toroot)
             } else {
               // otherwise, results are already showing, so allow ajax to auto refresh the results
               // and ignore this Enter press to avoid the reload.
+<<<<<<< HEAD
               return false;
+=======
+              // return false;
+              //
+              // For now, we're not using AJAX so we respond to every Enter.
+              return true;
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
             }
         } else if (kd && gSelectedIndex >= 0) {
             window.location = $("a",$('#search_filtered li')[gSelectedIndex]).attr("href");
@@ -1691,6 +1698,14 @@ function search_changed(e, kd, toroot)
 
 
         // Search for Google matches
+<<<<<<< HEAD
+=======
+        /*
+         *  Commented this out because GOOGLE_DATA not defined for us and code
+         *  causes an error.  This probably has to do with the missing
+         *  gms_lists.js file in SAC. TODO figure it all out.
+         *
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
         for (var i=0; i<GOOGLE_DATA.length; i++) {
             var s = GOOGLE_DATA[i];
             if (text.length != 0 &&
@@ -1703,6 +1718,10 @@ function search_changed(e, kd, toroot)
         for (var i=0; i<gGoogleMatches.length; i++) {
             var s = gGoogleMatches[i];
         }
+<<<<<<< HEAD
+=======
+        */
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
         highlight_autocomplete_result_labels(text);
         sync_selection_table(toroot);
@@ -1830,16 +1849,24 @@ function hideResults() {
   $("#search_autocomplete").val("").blur();
 
   // reset the ajax search callback to nothing, so results don't appear unless ENTER
+<<<<<<< HEAD
   searchControl.setSearchStartingCallback(this, function(control, searcher, query) {});
+=======
+  //  searchControl.setSearchStartingCallback(this, function(control, searcher, query) {});
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   return false;
 }
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 /* ########################################################## */
 /* ################  CUSTOM SEARCH ENGINE  ################## */
 /* ########################################################## */
 
+<<<<<<< HEAD
 google.load('search', '1');
 var searchControl;
 
@@ -1905,6 +1932,131 @@ function loadSearchResults() {
 
   // get query and execute the search
   searchControl.execute(decodeURI(getQuery(location.hash)));
+=======
+// TODO, add localized search.
+function getLangPref() {
+  return "en";
+}
+
+// Package of functions that does custom search, from DAC redesign.
+(function($) {
+  var LANG;
+
+  function getSearchLang() {
+    if (!LANG) {
+      LANG = getLangPref();
+
+      // Fix zh-cn to be zh-CN.
+      LANG = LANG.replace(/-\w+/, function(m) { return m.toUpperCase(); });
+    }
+    return LANG;
+  }
+
+  function customSearch(query, start) {
+    var searchParams = {
+      // Keys for SAC
+      cx:'016258643462168859875:qqpm8fiwgc0',
+      key: 'AIzaSyBOWHD3JAF6Q9LIJ4NiahGAF70W7iDAI9M',
+
+      // Keys for DAC
+      // cx: '000521750095050289010:zpcpi1ea4s8',
+      // key: 'AIzaSyCFhbGnjW06dYwvRCU8h_zjdpS4PYYbEe8',
+
+      q: query,
+      start: start || 1,
+      num: 6,
+      hl: getSearchLang(),
+      fields: 'queries,items(pagemap,link,title,htmlSnippet,formattedUrl)'
+    };
+
+    return $.get('https://content.googleapis.com/customsearch/v1?' +  $.param(searchParams));
+  }
+
+  function renderResults(el, results) {
+    if (!results.items) {
+      el.append($('<div>').text('No results'));
+      return;
+    }
+
+    for (var i = 0; i < results.items.length; i++) {
+      var item = results.items[i];
+      // No thumbnail images in SAC.
+      // var hasImage = item.pagemap && item.pagemap.cse_thumbnail;
+      var sectionMatch = item.link.match(/source\.android\.com\/(\w*)/);
+      var section = (sectionMatch && sectionMatch[1]) || 'blog';
+
+      var entry = $('<div>').addClass('dac-custom-search-entry cols');
+
+// No thumbnail images in SAC.
+//      if (hasImage) {
+//        var image = item.pagemap.cse_thumbnail[0];
+//        entry.append($('<div>').addClass('col-1of6')
+//          .append($('<div>').addClass('dac-custom-search-image').css('background-image', 'url(' + image.src + ')')));
+//      }
+// entry.append($('<div>').addClass(hasImage ? 'col-5of6' : 'col-6of6')
+      entry.append($('<div>')
+        .append($('<p>').addClass('dac-custom-search-section').text(section))
+        .append(
+          $('<a>').text(item.title).attr('href', item.link).wrap('<h2>').parent().addClass('dac-custom-search-title')
+        )
+        .append($('<p>').addClass('dac-custom-search-snippet').html(item.htmlSnippet.replace(/<br>/g, '')))
+        .append($('<a>').addClass('dac-custom-search-link').text(item.formattedUrl).attr('href', item.link)));
+
+      el.append(entry);
+    }
+
+    if (results.queries.nextPage) {
+      var loadMoreButton = $('<button id="dac-custom-search-load-more">')
+        .addClass('dac-custom-search-load-more')
+        .text('Load more')
+        .click(function() {
+          loadMoreResults(el, results);
+        });
+
+      el.append(loadMoreButton);
+    }
+  }
+
+  function loadMoreResults(el, results) {
+    var query = results.queries.request.searchTerms;
+    var start = results.queries.nextPage.startIndex;
+    var loadMoreButton = el.find('#dac-custom-search-load-more');
+
+    loadMoreButton.text('Loading more...');
+
+    customSearch(query, start).then(function(results) {
+      loadMoreButton.remove();
+      renderResults(el, results);
+    });
+  }
+
+  $.fn.customSearch = function(query) {
+    var el = $(this);
+
+    customSearch(query).then(function(results) {
+      el.empty();
+      renderResults(el, results);
+    });
+  };
+})(jQuery);
+
+
+function loadSearchResults() {
+
+  // Draw the search results box
+  //searchControl.draw(document.getElementById("leftSearchControl"), drawOptions);
+  $(searchResults).append('<div class="leftSearchControl"></div>');
+
+
+  // Refresh the url and search title
+  var query = document.getElementById('search_autocomplete').value || getQuery(location.hash);
+  updateResultTitle(query);
+  location.hash = 'q=' + query;
+
+  // get query and execute the search
+  //searchControl.execute(decodeURI(getQuery(location.hash)));
+  $(leftSearchControl).customSearch(getQuery(location.hash));
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   document.getElementById("search_autocomplete").focus();
   addTabListeners();
@@ -1912,7 +2064,13 @@ function loadSearchResults() {
 // End of loadSearchResults
 
 google.setOnLoadCallback(function(){
+<<<<<<< HEAD
   if (location.hash.indexOf("q=") == -1) {
+=======
+
+  var query = decodeURI(getQuery(location.hash));
+  if (location.hash.indexOf("q=") == -1 || query == '') {
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     // if there's no query in the url, don't search and make sure results are hidden
     $('#searchResults').hide();
     return;
@@ -1937,7 +2095,12 @@ $(window).hashchange( function(){
 
   // Otherwise, we have a search to do
   var query = decodeURI(getQuery(location.hash));
+<<<<<<< HEAD
   searchControl.execute(query);
+=======
+  //searchControl.execute(query);
+  $('#leftSearchControl').customSearch(query);
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
   $('#searchResults').slideDown('slow');
   $("#search_autocomplete").focus();
   $(".search .close").removeClass("hide");
@@ -1946,7 +2109,11 @@ $(window).hashchange( function(){
 });
 
 function updateResultTitle(query) {
+<<<<<<< HEAD
   $("#searchTitle").html("Results for <em>" + escapeHTML(query) + "</em>");
+=======
+  $("#searchTitle").html("Results for <em>" + encodeURIComponent(query) + "</em>");
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 // forcefully regain key-up event control (previously jacked by search api)
@@ -1983,6 +2150,7 @@ function getQuery(hash) {
   return queryParts[1];
 }
 
+<<<<<<< HEAD
 /* returns the given string with all HTML brackets converted to entities
     TODO: move this to the site's JS library */
 function escapeHTML(string) {
@@ -1995,6 +2163,8 @@ function escapeHTML(string) {
 
 
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 /* ######################################################## */
 /* #################  JAVADOC REFERENCE ################### */
@@ -2077,7 +2247,13 @@ function buildApiLevelSelector() {
 
   // get the DOM element and use setAttribute cuz IE6 fails when using jquery .attr('selected',true)
   var selectedLevelItem = $("#apiLevelSelector option[value='"+userApiLevel+"']").get(0);
+<<<<<<< HEAD
   selectedLevelItem.setAttribute('selected',true);
+=======
+//  Another piece of functionality that we don't use that produces an error.
+//  TODO figure it all out.
+//  selectedLevelItem.setAttribute('selected',true);
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function changeApiLevel() {

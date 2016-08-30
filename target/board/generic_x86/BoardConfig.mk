@@ -18,9 +18,12 @@ BOARD_USES_GENERIC_AUDIO := true
 # no hardware camera
 USE_CAMERA_STUB := true
 
+<<<<<<< HEAD
 # customize the malloced address to be 16-byte aligned
 BOARD_MALLOC_ALIGNMENT := 16
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Enable dex-preoptimization to speed up the first boot sequence
 # of an SDK AVD. Note that this operation only works on Linux for now
 ifeq ($(HOST_OS),linux)
@@ -35,7 +38,11 @@ BUILD_EMULATOR_OPENGL := true
 USE_OPENGL_RENDERER := true
 
 TARGET_USERIMAGES_USE_EXT4 := true
+<<<<<<< HEAD
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1342177280  # 1.25 GB
+=======
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610612736
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 576716800
 BOARD_CACHEIMAGE_PARTITION_SIZE := 69206016
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4

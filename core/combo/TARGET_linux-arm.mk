@@ -20,8 +20,12 @@
 # You can set TARGET_ARCH_VARIANT to use an arch version other
 # than ARMv5TE. Each value should correspond to a file named
 # $(BUILD_COMBOS)/arch/<name>.mk which must contain
+<<<<<<< HEAD
 # makefile variable definitions similar to the preprocessor
 # defines in build/core/combo/include/arch/<combo>/AndroidConfig.h. Their
+=======
+# makefile variable definitions. Their
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # purpose is to allow module Android.mk files to selectively compile
 # different versions of code based upon the funtionality and
 # instructions available in a given architecture version.
@@ -39,7 +43,10 @@ $(combo_2nd_arch_prefix)TARGET_NDK_GCC_VERSION := 4.9
 
 ifeq ($(strip $(TARGET_GCC_VERSION_EXP)),)
 $(combo_2nd_arch_prefix)TARGET_GCC_VERSION := 4.9
+<<<<<<< HEAD
 $(combo_2nd_arch_prefix)TARGET_LEGACY_GCC_VERSION := 4.8
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 else
 $(combo_2nd_arch_prefix)TARGET_GCC_VERSION := $(TARGET_GCC_VERSION_EXP)
 endif
@@ -58,6 +65,7 @@ $(combo_2nd_arch_prefix)TARGET_TOOLCHAIN_ROOT := prebuilts/gcc/$(HOST_PREBUILT_T
 $(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX := $($(combo_2nd_arch_prefix)TARGET_TOOLCHAIN_ROOT)/bin/arm-linux-androideabi-
 endif
 
+<<<<<<< HEAD
 $(combo_2nd_arch_prefix)TARGET_CC := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX)
 $(combo_2nd_arch_prefix)TARGET_CXX := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)g++$(HOST_EXECUTABLE_SUFFIX)
 $(combo_2nd_arch_prefix)TARGET_AR := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)ar$(HOST_EXECUTABLE_SUFFIX)
@@ -65,6 +73,20 @@ $(combo_2nd_arch_prefix)TARGET_OBJCOPY := $($(combo_2nd_arch_prefix)TARGET_TOOLS
 $(combo_2nd_arch_prefix)TARGET_LD := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)ld$(HOST_EXECUTABLE_SUFFIX)
 $(combo_2nd_arch_prefix)TARGET_READELF := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)readelf$(HOST_EXECUTABLE_SUFFIX)
 $(combo_2nd_arch_prefix)TARGET_STRIP := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)strip$(HOST_EXECUTABLE_SUFFIX)
+=======
+$(combo_2nd_arch_prefix)TARGET_CC := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)gcc
+$(combo_2nd_arch_prefix)TARGET_CXX := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)g++
+$(combo_2nd_arch_prefix)TARGET_AR := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)ar
+$(combo_2nd_arch_prefix)TARGET_OBJCOPY := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)objcopy
+$(combo_2nd_arch_prefix)TARGET_LD := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)ld
+$(combo_2nd_arch_prefix)TARGET_READELF := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)readelf
+$(combo_2nd_arch_prefix)TARGET_STRIP := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)strip
+$(combo_2nd_arch_prefix)TARGET_NM := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)nm
+
+define $(combo_var_prefix)transform-shared-lib-to-toc
+$(call _gen_toc_command_for_elf,$(1),$(2))
+endef
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 $(combo_2nd_arch_prefix)TARGET_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 
@@ -93,14 +115,21 @@ ifeq ($(FORCE_ARM_DEBUGGING),true)
   $(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS += -marm -fno-omit-frame-pointer
 endif
 
+<<<<<<< HEAD
 android_config_h := $(call select-android-config-h,linux-arm)
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += \
 			-msoft-float \
 			-ffunction-sections \
 			-fdata-sections \
 			-funwind-tables \
+<<<<<<< HEAD
 			-fstack-protector \
+=======
+			-fstack-protector-strong \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 			-Wa,--noexecstack \
 			-Werror=format-security \
 			-D_FORTIFY_SOURCE=2 \
@@ -108,8 +137,11 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += \
 			-no-canonical-prefixes \
 			-fno-canonical-system-headers \
 			$(arch_variant_cflags) \
+<<<<<<< HEAD
 			-include $(android_config_h) \
 			-I $(dir $(android_config_h))
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # The "-Wunused-but-set-variable" option often breaks projects that enable
 # "-Wall -Werror" due to a commom idiom "ALOGV(mesg)" where ALOGV is turned
@@ -139,6 +171,10 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_LDFLAGS += \
 			-Wl,--fatal-warnings \
 			-Wl,--icf=safe \
 			-Wl,--hash-style=gnu \
+<<<<<<< HEAD
+=======
+			-Wl,--no-undefined-version \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 			$(arch_variant_ldflags)
 
 $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += -mthumb-interwork
@@ -172,6 +208,10 @@ $(combo_2nd_arch_prefix)TARGET_LIBGCOV := $(shell $($(combo_2nd_arch_prefix)TARG
 endif
 
 KERNEL_HEADERS_COMMON := $(libc_root)/kernel/uapi
+<<<<<<< HEAD
+=======
+KERNEL_HEADERS_COMMON += $(libc_root)/kernel/common
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 KERNEL_HEADERS_ARCH   := $(libc_root)/kernel/uapi/asm-$(TARGET_$(combo_2nd_arch_prefix)ARCH)
 KERNEL_HEADERS := $(KERNEL_HEADERS_COMMON) $(KERNEL_HEADERS_ARCH)
 
@@ -191,6 +231,9 @@ $(combo_2nd_arch_prefix)TARGET_CRTEND_SO_O := $($(combo_2nd_arch_prefix)TARGET_O
 
 $(combo_2nd_arch_prefix)TARGET_PACK_MODULE_RELOCATIONS := true
 
+<<<<<<< HEAD
 $(combo_2nd_arch_prefix)TARGET_DEFAULT_SYSTEM_SHARED_LIBRARIES := libc libm
 
+=======
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(combo_2nd_arch_prefix)TARGET_LINKER := /system/bin/linker

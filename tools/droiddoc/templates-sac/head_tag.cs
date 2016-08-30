@@ -46,6 +46,11 @@ else
 <script src="<?cs var:toroot ?>navtree_data.js" async type="text/javascript"></script>
 <?cs /if ?>
 
+<<<<<<< HEAD
+=======
+<script type="text/javascript" src="//www.gstatic.com/feedback/api.js"></script>
+
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 <script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-45455297-1']);

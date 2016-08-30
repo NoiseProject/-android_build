@@ -23,6 +23,10 @@ PRODUCT_PROPERTY_OVERRIDES := \
 PRODUCT_PACKAGES += \
     ContactsProvider \
     DefaultContainerService \
+<<<<<<< HEAD
+=======
+    Home \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
     TelephonyProvider \
     UserDictionaryProvider \
     atrace \

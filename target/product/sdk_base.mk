@@ -18,9 +18,15 @@ PRODUCT_PROPERTY_OVERRIDES :=
 
 PRODUCT_PACKAGES := \
 	ApiDemos \
+<<<<<<< HEAD
 	CustomLocale \
 	Development \
 	DevelopmentSettings \
+=======
+	CubeLiveWallpapers \
+	CustomLocale \
+	Development \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	Dialer \
 	EmulatorSmokeTests \
 	Fallback \
@@ -29,8 +35,19 @@ PRODUCT_PACKAGES := \
 	Launcher3 \
 	LegacyCamera \
 	librs_jni \
+<<<<<<< HEAD
 	LiveWallpapersPicker \
 	Mms \
+=======
+	libwnndict \
+	libWnnEngDic \
+	libWnnJpnDic \
+	LiveWallpapersPicker \
+	Mms \
+	Music \
+	OpenWnn \
+	Protips \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	rild \
 	SdkSetup \
 	SmokeTest \
@@ -38,6 +55,10 @@ PRODUCT_PACKAGES := \
 	SoftKeyboard \
 	sqlite3 \
 	SystemUI \
+<<<<<<< HEAD
+=======
+	EasterEgg \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	WidgetPreview
 
 # Define the host tools and libs that are parts of the SDK.
@@ -54,8 +75,15 @@ PRODUCT_PACKAGE_OVERLAYS := development/sdk_overlay
 
 PRODUCT_COPY_FILES := \
 	device/generic/goldfish/data/etc/apns-conf.xml:system/etc/apns-conf.xml \
+<<<<<<< HEAD
 	frameworks/base/data/sounds/effects/camera_click.ogg:system/media/audio/ui/camera_click.ogg \
 	frameworks/base/data/sounds/effects/VideoRecord.ogg:system/media/audio/ui/VideoRecord.ogg \
+=======
+	device/sample/etc/old-apns-conf.xml:system/etc/old-apns-conf.xml \
+	frameworks/base/data/sounds/effects/camera_click.ogg:system/media/audio/ui/camera_click.ogg \
+	frameworks/base/data/sounds/effects/VideoRecord.ogg:system/media/audio/ui/VideoRecord.ogg \
+	frameworks/base/data/sounds/effects/VideoStop.ogg:system/media/audio/ui/VideoStop.ogg \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	device/generic/goldfish/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
 	device/generic/goldfish/camera/media_profiles.xml:system/etc/media_profiles.xml \
 	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
@@ -64,6 +92,10 @@ PRODUCT_COPY_FILES := \
 	device/generic/goldfish/camera/media_codecs.xml:system/etc/media_codecs.xml \
 	frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
 	frameworks/native/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
+<<<<<<< HEAD
+=======
+	frameworks/native/data/etc/android.hardware.fingerprint.xml:system/etc/permissions/android.hardware.fingerprint.xml \
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	frameworks/av/media/libeffects/data/audio_effects.conf:system/etc/audio_effects.conf \
 	hardware/libhardware_legacy/audio/audio_policy.conf:system/etc/audio_policy.conf
 

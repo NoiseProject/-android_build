@@ -95,6 +95,7 @@ def main(argv):
       # images, so build them.
       import add_img_to_target_files
 
+<<<<<<< HEAD
       OPTIONS.info_dict = common.LoadInfoDict(input_zip)
 
       # If this image was originally labelled with SELinux contexts,
@@ -105,15 +106,27 @@ def main(argv):
       if "selinux_fc" in OPTIONS.info_dict:
         OPTIONS.info_dict["selinux_fc"] = os.path.join(
             OPTIONS.input_tmp, "BOOT", "RAMDISK", "file_contexts")
+=======
+      OPTIONS.info_dict = common.LoadInfoDict(input_zip, OPTIONS.input_tmp)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
       boot_image = common.GetBootableImage(
           "boot.img", "boot.img", OPTIONS.input_tmp, "BOOT")
       if boot_image:
         boot_image.AddToZip(output_zip)
+<<<<<<< HEAD
       recovery_image = common.GetBootableImage(
           "recovery.img", "recovery.img", OPTIONS.input_tmp, "RECOVERY")
       if recovery_image:
         recovery_image.AddToZip(output_zip)
+=======
+
+      if OPTIONS.info_dict.get("no_recovery") != "true":
+        recovery_image = common.GetBootableImage(
+            "recovery.img", "recovery.img", OPTIONS.input_tmp, "RECOVERY")
+        if recovery_image:
+          recovery_image.AddToZip(output_zip)
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
       def banner(s):
         print "\n\n++++ " + s + " ++++\n\n"

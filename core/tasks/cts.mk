@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Copyright (C) 2008 The Android Open Source Project
+=======
+# Copyright (C) 2015 The Android Open Source Project
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+<<<<<<< HEAD
 cts_dir := $(HOST_OUT)/cts
 cts_tools_src_dir := cts/tools
 
@@ -393,3 +398,18 @@ $(INTERNAL_CTS_TARGET): $(cts_dir)/all_cts_files_stamp $(DEFAULT_TEST_PLAN)
 cts: $(INTERNAL_CTS_TARGET) adb
 $(call dist-for-goals,cts,$(INTERNAL_CTS_TARGET))
 
+=======
+test_suite_name := cts
+test_suite_tradefed := cts-tradefed
+test_suite_dynamic_config := cts/tools/cts-tradefed/DynamicConfig.xml
+test_suite_readme := cts/tools/cts-tradefed/README
+
+include $(BUILD_SYSTEM)/tasks/tools/compatibility.mk
+
+.PHONY: cts
+cts: $(compatibility_zip)
+$(call dist-for-goals, cts, $(compatibility_zip))
+
+.PHONY: cts_v2
+cts_v2: cts
+>>>>>>> 17e1629562b7e4d904408218673da918eb585143
