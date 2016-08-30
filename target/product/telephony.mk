@@ -21,11 +21,8 @@ PRODUCT_PACKAGES := \
     CarrierConfig \
     Dialer \
     CallLogBackup \
-<<<<<<< HEAD
-=======
     CellBroadcastReceiver \
     EmergencyInfo \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     rild
 
 PRODUCT_COPY_FILES := \

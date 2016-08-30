@@ -1,30 +1,3 @@
-<<<<<<< HEAD
-<?cs include:"doctype.cs" ?>
-<?cs include:"macros.cs" ?>
-<?cs include:"macros_override.cs" ?>
-<html<?cs if:devsite ?> devsite<?cs /if ?>>
-<?cs include:"head_tag.cs" ?>
-<body class="gc-documentation <?cs if:(reference.gms || reference.gcm) ?>google<?cs /if ?>
-  <?cs if:(guide||develop||training||reference||tools||sdk) ?>develop<?cs
-    if:reference ?> reference<?cs
-    /if ?><?cs
-  elif:design ?>design<?cs
-  elif:distribute ?>distribute<?cs
-  /if ?>" itemscope itemtype="http://schema.org/Article">
-  <a name="top"></a>
-<?cs include:"header.cs" ?>
-
-<div class="col-12" id="doc-col">
-
-<div id="jd-header">
-<h1><?cs var:page.title ?></h1>
-</div>
-
-<div id="jd-content">
-<p>These are the Android API classes. See all <a href="packages.html">API packages</a>.</p>
-<div class="jd-letterlist"><?cs each:letter=docs.classes ?>
-    <a href="#letter_<?cs name:letter ?>"><?cs name:letter ?></a>&nbsp;&nbsp;<?cs /each?>
-=======
 <?cs # THIS CREATES A LIST OF ALL PACKAGES AND NAMES IT packages.html ?>
 <?cs include:"macros.cs" ?>
 <?cs include:"macros_override.cs" ?>
@@ -43,17 +16,12 @@
     <a href="#letter_<?cs name:letter ?>"><?cs
       name:letter ?></a>&nbsp;&nbsp;<?cs
   /each?>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 </div>
 
 <?cs each:letter=docs.classes ?>
 <?cs set:count = #1 ?>
 <h2 id="letter_<?cs name:letter ?>"><?cs name:letter ?></h2>
-<<<<<<< HEAD
-<table class="jd-sumtable">
-=======
 <table>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     <?cs set:cur_row = #0 ?>
     <?cs each:cl = letter ?>
         <tr class="<?cs if:count % #2 ?>alt-color<?cs /if ?> api apilevel-<?cs var:cl.since ?>" >
@@ -68,16 +36,6 @@
 </table>
 <?cs /each ?>
 
-<<<<<<< HEAD
-<?cs include:"footer.cs" ?>
-</div><!-- end jd-content -->
-</div><!-- end doc-content -->
-
-<?cs include:"trailer.cs" ?>
-
-</body>
-</html>
-=======
 <?cs if:devsite ?>
 <div class="data-reference-resources-wrapper">
   <?cs if:subcount(class.package) ?>
@@ -109,4 +67,3 @@
 <?cs /if ?>
 </body>
 </html>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

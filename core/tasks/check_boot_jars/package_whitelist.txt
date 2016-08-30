@@ -2,11 +2,7 @@
 # Each line is interpreted as a regular expression.
 
 ###################################################
-<<<<<<< HEAD
-# core-libart.jar
-=======
 # core-libart.jar & core-oj.jar
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 java\.awt\.font
 java\.beans
 java\.io
@@ -17,12 +13,9 @@ java\.lang\.reflect
 java\.math
 java\.net
 java\.nio
-<<<<<<< HEAD
-=======
 java\.nio\.file
 java\.nio\.file\.spi
 java\.nio\.file\.attribute
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 java\.nio\.channels
 java\.nio\.channels\.spi
 java\.nio\.charset
@@ -34,27 +27,18 @@ java\.security\.interfaces
 java\.security\.spec
 java\.sql
 java\.text
-<<<<<<< HEAD
-=======
 java\.text\.spi
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 java\.util
 java\.util\.concurrent
 java\.util\.concurrent\.atomic
 java\.util\.concurrent\.locks
-<<<<<<< HEAD
-=======
 java\.util\.function
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 java\.util\.jar
 java\.util\.logging
 java\.util\.prefs
 java\.util\.regex
-<<<<<<< HEAD
-=======
 java\.util\.spi
 java\.util\.stream
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 java\.util\.zip
 javax\.crypto
 javax\.crypto\.interfaces
@@ -77,12 +61,6 @@ javax\.xml\.transform\.sax
 javax\.xml\.transform\.stream
 javax\.xml\.validation
 javax\.xml\.xpath
-<<<<<<< HEAD
-sun\.misc
-org\.w3c\.dom
-org\.w3c\.dom\.ls
-org\.w3c\.dom\.traversal
-=======
 org\.w3c\.dom
 org\.w3c\.dom\.ls
 org\.w3c\.dom\.traversal
@@ -95,7 +73,6 @@ sun\.reflect.*
 sun\.nio.*
 sun\.net.*
 com\.sun\..*
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # TODO: Move these internal org.apache.harmony classes to libcore.*
 org\.apache\.harmony\.crypto\.internal

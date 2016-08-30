@@ -7,21 +7,12 @@
       Android Design<?cs if:page.title ?> - <?cs var:page.title ?><?cs /if ?>
     </title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic">
-    <link rel="stylesheet" href="<?cs var:toroot ?>assets/yui-3.3.0-reset-min.css">
-    <link rel="stylesheet" href="<?cs var:toroot ?>assets/design/default.css">
-    <script src="<?cs var:toroot ?>assets/jquery-1.6.2.min.js"></script>
-    <script>var SITE_ROOT = '<?cs var:toroot ?>design';</script>
-    <script src="<?cs var:toroot ?>assets/design/default.js"></script>
-=======
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic">
     <link rel="stylesheet" href="<?cs var:toroot ?>assets/yui-3.3.0-reset-min.css">
     <link rel="stylesheet" href="<?cs var:toroot ?>assets/design/default.css?v=19">
     <script src="<?cs var:toroot ?>assets/jquery-1.6.2.min.js"></script>
     <script>var SITE_ROOT = '<?cs var:toroot ?>design';</script>
     <script src="<?cs var:toroot ?>assets/design/default.js?v=19"></script>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   </head>
   <body class="gc-documentation 
     <?cs if:(guide||develop||training||reference||tools||sdk) ?>develop<?cs
@@ -79,18 +70,6 @@
 
         <p id="copyright">
           Except as noted, this content is licensed under
-<<<<<<< HEAD
-          <a href="http://creativecommons.org/licenses/by/2.5/">
-          Creative Commons Attribution 2.5</a>.<br>
-          For details and restrictions, see the
-          <a href="http://developer.android.com/license.html">Content License</a>.
-        </p>
-
-        <p>
-          <a href="http://www.android.com/terms.html">Site Terms of Service</a> &ndash;
-          <a href="http://www.android.com/privacy.html">Privacy Policy</a> &ndash;
-          <a href="http://www.android.com/branding.html">Brand Guidelines</a>
-=======
           <a href="//creativecommons.org/licenses/by/2.5/">
           Creative Commons Attribution 2.5</a>.<br>
           For details and restrictions, see the
@@ -101,7 +80,6 @@
           <a href="//www.android.com/terms.html">Site Terms of Service</a> &ndash;
           <a href="//www.android.com/privacy.html">Privacy Policy</a> &ndash;
           <a href="//www.android.com/branding.html">Brand Guidelines</a>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         </p>
 
       </div>

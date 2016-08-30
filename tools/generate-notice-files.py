@@ -99,11 +99,7 @@ def combine_notice_files_html(file_hash, input_dir, output_filename):
     # most browsers, but href's to table row ids do)
     id_table = {}
     id_count = 0
-<<<<<<< HEAD
-    for value in file_hash.values():
-=======
     for value in file_hash:
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         for filename in value:
              id_table[filename] = id_count
         id_count += 1
@@ -120,11 +116,7 @@ def combine_notice_files_html(file_hash, input_dir, output_filename):
     print >> output_file, "<ul>"
 
     # Flatten the list of lists into a single list of filenames
-<<<<<<< HEAD
-    sorted_filenames = sorted(itertools.chain.from_iterable(file_hash.values()))
-=======
     sorted_filenames = sorted(itertools.chain.from_iterable(file_hash))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     # Print out a nice table of contents
     for filename in sorted_filenames:
@@ -135,19 +127,11 @@ def combine_notice_files_html(file_hash, input_dir, output_filename):
     print >> output_file, "</div><!-- table of contents -->"
     # Output the individual notice file lists
     print >>output_file, '<table cellpadding="0" cellspacing="0" border="0">'
-<<<<<<< HEAD
-    for value in file_hash.values():
-        print >> output_file, '<tr id="id%d"><td class="same-license">' % id_table.get(value[0])
-        print >> output_file, '<div class="label">Notices for file(s):</div>'
-        print >> output_file, '<div class="file-list">'
-        for filename in sorted(value):
-=======
     for value in file_hash:
         print >> output_file, '<tr id="id%d"><td class="same-license">' % id_table.get(value[0])
         print >> output_file, '<div class="label">Notices for file(s):</div>'
         print >> output_file, '<div class="file-list">'
         for filename in value:
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
             print >> output_file, "%s <br/>" % (SRC_DIR_STRIP_RE.sub(r"\1", filename))
         print >> output_file, "</div><!-- file-list -->"
         print >> output_file
@@ -170,17 +154,10 @@ def combine_notice_files_text(file_hash, input_dir, output_filename, file_title)
     SRC_DIR_STRIP_RE = re.compile(input_dir + "(/.*).txt")
     output_file = open(output_filename, "wb")
     print >> output_file, file_title
-<<<<<<< HEAD
-    for value in file_hash.values():
-      print >> output_file, "============================================================"
-      print >> output_file, "Notices for file(s):"
-      for filename in sorted(value):
-=======
     for value in file_hash:
       print >> output_file, "============================================================"
       print >> output_file, "Notices for file(s):"
       for filename in value:
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         print >> output_file, SRC_DIR_STRIP_RE.sub(r"\1", filename)
       print >> output_file, "------------------------------------------------------------"
       print >> output_file, open(value[0]).read()
@@ -201,20 +178,12 @@ def main(args):
                 file_md5sum = md5sum(filename)
                 files_with_same_hash[file_md5sum].append(filename)
 
-<<<<<<< HEAD
-
-    print "Combining NOTICE files into HTML"
-    combine_notice_files_html(files_with_same_hash, input_dir, html_output_file)
-    print "Combining NOTICE files into text"
-    combine_notice_files_text(files_with_same_hash, input_dir, txt_output_file, file_title)
-=======
     filesets = [sorted(files_with_same_hash[md5]) for md5 in sorted(files_with_same_hash.keys())]
 
     print "Combining NOTICE files into HTML"
     combine_notice_files_html(filesets, input_dir, html_output_file)
     print "Combining NOTICE files into text"
     combine_notice_files_text(filesets, input_dir, txt_output_file, file_title)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 if __name__ == "__main__":
     main(args)

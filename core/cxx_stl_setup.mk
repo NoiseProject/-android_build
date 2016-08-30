@@ -1,10 +1,6 @@
 #############################################################
 ## Set up flags based on LOCAL_CXX_STL.
-<<<<<<< HEAD
-## Input variables: LOCAL_CXX_STL
-=======
 ## Input variables: LOCAL_CXX_STL, my_prefix
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ## Output variables: My_cflags, my_c_includes, my_shared_libraries, etc.
 #############################################################
 
@@ -12,18 +8,6 @@
 ifeq ($(strip $(LOCAL_CXX_STL)),default)
     ifndef LOCAL_SDK_VERSION
         # Platform code. Select the appropriate STL.
-<<<<<<< HEAD
-        ifndef USE_MINGW
-            my_cxx_stl := libc++
-            ifdef LOCAL_IS_HOST_MODULE
-                ifneq (,$(BUILD_HOST_static))
-                    my_cxx_stl := libc++_static
-                endif
-            endif
-        else
-            # libc++ is not supported on mingw.
-            my_cxx_stl := libstdc++
-=======
         my_cxx_stl := libc++
         ifdef LOCAL_IS_HOST_MODULE
             ifneq (,$(BUILD_HOST_static))
@@ -34,22 +18,12 @@ ifeq ($(strip $(LOCAL_CXX_STL)),default)
                 # libc++ is not supported on mingw.
                 my_cxx_stl := libstdc++
             endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         endif
     else
         my_cxx_stl := ndk
     endif
 else
     my_cxx_stl := $(strip $(LOCAL_CXX_STL))
-<<<<<<< HEAD
-endif
-
-# Yes, this is actually what the clang driver does.
-HOST_linux_dynamic_gcclibs := -lgcc_s -lgcc -lc -lgcc_s -lgcc
-HOST_linux_static_gcclibs := -Wl,--start-group -lgcc -lgcc_eh -lc -Wl,--end-group
-HOST_darwin_dynamic_gcclibs := -lc -lSystem
-HOST_darwin_static_gcclibs := NO_STATIC_HOST_BINARIES_ON_DARWIN
-=======
     ifdef LOCAL_SDK_VERSION
         # The NDK has historically used LOCAL_NDK_STL_VARIANT to specify the
         # STL. An Android.mk that specifies both LOCAL_CXX_STL and
@@ -81,7 +55,6 @@ windows_dynamic_gcclibs := \
     -lmsvcr110 -lmingw32 -lgcc -lmoldname -lmingwex -lmsvcrt -ladvapi32 \
     -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmoldname -lmingwex -lmsvcrt
 windows_static_gcclibs := NO_STATIC_HOST_BINARIES_ON_WINDOWS
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 my_link_type := dynamic
 ifdef LOCAL_IS_HOST_MODULE
@@ -99,18 +72,6 @@ endif
 
 ifneq ($(filter $(my_cxx_stl),libc++ libc++_static),)
     my_cflags += -D_USING_LIBCXX
-<<<<<<< HEAD
-    my_c_includes += external/libcxx/include
-    ifeq ($(my_cxx_stl),libc++)
-        my_shared_libraries += libc++
-    else
-        my_static_libraries += libc++_static
-        ifndef LOCAL_IS_HOST_MODULE
-            ifeq ($(LOCAL_FORCE_STATIC_EXECUTABLE),true)
-                my_static_libraries += libm libc libdl
-            endif
-        endif
-=======
 
     # Note that the structure of this means that LOCAL_CXX_STL := libc++ will
     # use the static libc++ for static executables.
@@ -122,18 +83,13 @@ ifneq ($(filter $(my_cxx_stl),libc++ libc++_static),)
         endif
     else
         my_static_libraries += libc++_static
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     endif
 
     ifdef LOCAL_IS_HOST_MODULE
         my_cppflags += -nostdinc++
         my_ldflags += -nodefaultlibs
         my_ldlibs += -lpthread -lm
-<<<<<<< HEAD
-        my_ldlibs += $($(my_prefix)$(HOST_OS)_$(my_link_type)_gcclibs)
-=======
         my_ldlibs += $($($(my_prefix)OS)_$(my_link_type)_gcclibs)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     else
         ifeq (arm,$($(my_prefix)$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH))
             my_static_libraries += libunwind_llvm
@@ -141,23 +97,13 @@ ifneq ($(filter $(my_cxx_stl),libc++ libc++_static),)
         endif
 
         ifeq ($(my_link_type),static)
-<<<<<<< HEAD
-            my_static_libraries += libdl
-=======
             my_static_libraries += libm libc libdl
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         else
             my_shared_libraries += libdl
         endif
     endif
 else ifeq ($(my_cxx_stl),ndk)
     # Using an NDK STL. Handled in binary.mk.
-<<<<<<< HEAD
-    ifndef LOCAL_IS_HOST_MODULE
-        my_system_shared_libraries += libstdc++
-    endif
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 else ifeq ($(my_cxx_stl),libstdc++)
     # Using bionic's basic libstdc++. Not actually an STL. Only around until the
     # tree is in good enough shape to not need it.
@@ -170,11 +116,7 @@ else ifeq ($(my_cxx_stl),none)
     ifdef LOCAL_IS_HOST_MODULE
         my_cppflags += -nostdinc++
         my_ldflags += -nodefaultlibs
-<<<<<<< HEAD
-        my_ldlibs += $($(my_prefix)$(HOST_OS)_$(my_link_type)_gcclibs)
-=======
         my_ldlibs += $($($(my_prefix)OS)_$(my_link_type)_gcclibs)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     endif
 else
     $(error $(LOCAL_PATH): $(LOCAL_MODULE): $(my_cxx_stl) is not a supported STL.)

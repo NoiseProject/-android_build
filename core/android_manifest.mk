@@ -22,18 +22,12 @@ my_full_libs_manifest_deps += $(foreach lib, $(LOCAL_STATIC_JAVA_AAR_LIBRARIES),
 my_full_libs_manifest_files += $(foreach lib, $(LOCAL_STATIC_JAVA_AAR_LIBRARIES),\
   $(call intermediates-dir-for,JAVA_LIBRARIES,$(lib),,COMMON)/aar/AndroidManifest.xml)
 
-<<<<<<< HEAD
-LOCAL_RESOURCE_DIR += $(foreach lib, $(LOCAL_STATIC_JAVA_AAR_LIBRARIES),\
-  $(call intermediates-dir-for,JAVA_LIBRARIES,$(lib),,COMMON)/aar/res)
-endif
-=======
 # With aapt2, we'll link in the built resource from the AAR.
 ifndef LOCAL_USE_AAPT2
 LOCAL_RESOURCE_DIR += $(foreach lib, $(LOCAL_STATIC_JAVA_AAR_LIBRARIES),\
   $(call intermediates-dir-for,JAVA_LIBRARIES,$(lib),,COMMON)/aar/res)
 endif  # LOCAL_USE_AAPT2
 endif  # LOCAL_STATIC_JAVA_AAR_LIBRARIES
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Set up rules to merge library manifest files
 ifdef my_full_libs_manifest_files

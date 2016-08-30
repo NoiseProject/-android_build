@@ -30,10 +30,6 @@ import time
 import zipfile
 
 import blockimgdiff
-<<<<<<< HEAD
-import rangelib
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 from hashlib import sha1 as sha1
 
@@ -47,10 +43,7 @@ class Options(object):
 
     self.search_path = platform_search_path.get(sys.platform, None)
     self.signapk_path = "framework/signapk.jar"  # Relative to search_path
-<<<<<<< HEAD
-=======
     self.signapk_shared_library_path = "lib64"   # Relative to search_path
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     self.extra_signapk_args = []
     self.java_path = "java"  # Use the one on the path by default.
     self.java_args = "-Xmx2048m" # JVM Args
@@ -69,12 +62,9 @@ class Options(object):
     self.source_info_dict = None
     self.target_info_dict = None
     self.worker_threads = None
-<<<<<<< HEAD
-=======
     # Stash size cannot exceed cache_size * threshold.
     self.cache_size = None
     self.stash_threshold = 0.8
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 
 OPTIONS = Options()
@@ -83,8 +73,6 @@ OPTIONS = Options()
 # Values for "certificate" in apkcerts that mean special things.
 SPECIAL_CERT_STRINGS = ("PRESIGNED", "EXTERNAL")
 
-<<<<<<< HEAD
-=======
 class ErrorCode(object):
   """Define error_codes for failures that happen during the actual
   update package installation.
@@ -112,7 +100,6 @@ class ErrorCode(object):
   INSUFFICIENT_CACHE_SPACE = 3006
   TUNE_PARTITION_FAILURE = 3007
   APPLY_PATCH_FAILURE = 3008
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 class ExternalError(RuntimeError):
   pass
@@ -142,11 +129,7 @@ def CloseInheritedPipes():
       pass
 
 
-<<<<<<< HEAD
-def LoadInfoDict(input_file):
-=======
 def LoadInfoDict(input_file, input_dir=None):
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   """Read and parse the META/misc_info.txt key/value pairs from the
   input target files and return a dict."""
 
@@ -197,8 +180,6 @@ def LoadInfoDict(input_file, input_dir=None):
   if "fstab_version" not in d:
     d["fstab_version"] = "1"
 
-<<<<<<< HEAD
-=======
   # A few properties are stored as links to the files in the out/ directory.
   # It works fine with the build system. However, they are no longer available
   # when (re)generating from target_files zip. If input_dir is not None, we
@@ -249,7 +230,6 @@ def LoadInfoDict(input_file, input_dir=None):
             vendor_base_fs_file,)
         del d["vendor_base_fs_file"]
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   try:
     data = read_helper("META/imagesizes.txt")
     for line in data.split("\n"):
@@ -279,15 +259,11 @@ def LoadInfoDict(input_file, input_dir=None):
   makeint("boot_size")
   makeint("fstab_version")
 
-<<<<<<< HEAD
-  d["fstab"] = LoadRecoveryFSTab(read_helper, d["fstab_version"])
-=======
   if d.get("no_recovery", False) == "true":
     d["fstab"] = None
   else:
     d["fstab"] = LoadRecoveryFSTab(read_helper, d["fstab_version"],
                                    d.get("system_root_image", False))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   d["build.prop"] = LoadBuildProp(read_helper)
   return d
 
@@ -310,11 +286,7 @@ def LoadDictionaryFromLines(lines):
       d[name] = value
   return d
 
-<<<<<<< HEAD
-def LoadRecoveryFSTab(read_helper, fstab_version):
-=======
 def LoadRecoveryFSTab(read_helper, fstab_version, system_root_image=False):
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   class Partition(object):
     def __init__(self, mount_point, fs_type, device, length, device2, context):
       self.mount_point = mount_point
@@ -406,15 +378,12 @@ def LoadRecoveryFSTab(read_helper, fstab_version, system_root_image=False):
   else:
     raise ValueError("Unknown fstab_version: \"%d\"" % (fstab_version,))
 
-<<<<<<< HEAD
-=======
   # / is used for the system mount point when the root directory is included in
   # system. Other areas assume system is always at "/system" so point /system
   # at /.
   if system_root_image:
     assert not d.has_key("/system") and d.has_key("/")
     d["/system"] = d["/"]
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   return d
 
 
@@ -423,16 +392,6 @@ def DumpInfoDict(d):
     print "%-25s = (%s) %s" % (k, type(v).__name__, v)
 
 
-<<<<<<< HEAD
-def BuildBootableImage(sourcedir, fs_config_file, info_dict=None):
-  """Take a kernel, cmdline, and ramdisk directory from the input (in
-  'sourcedir'), and turn them into a boot image.  Return the image
-  data, or None if sourcedir does not appear to contains files for
-  building the requested image."""
-
-  if (not os.access(os.path.join(sourcedir, "RAMDISK"), os.F_OK) or
-      not os.access(os.path.join(sourcedir, "kernel"), os.F_OK)):
-=======
 def _BuildBootableImage(sourcedir, fs_config_file, info_dict=None,
                         has_ramdisk=False):
   """Build a bootable image from the specified sourcedir.
@@ -464,34 +423,15 @@ def _BuildBootableImage(sourcedir, fs_config_file, info_dict=None,
     return None
 
   if has_ramdisk and not os.access(os.path.join(sourcedir, "RAMDISK"), os.F_OK):
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     return None
 
   if info_dict is None:
     info_dict = OPTIONS.info_dict
 
-<<<<<<< HEAD
-  ramdisk_img = tempfile.NamedTemporaryFile()
-  img = tempfile.NamedTemporaryFile()
-
-  if os.access(fs_config_file, os.F_OK):
-    cmd = ["mkbootfs", "-f", fs_config_file, os.path.join(sourcedir, "RAMDISK")]
-  else:
-    cmd = ["mkbootfs", os.path.join(sourcedir, "RAMDISK")]
-  p1 = Run(cmd, stdout=subprocess.PIPE)
-  p2 = Run(["minigzip"],
-           stdin=p1.stdout, stdout=ramdisk_img.file.fileno())
-
-  p2.wait()
-  p1.wait()
-  assert p1.returncode == 0, "mkbootfs of %s ramdisk failed" % (sourcedir,)
-  assert p2.returncode == 0, "minigzip of %s ramdisk failed" % (sourcedir,)
-=======
   img = tempfile.NamedTemporaryFile()
 
   if has_ramdisk:
     ramdisk_img = make_ramdisk()
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   # use MKBOOTIMG from environ, or "mkbootimg" if empty or not set
   mkbootimg = os.getenv('MKBOOTIMG') or "mkbootimg"
@@ -522,16 +462,6 @@ def _BuildBootableImage(sourcedir, fs_config_file, info_dict=None,
   if args and args.strip():
     cmd.extend(shlex.split(args))
 
-<<<<<<< HEAD
-  img_unsigned = None
-  if info_dict.get("vboot", None):
-    img_unsigned = tempfile.NamedTemporaryFile()
-    cmd.extend(["--ramdisk", ramdisk_img.name,
-                "--output", img_unsigned.name])
-  else:
-    cmd.extend(["--ramdisk", ramdisk_img.name,
-                "--output", img.name])
-=======
   args = info_dict.get("mkbootimg_version_args", None)
   if args and args.strip():
     cmd.extend(shlex.split(args))
@@ -545,7 +475,6 @@ def _BuildBootableImage(sourcedir, fs_config_file, info_dict=None,
     cmd.extend(["--output", img_unsigned.name])
   else:
     cmd.extend(["--output", img.name])
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   p = Run(cmd, stdout=subprocess.PIPE)
   p.communicate()
@@ -585,12 +514,8 @@ def _BuildBootableImage(sourcedir, fs_config_file, info_dict=None,
   img.seek(os.SEEK_SET, 0)
   data = img.read()
 
-<<<<<<< HEAD
-  ramdisk_img.close()
-=======
   if has_ramdisk:
     ramdisk_img.close()
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   img.close()
 
   return data
@@ -598,19 +523,11 @@ def _BuildBootableImage(sourcedir, fs_config_file, info_dict=None,
 
 def GetBootableImage(name, prebuilt_name, unpack_dir, tree_subdir,
                      info_dict=None):
-<<<<<<< HEAD
-  """Return a File object (with name 'name') with the desired bootable
-  image.  Look for it in 'unpack_dir'/BOOTABLE_IMAGES under the name
-  'prebuilt_name', otherwise look for it under 'unpack_dir'/IMAGES,
-  otherwise construct it from the source files in
-  'unpack_dir'/'tree_subdir'."""
-=======
   """Return a File object with the desired bootable image.
 
   Look for it in 'unpack_dir'/BOOTABLE_IMAGES under the name 'prebuilt_name',
   otherwise look for it under 'unpack_dir'/IMAGES, otherwise construct it from
   the source files in 'unpack_dir'/'tree_subdir'."""
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   prebuilt_path = os.path.join(unpack_dir, "BOOTABLE_IMAGES", prebuilt_name)
   if os.path.exists(prebuilt_path):
@@ -623,12 +540,6 @@ def GetBootableImage(name, prebuilt_name, unpack_dir, tree_subdir,
     return File.FromLocalFile(name, prebuilt_path)
 
   print "building image from target_files %s..." % (tree_subdir,)
-<<<<<<< HEAD
-  fs_config = "META/" + tree_subdir.lower() + "_filesystem_config.txt"
-  data = BuildBootableImage(os.path.join(unpack_dir, tree_subdir),
-                            os.path.join(unpack_dir, fs_config),
-                            info_dict)
-=======
 
   if info_dict is None:
     info_dict = OPTIONS.info_dict
@@ -644,7 +555,6 @@ def GetBootableImage(name, prebuilt_name, unpack_dir, tree_subdir,
   data = _BuildBootableImage(os.path.join(unpack_dir, tree_subdir),
                              os.path.join(unpack_dir, fs_config),
                              info_dict, has_ramdisk)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   if data:
     return File(name, data)
   return None
@@ -733,10 +643,6 @@ def GetKeyPasswords(keylist):
   return key_passwords
 
 
-<<<<<<< HEAD
-def SignFile(input_name, output_name, key, password, align=None,
-             whole_file=False):
-=======
 def GetMinSdkVersion(apk_name):
   """Get the minSdkVersion delared in the APK. This can be both a decimal number
   (API Level) or a codename.
@@ -777,31 +683,10 @@ def GetMinSdkVersionInt(apk_name, codename_to_api_level_map):
 def SignFile(input_name, output_name, key, password, min_api_level=None,
     codename_to_api_level_map=dict(),
     whole_file=False):
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   """Sign the input_name zip/jar/apk, producing output_name.  Use the
   given key and password (the latter may be None if the key does not
   have a password.
 
-<<<<<<< HEAD
-  If align is an integer > 1, zipalign is run to align stored files in
-  the output zip on 'align'-byte boundaries.
-
-  If whole_file is true, use the "-w" option to SignApk to embed a
-  signature that covers the whole file in the archive comment of the
-  zip file.
-  """
-
-  if align == 0 or align == 1:
-    align = None
-
-  if align:
-    temp = tempfile.NamedTemporaryFile()
-    sign_name = temp.name
-  else:
-    sign_name = output_name
-
-  cmd = [OPTIONS.java_path, OPTIONS.java_args, "-jar",
-=======
   If whole_file is true, use the "-w" option to SignApk to embed a
   signature that covers the whole file in the archive comment of the
   zip file.
@@ -820,16 +705,10 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   cmd = [OPTIONS.java_path, OPTIONS.java_args,
          "-Djava.library.path=" + java_library_path,
          "-jar",
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
          os.path.join(OPTIONS.search_path, OPTIONS.signapk_path)]
   cmd.extend(OPTIONS.extra_signapk_args)
   if whole_file:
     cmd.append("-w")
-<<<<<<< HEAD
-  cmd.extend([key + OPTIONS.public_key_suffix,
-              key + OPTIONS.private_key_suffix,
-              input_name, sign_name])
-=======
 
   min_sdk_version = min_api_level
   if min_sdk_version is None:
@@ -842,7 +721,6 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   cmd.extend([key + OPTIONS.public_key_suffix,
               key + OPTIONS.private_key_suffix,
               input_name, output_name])
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   p = Run(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
   if password is not None:
@@ -851,16 +729,6 @@ def SignFile(input_name, output_name, key, password, min_api_level=None,
   if p.returncode != 0:
     raise ExternalError("signapk.jar failed: return code %s" % (p.returncode,))
 
-<<<<<<< HEAD
-  if align:
-    p = Run(["zipalign", "-f", "-p", str(align), sign_name, output_name])
-    p.communicate()
-    if p.returncode != 0:
-      raise ExternalError("zipalign failed: return code %s" % (p.returncode,))
-    temp.close()
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 def CheckSize(data, target, info_dict):
   """Check the data string passed against the max size limit, if
@@ -965,12 +833,8 @@ def ParseOptions(argv,
   try:
     opts, args = getopt.getopt(
         argv, "hvp:s:x:" + extra_opts,
-<<<<<<< HEAD
-        ["help", "verbose", "path=", "signapk_path=", "extra_signapk_args=",
-=======
         ["help", "verbose", "path=", "signapk_path=",
          "signapk_shared_library_path=", "extra_signapk_args=",
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
          "java_path=", "java_args=", "public_key_suffix=",
          "private_key_suffix=", "boot_signer_path=", "boot_signer_args=",
          "verity_signer_path=", "verity_signer_args=", "device_specific=",
@@ -991,11 +855,8 @@ def ParseOptions(argv,
       OPTIONS.search_path = a
     elif o in ("--signapk_path",):
       OPTIONS.signapk_path = a
-<<<<<<< HEAD
-=======
     elif o in ("--signapk_shared_library_path",):
       OPTIONS.signapk_shared_library_path = a
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     elif o in ("--extra_signapk_args",):
       OPTIONS.extra_signapk_args = shlex.split(a)
     elif o in ("--java_path",):
@@ -1209,11 +1070,7 @@ def ZipWriteStr(zip_file, zinfo_or_arcname, data, perms=None,
     zinfo = zipfile.ZipInfo(filename=zinfo_or_arcname)
     zinfo.compress_type = zip_file.compression
     if perms is None:
-<<<<<<< HEAD
-      perms = 0o644
-=======
       perms = 0o100644
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   else:
     zinfo = zinfo_or_arcname
 
@@ -1223,12 +1080,9 @@ def ZipWriteStr(zip_file, zinfo_or_arcname, data, perms=None,
 
   # If perms is given, it has a priority.
   if perms is not None:
-<<<<<<< HEAD
-=======
     # If perms doesn't set the file type, mark it as a regular file.
     if perms & 0o770000 == 0:
       perms |= 0o100000
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     zinfo.external_attr = perms << 16
 
   # Use a fixed timestamp so the output is repeatable.
@@ -1332,12 +1186,9 @@ class DeviceSpecificParams(object):
     processor."""
     return self._DoCall("IncrementalOTA_InstallEnd")
 
-<<<<<<< HEAD
-=======
   def VerifyOTA_Assertions(self):
     return self._DoCall("VerifyOTA_Assertions")
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 class File(object):
   def __init__(self, name, data):
     self.name = name
@@ -1490,22 +1341,12 @@ def ComputeDifferences(diffs):
 
 class BlockDifference(object):
   def __init__(self, partition, tgt, src=None, check_first_block=False,
-<<<<<<< HEAD
-               version=None):
-=======
                version=None, disable_imgdiff=False):
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     self.tgt = tgt
     self.src = src
     self.partition = partition
     self.check_first_block = check_first_block
-<<<<<<< HEAD
-
-    # Due to http://b/20939131, check_first_block is disabled temporarily.
-    assert not self.check_first_block
-=======
     self.disable_imgdiff = disable_imgdiff
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     if version is None:
       version = 1
@@ -1516,22 +1357,15 @@ class BlockDifference(object):
     self.version = version
 
     b = blockimgdiff.BlockImageDiff(tgt, src, threads=OPTIONS.worker_threads,
-<<<<<<< HEAD
-                                    version=self.version)
-=======
                                     version=self.version,
                                     disable_imgdiff=self.disable_imgdiff)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     tmpdir = tempfile.mkdtemp()
     OPTIONS.tempfiles.append(tmpdir)
     self.path = os.path.join(tmpdir, partition)
     b.Compute(self.path)
-<<<<<<< HEAD
-=======
     self._required_cache = b.max_stashed_size
     self.touched_src_ranges = b.touched_src_ranges
     self.touched_src_sha1 = b.touched_src_sha1
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     if src is None:
       _, self.device = GetTypeAndDevice("/" + partition, OPTIONS.info_dict)
@@ -1539,13 +1373,10 @@ class BlockDifference(object):
       _, self.device = GetTypeAndDevice("/" + partition,
                                         OPTIONS.source_info_dict)
 
-<<<<<<< HEAD
-=======
   @property
   def required_cache(self):
     return self._required_cache
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   def WriteScript(self, script, output_zip, progress=None):
     if not self.src:
       # write the output unconditionally
@@ -1556,18 +1387,6 @@ class BlockDifference(object):
     if progress:
       script.ShowProgress(progress, 0)
     self._WriteUpdate(script, output_zip)
-<<<<<<< HEAD
-    self._WritePostInstallVerifyScript(script)
-
-  def WriteVerifyScript(self, script):
-    partition = self.partition
-    if not self.src:
-      script.Print("Image %s will be patched unconditionally." % (partition,))
-    else:
-      ranges = self.src.care_map.subtract(self.src.clobbered_blocks)
-      ranges_str = ranges.to_string_raw()
-      if self.version >= 3:
-=======
     if OPTIONS.verify:
       self._WritePostInstallVerifyScript(script)
 
@@ -1619,16 +1438,11 @@ class BlockDifference(object):
                             self.device, ranges_str, expected_sha1,
                             self.device, partition, partition, partition))
       elif self.version == 3:
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         script.AppendExtra(('if (range_sha1("%s", "%s") == "%s" || '
                             'block_image_verify("%s", '
                             'package_extract_file("%s.transfer.list"), '
                             '"%s.new.dat", "%s.patch.dat")) then') % (
-<<<<<<< HEAD
-                            self.device, ranges_str, self.src.TotalSha1(),
-=======
                             self.device, ranges_str, expected_sha1,
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
                             self.device, partition, partition, partition))
       else:
         script.AppendExtra('if range_sha1("%s", "%s") == "%s" then' % (
@@ -1636,16 +1450,6 @@ class BlockDifference(object):
       script.Print('Verified %s image...' % (partition,))
       script.AppendExtra('else')
 
-<<<<<<< HEAD
-      # When generating incrementals for the system and vendor partitions,
-      # explicitly check the first block (which contains the superblock) of
-      # the partition to see if it's what we expect. If this check fails,
-      # give an explicit log message about the partition having been
-      # remounted R/W (the most likely explanation) and the need to flash to
-      # get OTAs working again.
-      if self.check_first_block:
-        self._CheckFirstBlock(script)
-=======
       if self.version >= 4:
 
         # Bug: 21124327
@@ -1671,17 +1475,12 @@ class BlockDifference(object):
             'abort("E{code}: {partition} partition fails to recover"));\n'
             'endif;').format(device=self.device, ranges=ranges_str,
                              partition=partition, code=code))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
       # Abort the OTA update. Note that the incremental OTA cannot be applied
       # even if it may match the checksum of the target partition.
       # a) If version < 3, operations like move and erase will make changes
       #    unconditionally and damage the partition.
       # b) If version >= 3, it won't even reach here.
-<<<<<<< HEAD
-      script.AppendExtra(('abort("%s partition has unexpected contents");\n'
-                          'endif;') % (partition,))
-=======
       else:
         if partition == "system":
           code = ErrorCode.SYSTEM_VERIFICATION_FAILURE
@@ -1690,7 +1489,6 @@ class BlockDifference(object):
         script.AppendExtra((
             'abort("E%d: %s partition has unexpected contents");\n'
             'endif;') % (code, partition))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   def _WritePostInstallVerifyScript(self, script):
     partition = self.partition
@@ -1710,20 +1508,6 @@ class BlockDifference(object):
                          self.device, ranges_str,
                          self._HashZeroBlocks(self.tgt.extended.size())))
       script.Print('Verified the updated %s image.' % (partition,))
-<<<<<<< HEAD
-      script.AppendExtra(
-          'else\n'
-          '  abort("%s partition has unexpected non-zero contents after OTA '
-          'update");\n'
-          'endif;' % (partition,))
-    else:
-      script.Print('Verified the updated %s image.' % (partition,))
-
-    script.AppendExtra(
-        'else\n'
-        '  abort("%s partition has unexpected contents after OTA update");\n'
-        'endif;' % (partition,))
-=======
       if partition == "system":
         code = ErrorCode.SYSTEM_NONZERO_CONTENTS
       else:
@@ -1746,7 +1530,6 @@ class BlockDifference(object):
         '  abort("E%d: %s partition has unexpected contents after OTA '
         'update");\n'
         'endif;' % (code, partition))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   def _WriteUpdate(self, script, output_zip):
     ZipWrite(output_zip,
@@ -1760,12 +1543,6 @@ class BlockDifference(object):
              '{}.patch.dat'.format(self.partition),
              compress_type=zipfile.ZIP_STORED)
 
-<<<<<<< HEAD
-    call = ('block_image_update("{device}", '
-            'package_extract_file("{partition}.transfer.list"), '
-            '"{partition}.new.dat", "{partition}.patch.dat");\n'.format(
-                device=self.device, partition=self.partition))
-=======
     if self.partition == "system":
       code = ErrorCode.SYSTEM_UPDATE_FAILURE
     else:
@@ -1776,7 +1553,6 @@ class BlockDifference(object):
             '"{partition}.new.dat", "{partition}.patch.dat") ||\n'
             '  abort("E{code}: Failed to update {partition} image.");'.format(
                 device=self.device, partition=self.partition, code=code))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     script.AppendExtra(script.WordWrap(call))
 
   def _HashBlocks(self, source, ranges): # pylint: disable=no-self-use
@@ -1797,28 +1573,9 @@ class BlockDifference(object):
 
     return ctx.hexdigest()
 
-<<<<<<< HEAD
-  # TODO(tbao): Due to http://b/20939131, block 0 may be changed without
-  # remounting R/W. Will change the checking to a finer-grained way to
-  # mask off those bits.
-  def _CheckFirstBlock(self, script):
-    r = rangelib.RangeSet((0, 1))
-    srchash = self._HashBlocks(self.src, r)
-
-    script.AppendExtra(('(range_sha1("%s", "%s") == "%s") || '
-                        'abort("%s has been remounted R/W; '
-                        'reflash device to reenable OTA updates");')
-                       % (self.device, r.to_string_raw(), srchash,
-                          self.device))
 
 DataImage = blockimgdiff.DataImage
 
-
-=======
-
-DataImage = blockimgdiff.DataImage
-
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # map recovery.fstab's fs_types to mount/format "partition types"
 PARTITION_TYPES = {
     "yaffs2": "MTD",
@@ -1869,20 +1626,6 @@ def MakeRecoveryPatch(input_dir, output_sink, recovery_img, boot_img,
   if info_dict is None:
     info_dict = OPTIONS.info_dict
 
-<<<<<<< HEAD
-  diff_program = ["imgdiff"]
-  path = os.path.join(input_dir, "SYSTEM", "etc", "recovery-resource.dat")
-  if os.path.exists(path):
-    diff_program.append("-b")
-    diff_program.append(path)
-    bonus_args = "-b /system/etc/recovery-resource.dat"
-  else:
-    bonus_args = ""
-
-  d = Difference(recovery_img, boot_img, diff_program=diff_program)
-  _, _, patch = d.ComputePatch()
-  output_sink("recovery-from-boot.p", patch)
-=======
   full_recovery_image = info_dict.get("full_recovery_image", None) == "true"
   system_root_image = info_dict.get("system_root_image", None) == "true"
 
@@ -1902,7 +1645,6 @@ def MakeRecoveryPatch(input_dir, output_sink, recovery_img, boot_img,
     d = Difference(recovery_img, boot_img, diff_program=diff_program)
     _, _, patch = d.ComputePatch()
     output_sink("recovery-from-boot.p", patch)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   try:
     # The following GetTypeAndDevice()s need to use the path in the target
@@ -1912,9 +1654,6 @@ def MakeRecoveryPatch(input_dir, output_sink, recovery_img, boot_img,
   except KeyError:
     return
 
-<<<<<<< HEAD
-  sh = """#!/system/bin/sh
-=======
   if full_recovery_image:
     sh = """#!/system/bin/sh
 if ! applypatch -c %(type)s:%(device)s:%(size)d:%(sha1)s; then
@@ -1928,7 +1667,6 @@ fi
        'size': recovery_img.size}
   else:
     sh = """#!/system/bin/sh
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 if ! applypatch -c %(recovery_type)s:%(recovery_device)s:%(recovery_size)d:%(recovery_sha1)s; then
   applypatch %(bonus_args)s %(boot_type)s:%(boot_device)s:%(boot_size)d:%(boot_sha1)s %(recovery_type)s:%(recovery_device)s %(recovery_sha1)s %(recovery_size)d %(boot_sha1)s:/system/recovery-from-boot.p && log -t recovery "Installing new recovery image: succeeded" || log -t recovery "Installing new recovery image: failed"
 else
@@ -1945,13 +1683,6 @@ fi
        'bonus_args': bonus_args}
 
   # The install script location moved from /system/etc to /system/bin
-<<<<<<< HEAD
-  # in the L release.  Parse the init.rc file to find out where the
-  # target-files expects it to be, and put it there.
-  sh_location = "etc/install-recovery.sh"
-  try:
-    with open(os.path.join(input_dir, "BOOT", "RAMDISK", "init.rc")) as f:
-=======
   # in the L release.  Parse init.*.rc files to find out where the
   # target-files expects it to be, and put it there.
   sh_location = "etc/install-recovery.sh"
@@ -1967,17 +1698,10 @@ fi
       continue
 
     with open(os.path.join(init_rc_dir, init_rc_file)) as f:
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
       for line in f:
         m = re.match(r"^service flash_recovery /system/(\S+)\s*$", line)
         if m:
           sh_location = m.group(1)
-<<<<<<< HEAD
-          print "putting script in", sh_location
-          break
-  except (OSError, IOError) as e:
-    print "failed to read init.rc: %s" % (e,)
-=======
           found = True
           break
 
@@ -1985,6 +1709,5 @@ fi
       break
 
   print "putting script in", sh_location
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   output_sink(sh_location, sh)

@@ -255,11 +255,7 @@ onkeyup="return search_changed(event, false, '<?cs var:toroot ?>')" />
           <a href="<?cs var:toroot ?>index.html">
             <img src="<?cs var:toroot ?>assets/images/sac_logo.png"
                 srcset="<?cs var:toroot ?>assets/images/sac_logo@2x.png 2x"
-<<<<<<< HEAD
-                width="123" height="25" alt="Android Developers" />
-=======
                 width="123" height="25" alt="Android Open Source Project" />
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
           </a>
           </div>
             <ul class="nav-x col-9">
@@ -270,15 +266,9 @@ onkeyup="return search_changed(event, false, '<?cs var:toroot ?>')" />
                 <li class="devices"><a href="<?cs var:toroot ?>devices/index.html" <?cs
                   if:devices ?>class="selected"<?cs /if ?>
                   >Devices</a></li>
-<<<<<<< HEAD
-                <li class="accessories"><a href="<?cs var:toroot ?>accessories/index.html" <?cs
-                  if:accessories ?>class="selected"<?cs /if ?>
-                  >Accessories</a></li>
-=======
                 <li class="security"><a href="<?cs var:toroot ?>security/index.html" <?cs
                   if:security ?>class="selected"<?cs /if ?>
                   >Security</a></li>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
                 <li class="compatibility last"><a href="<?cs var:toroot ?>compatibility/index.html" <?cs
                   if:compatibility ?>class="selected"<?cs /if ?>
                   >Compatibility</a></li>

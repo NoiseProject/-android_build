@@ -36,13 +36,10 @@ $(combo_2nd_arch_prefix)HOST_TOOLCHAIN_PREFIX := $($(combo_2nd_arch_prefix)HOST_
 $(combo_2nd_arch_prefix)HOST_CC  := $($(combo_2nd_arch_prefix)HOST_TOOLCHAIN_PREFIX)-gcc
 $(combo_2nd_arch_prefix)HOST_CXX := $($(combo_2nd_arch_prefix)HOST_TOOLCHAIN_PREFIX)-g++
 
-<<<<<<< HEAD
-=======
 define $(combo_var_prefix)transform-shared-lib-to-toc
 $(call _gen_toc_command_for_macho,$(1),$(2))
 endef
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # gcc location for clang; to be updated when clang is updated
 # HOST_TOOLCHAIN_ROOT is a Darwin-specific define
 $(combo_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG := $($(combo_2nd_arch_prefix)HOST_TOOLCHAIN_ROOT)
@@ -59,13 +56,6 @@ $(combo_2nd_arch_prefix)HOST_NO_UNDEFINED_LDFLAGS := -Wl,-undefined,error
 $(combo_2nd_arch_prefix)HOST_SHLIB_SUFFIX := .dylib
 $(combo_2nd_arch_prefix)HOST_JNILIB_SUFFIX := .jnilib
 
-<<<<<<< HEAD
-# TODO: add AndroidConfig.h for darwin-x86_64
-$(combo_2nd_arch_prefix)HOST_GLOBAL_CFLAGS += \
-    -include $(call select-android-config-h,darwin-x86)
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(combo_2nd_arch_prefix)HOST_GLOBAL_ARFLAGS := cqs
 
 ############################################################

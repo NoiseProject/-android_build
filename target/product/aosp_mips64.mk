@@ -13,11 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-<<<<<<< HEAD
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_mips64.mk)
-
-PRODUCT_NAME := aosp_mips64
-=======
 
 # This is a build configuration for a full-featured build of the
 # Open-Source part of the tree. It's geared toward a US-centric
@@ -39,4 +34,3 @@ PRODUCT_NAME := aosp_mips64
 PRODUCT_DEVICE := generic_mips64
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := AOSP on MIPS64 Emulator
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

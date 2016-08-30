@@ -26,10 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-<<<<<<< HEAD
-=======
 #include <inttypes.h>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 using namespace android;
 
@@ -60,11 +57,7 @@ status_t ZipEntry::initFromCDE(FILE* fp)
     /* using the info in the CDE, go load up the LFH */
     posn = ftell(fp);
     if (fseek(fp, mCDE.mLocalHeaderRelOffset, SEEK_SET) != 0) {
-<<<<<<< HEAD
-        ALOGD("local header seek failed (%ld)\n",
-=======
         ALOGD("local header seek failed (%" PRIu32 ")\n",
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
             mCDE.mLocalHeaderRelOffset);
         return UNKNOWN_ERROR;
     }
@@ -131,20 +124,12 @@ void ZipEntry::initNew(const char* fileName, const char* comment)
     mCDE.mExternalAttrs = 0x81b60020;   // matches what WinZip does
 
     if (mCDE.mFileNameLength > 0) {
-<<<<<<< HEAD
-        mCDE.mFileName = new unsigned char[mCDE.mFileNameLength+1];
-=======
         mCDE.mFileName = new uint8_t[mCDE.mFileNameLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         strcpy((char*) mCDE.mFileName, fileName);
     }
     if (mCDE.mFileCommentLength > 0) {
         /* TODO: stop assuming null-terminated ASCII here? */
-<<<<<<< HEAD
-        mCDE.mFileComment = new unsigned char[mCDE.mFileCommentLength+1];
-=======
         mCDE.mFileComment = new uint8_t[mCDE.mFileCommentLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         strcpy((char*) mCDE.mFileComment, comment);
     }
 
@@ -157,12 +142,7 @@ void ZipEntry::initNew(const char* fileName, const char* comment)
  *
  * Initializes the CDE and the LFH.
  */
-<<<<<<< HEAD
-status_t ZipEntry::initFromExternal(const ZipFile* pZipFile,
-    const ZipEntry* pEntry)
-=======
 status_t ZipEntry::initFromExternal(const ZipEntry* pEntry)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 {
     /*
      * Copy everything in the CDE over, then fix up the hairy bits.
@@ -170,32 +150,20 @@ status_t ZipEntry::initFromExternal(const ZipEntry* pEntry)
     memcpy(&mCDE, &pEntry->mCDE, sizeof(mCDE));
 
     if (mCDE.mFileNameLength > 0) {
-<<<<<<< HEAD
-        mCDE.mFileName = new unsigned char[mCDE.mFileNameLength+1];
-=======
         mCDE.mFileName = new uint8_t[mCDE.mFileNameLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (mCDE.mFileName == NULL)
             return NO_MEMORY;
         strcpy((char*) mCDE.mFileName, (char*)pEntry->mCDE.mFileName);
     }
     if (mCDE.mFileCommentLength > 0) {
-<<<<<<< HEAD
-        mCDE.mFileComment = new unsigned char[mCDE.mFileCommentLength+1];
-=======
         mCDE.mFileComment = new uint8_t[mCDE.mFileCommentLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (mCDE.mFileComment == NULL)
             return NO_MEMORY;
         strcpy((char*) mCDE.mFileComment, (char*)pEntry->mCDE.mFileComment);
     }
     if (mCDE.mExtraFieldLength > 0) {
         /* we null-terminate this, though it may not be a string */
-<<<<<<< HEAD
-        mCDE.mExtraField = new unsigned char[mCDE.mExtraFieldLength+1];
-=======
         mCDE.mExtraField = new uint8_t[mCDE.mExtraFieldLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (mCDE.mExtraField == NULL)
             return NO_MEMORY;
         memcpy(mCDE.mExtraField, pEntry->mCDE.mExtraField,
@@ -212,11 +180,7 @@ status_t ZipEntry::initFromExternal(const ZipEntry* pEntry)
     assert(mLFH.mExtraField == NULL);
     mLFH.mExtraFieldLength = pEntry->mLFH.mExtraFieldLength;
     if (mLFH.mExtraFieldLength > 0) {
-<<<<<<< HEAD
-        mLFH.mExtraField = new unsigned char[mLFH.mExtraFieldLength+1];
-=======
         mLFH.mExtraField = new uint8_t[mLFH.mExtraFieldLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (mLFH.mExtraField == NULL)
             return NO_MEMORY;
         memcpy(mLFH.mExtraField, pEntry->mLFH.mExtraField,
@@ -241,15 +205,9 @@ status_t ZipEntry::addPadding(int padding)
 
     if (mLFH.mExtraFieldLength > 0) {
         /* extend existing field */
-<<<<<<< HEAD
-        unsigned char* newExtra;
-
-        newExtra = new unsigned char[mLFH.mExtraFieldLength + padding];
-=======
         uint8_t* newExtra;
 
         newExtra = new uint8_t[mLFH.mExtraFieldLength + padding];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (newExtra == NULL)
             return NO_MEMORY;
         memset(newExtra + mLFH.mExtraFieldLength, 0, padding);
@@ -260,11 +218,7 @@ status_t ZipEntry::addPadding(int padding)
         mLFH.mExtraFieldLength += padding;
     } else {
         /* create new field */
-<<<<<<< HEAD
-        mLFH.mExtraField = new unsigned char[padding];
-=======
         mLFH.mExtraField = new uint8_t[padding];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         memset(mLFH.mExtraField, 0, padding);
         mLFH.mExtraFieldLength = padding;
     }
@@ -292,11 +246,7 @@ void ZipEntry::copyCDEtoLFH(void)
 
     delete[] mLFH.mFileName;
     if (mLFH.mFileNameLength > 0) {
-<<<<<<< HEAD
-        mLFH.mFileName = new unsigned char[mLFH.mFileNameLength+1];
-=======
         mLFH.mFileName = new uint8_t[mLFH.mFileNameLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         strcpy((char*) mLFH.mFileName, (const char*) mCDE.mFileName);
     } else {
         mLFH.mFileName = NULL;
@@ -306,11 +256,7 @@ void ZipEntry::copyCDEtoLFH(void)
 /*
  * Set some information about a file after we add it.
  */
-<<<<<<< HEAD
-void ZipEntry::setDataInfo(long uncompLen, long compLen, unsigned long crc32,
-=======
 void ZipEntry::setDataInfo(long uncompLen, long compLen, uint32_t crc32,
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     int compressionMethod)
 {
     mCDE.mCompressionMethod = compressionMethod;
@@ -414,11 +360,7 @@ void ZipEntry::setModWhen(time_t when)
     struct tm tmResult;
 #endif
     time_t even;
-<<<<<<< HEAD
-    unsigned short zdate, ztime;
-=======
     uint16_t zdate, ztime;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     struct tm* ptm;
 
@@ -460,11 +402,7 @@ void ZipEntry::setModWhen(time_t when)
 status_t ZipEntry::LocalFileHeader::read(FILE* fp)
 {
     status_t result = NO_ERROR;
-<<<<<<< HEAD
-    unsigned char buf[kLFHLen];
-=======
     uint8_t buf[kLFHLen];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     assert(mFileName == NULL);
     assert(mExtraField == NULL);
@@ -495,11 +433,7 @@ status_t ZipEntry::LocalFileHeader::read(FILE* fp)
 
     /* grab filename */
     if (mFileNameLength != 0) {
-<<<<<<< HEAD
-        mFileName = new unsigned char[mFileNameLength+1];
-=======
         mFileName = new uint8_t[mFileNameLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (mFileName == NULL) {
             result = NO_MEMORY;
             goto bail;
@@ -513,11 +447,7 @@ status_t ZipEntry::LocalFileHeader::read(FILE* fp)
 
     /* grab extra field */
     if (mExtraFieldLength != 0) {
-<<<<<<< HEAD
-        mExtraField = new unsigned char[mExtraFieldLength+1];
-=======
         mExtraField = new uint8_t[mExtraFieldLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (mExtraField == NULL) {
             result = NO_MEMORY;
             goto bail;
@@ -538,11 +468,7 @@ bail:
  */
 status_t ZipEntry::LocalFileHeader::write(FILE* fp)
 {
-<<<<<<< HEAD
-    unsigned char buf[kLFHLen];
-=======
     uint8_t buf[kLFHLen];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     ZipEntry::putLongLE(&buf[0x00], kSignature);
     ZipEntry::putShortLE(&buf[0x04], mVersionToExtract);
@@ -581,15 +507,6 @@ status_t ZipEntry::LocalFileHeader::write(FILE* fp)
 void ZipEntry::LocalFileHeader::dump(void) const
 {
     ALOGD(" LocalFileHeader contents:\n");
-<<<<<<< HEAD
-    ALOGD("  versToExt=%u gpBits=0x%04x compression=%u\n",
-        mVersionToExtract, mGPBitFlag, mCompressionMethod);
-    ALOGD("  modTime=0x%04x modDate=0x%04x crc32=0x%08lx\n",
-        mLastModFileTime, mLastModFileDate, mCRC32);
-    ALOGD("  compressedSize=%lu uncompressedSize=%lu\n",
-        mCompressedSize, mUncompressedSize);
-    ALOGD("  filenameLen=%u extraLen=%u\n",
-=======
     ALOGD("  versToExt=%" PRIu16 " gpBits=0x%04" PRIx16 " compression=%" PRIu16 "\n",
         mVersionToExtract, mGPBitFlag, mCompressionMethod);
     ALOGD("  modTime=0x%04" PRIx16 " modDate=0x%04" PRIx16 " crc32=0x%08" PRIx32 "\n",
@@ -597,7 +514,6 @@ void ZipEntry::LocalFileHeader::dump(void) const
     ALOGD("  compressedSize=%" PRIu32 " uncompressedSize=%" PRIu32 "\n",
         mCompressedSize, mUncompressedSize);
     ALOGD("  filenameLen=%" PRIu16 " extraLen=%" PRIu16 "\n",
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         mFileNameLength, mExtraFieldLength);
     if (mFileName != NULL)
         ALOGD("  filename: '%s'\n", mFileName);
@@ -620,11 +536,7 @@ void ZipEntry::LocalFileHeader::dump(void) const
 status_t ZipEntry::CentralDirEntry::read(FILE* fp)
 {
     status_t result = NO_ERROR;
-<<<<<<< HEAD
-    unsigned char buf[kCDELen];
-=======
     uint8_t buf[kCDELen];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     /* no re-use */
     assert(mFileName == NULL);
@@ -663,11 +575,7 @@ status_t ZipEntry::CentralDirEntry::read(FILE* fp)
 
     /* grab filename */
     if (mFileNameLength != 0) {
-<<<<<<< HEAD
-        mFileName = new unsigned char[mFileNameLength+1];
-=======
         mFileName = new uint8_t[mFileNameLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (mFileName == NULL) {
             result = NO_MEMORY;
             goto bail;
@@ -681,11 +589,7 @@ status_t ZipEntry::CentralDirEntry::read(FILE* fp)
 
     /* read "extra field" */
     if (mExtraFieldLength != 0) {
-<<<<<<< HEAD
-        mExtraField = new unsigned char[mExtraFieldLength+1];
-=======
         mExtraField = new uint8_t[mExtraFieldLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (mExtraField == NULL) {
             result = NO_MEMORY;
             goto bail;
@@ -700,11 +604,7 @@ status_t ZipEntry::CentralDirEntry::read(FILE* fp)
 
     /* grab comment, if any */
     if (mFileCommentLength != 0) {
-<<<<<<< HEAD
-        mFileComment = new unsigned char[mFileCommentLength+1];
-=======
         mFileComment = new uint8_t[mFileCommentLength+1];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (mFileComment == NULL) {
             result = NO_MEMORY;
             goto bail;
@@ -726,11 +626,7 @@ bail:
  */
 status_t ZipEntry::CentralDirEntry::write(FILE* fp)
 {
-<<<<<<< HEAD
-    unsigned char buf[kCDELen];
-=======
     uint8_t buf[kCDELen];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     ZipEntry::putLongLE(&buf[0x00], kSignature);
     ZipEntry::putShortLE(&buf[0x04], mVersionMadeBy);
@@ -780,17 +676,6 @@ status_t ZipEntry::CentralDirEntry::write(FILE* fp)
 void ZipEntry::CentralDirEntry::dump(void) const
 {
     ALOGD(" CentralDirEntry contents:\n");
-<<<<<<< HEAD
-    ALOGD("  versMadeBy=%u versToExt=%u gpBits=0x%04x compression=%u\n",
-        mVersionMadeBy, mVersionToExtract, mGPBitFlag, mCompressionMethod);
-    ALOGD("  modTime=0x%04x modDate=0x%04x crc32=0x%08lx\n",
-        mLastModFileTime, mLastModFileDate, mCRC32);
-    ALOGD("  compressedSize=%lu uncompressedSize=%lu\n",
-        mCompressedSize, mUncompressedSize);
-    ALOGD("  filenameLen=%u extraLen=%u commentLen=%u\n",
-        mFileNameLength, mExtraFieldLength, mFileCommentLength);
-    ALOGD("  diskNumStart=%u intAttr=0x%04x extAttr=0x%08lx relOffset=%lu\n",
-=======
     ALOGD("  versMadeBy=%" PRIu16 " versToExt=%" PRIu16 " gpBits=0x%04" PRIx16 " compression=%" PRIu16 "\n",
         mVersionMadeBy, mVersionToExtract, mGPBitFlag, mCompressionMethod);
     ALOGD("  modTime=0x%04" PRIx16 " modDate=0x%04" PRIx16 " crc32=0x%08" PRIx32 "\n",
@@ -800,7 +685,6 @@ void ZipEntry::CentralDirEntry::dump(void) const
     ALOGD("  filenameLen=%" PRIu16 " extraLen=%" PRIu16 " commentLen=%" PRIu16 "\n",
         mFileNameLength, mExtraFieldLength, mFileCommentLength);
     ALOGD("  diskNumStart=%" PRIu16 " intAttr=0x%04" PRIx16 " extAttr=0x%08" PRIx32 " relOffset=%" PRIu32 "\n",
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         mDiskNumberStart, mInternalAttrs, mExternalAttrs,
         mLocalHeaderRelOffset);
 

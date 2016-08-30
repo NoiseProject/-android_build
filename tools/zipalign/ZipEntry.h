@@ -25,10 +25,7 @@
 #include <utils/Errors.h>
 
 #include <stdlib.h>
-<<<<<<< HEAD
-=======
 #include <stdint.h>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 #include <stdio.h>
 
 namespace android {
@@ -89,11 +86,7 @@ public:
     /*
      * Return the data CRC.
      */
-<<<<<<< HEAD
-    unsigned long getCRC32(void) const { return mCDE.mCRC32; }
-=======
     uint32_t getCRC32(void) const { return mCDE.mCRC32; }
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     /*
      * Return file modification time in UNIX seconds-since-epoch.
@@ -116,23 +109,6 @@ public:
      * Some basic functions for raw data manipulation.  "LE" means
      * Little Endian.
      */
-<<<<<<< HEAD
-    static inline unsigned short getShortLE(const unsigned char* buf) {
-        return buf[0] | (buf[1] << 8);
-    }
-    static inline unsigned long getLongLE(const unsigned char* buf) {
-        return buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
-    }
-    static inline void putShortLE(unsigned char* buf, short val) {
-        buf[0] = (unsigned char) val;
-        buf[1] = (unsigned char) (val >> 8);
-    }
-    static inline void putLongLE(unsigned char* buf, long val) {
-        buf[0] = (unsigned char) val;
-        buf[1] = (unsigned char) (val >> 8);
-        buf[2] = (unsigned char) (val >> 16);
-        buf[3] = (unsigned char) (val >> 24);
-=======
     static inline uint16_t getShortLE(const uint8_t* buf) {
         return buf[0] | (buf[1] << 8);
     }
@@ -148,7 +124,6 @@ public:
         buf[1] = (uint8_t) (val >> 8);
         buf[2] = (uint8_t) (val >> 16);
         buf[3] = (uint8_t) (val >> 24);
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     }
 
     /* defined for Zip archives */
@@ -192,11 +167,7 @@ protected:
      * Initialize the structure with the contents of a ZipEntry from
      * another file.
      */
-<<<<<<< HEAD
-    status_t initFromExternal(const ZipFile* pZipFile, const ZipEntry* pEntry);
-=======
     status_t initFromExternal(const ZipEntry* pEntry);
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     /*
      * Add some pad bytes to the LFH.  We do this by adding or resizing
@@ -207,11 +178,7 @@ protected:
     /*
      * Set information about the data for this entry.
      */
-<<<<<<< HEAD
-    void setDataInfo(long uncompLen, long compLen, unsigned long crc32,
-=======
     void setDataInfo(long uncompLen, long compLen, uint32_t crc32,
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         int compressionMethod);
 
     /*
@@ -229,11 +196,7 @@ protected:
      * the current file.
      */
     void setLFHOffset(off_t offset) {
-<<<<<<< HEAD
-        mCDE.mLocalHeaderRelOffset = (long) offset;
-=======
         mCDE.mLocalHeaderRelOffset = (uint32_t) offset;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     }
 
     /* mark for deletion; used by ZipFile::remove() */
@@ -278,21 +241,6 @@ private:
         status_t read(FILE* fp);
         status_t write(FILE* fp);
 
-<<<<<<< HEAD
-        // unsigned long mSignature;
-        unsigned short  mVersionToExtract;
-        unsigned short  mGPBitFlag;
-        unsigned short  mCompressionMethod;
-        unsigned short  mLastModFileTime;
-        unsigned short  mLastModFileDate;
-        unsigned long   mCRC32;
-        unsigned long   mCompressedSize;
-        unsigned long   mUncompressedSize;
-        unsigned short  mFileNameLength;
-        unsigned short  mExtraFieldLength;
-        unsigned char*  mFileName;
-        unsigned char*  mExtraField;
-=======
         // uint32_t mSignature;
         uint16_t mVersionToExtract;
         uint16_t mGPBitFlag;
@@ -306,7 +254,6 @@ private:
         uint16_t mExtraFieldLength;
         uint8_t* mFileName;
         uint8_t* mExtraField;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
         enum {
             kSignature      = 0x04034b50,
@@ -352,28 +299,6 @@ private:
         status_t read(FILE* fp);
         status_t write(FILE* fp);
 
-<<<<<<< HEAD
-        // unsigned long mSignature;
-        unsigned short  mVersionMadeBy;
-        unsigned short  mVersionToExtract;
-        unsigned short  mGPBitFlag;
-        unsigned short  mCompressionMethod;
-        unsigned short  mLastModFileTime;
-        unsigned short  mLastModFileDate;
-        unsigned long   mCRC32;
-        unsigned long   mCompressedSize;
-        unsigned long   mUncompressedSize;
-        unsigned short  mFileNameLength;
-        unsigned short  mExtraFieldLength;
-        unsigned short  mFileCommentLength;
-        unsigned short  mDiskNumberStart;
-        unsigned short  mInternalAttrs;
-        unsigned long   mExternalAttrs;
-        unsigned long   mLocalHeaderRelOffset;
-        unsigned char*  mFileName;
-        unsigned char*  mExtraField;
-        unsigned char*  mFileComment;
-=======
         // uint32_t mSignature;
         uint16_t mVersionMadeBy;
         uint16_t mVersionToExtract;
@@ -394,7 +319,6 @@ private:
         uint8_t* mFileName;
         uint8_t* mExtraField;
         uint8_t* mFileComment;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
         void dump(void) const;
 

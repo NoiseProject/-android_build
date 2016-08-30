@@ -27,11 +27,7 @@ CORRECT_BUILD_ENV_SEQUENCE_NUMBER := 10
 # NOTE: This will be overridden in product_config.mk if make
 # was invoked with a PRODUCT-xxx-yyy goal.
 ifeq ($(TARGET_PRODUCT),)
-<<<<<<< HEAD
-TARGET_PRODUCT := full
-=======
 TARGET_PRODUCT := aosp_arm
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 
@@ -57,33 +53,18 @@ endif
 ifneq (,$(findstring Macintosh,$(UNAME)))
   HOST_OS := darwin
 endif
-<<<<<<< HEAD
-ifneq (,$(findstring CYGWIN,$(UNAME)))
-  HOST_OS := windows
-endif
-=======
 
 HOST_OS_EXTRA:=$(shell python -c "import platform; print(platform.platform())")
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # BUILD_OS is the real host doing the build.
 BUILD_OS := $(HOST_OS)
 
-<<<<<<< HEAD
-# Under Linux, if USE_MINGW is set, we change HOST_OS to Windows to build the
-# Windows SDK. Only a subset of tools and SDK will manage to build properly.
-ifeq ($(HOST_OS),linux)
-ifdef USE_MINGW
-  HOST_OS := windows
-endif
-=======
 HOST_CROSS_OS :=
 # We can cross-build Windows binaries on Linux
 ifeq ($(HOST_OS),linux)
 HOST_CROSS_OS := windows
 HOST_CROSS_ARCH := x86
 HOST_CROSS_2ND_ARCH := x86_64
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 ifeq ($(HOST_OS),)
@@ -123,15 +104,7 @@ endif
 HOST_PREBUILT_ARCH := x86
 # This is the standard way to name a directory containing prebuilt host
 # objects. E.g., prebuilt/$(HOST_PREBUILT_TAG)/cc
-<<<<<<< HEAD
-ifeq ($(HOST_OS),windows)
-  HOST_PREBUILT_TAG := windows
-else
-  HOST_PREBUILT_TAG := $(HOST_OS)-$(HOST_PREBUILT_ARCH)
-endif
-=======
 HOST_PREBUILT_TAG := $(BUILD_OS)-$(HOST_PREBUILT_ARCH)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # TARGET_COPY_OUT_* are all relative to the staging directory, ie PRODUCT_OUT.
 # Define them here so they can be used in product config files.
@@ -162,18 +135,6 @@ $(warning bad TARGET_BUILD_VARIANT: $(TARGET_BUILD_VARIANT))
 $(error must be empty or one of: eng user userdebug)
 endif
 
-<<<<<<< HEAD
-# Build host as 32-bit for SDK build.
-ifneq ($(filter $(MAKECMDGOALS),win_sdk sdk),)
-HOST_PREFER_32_BIT := true
-endif
-ifdef USE_MINGW
-# We only build sdk host tools in the MinGW windows build.
-# Build it as 32-bit as well.
-HOST_PREFER_32_BIT := true
-endif
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 SDK_HOST_ARCH := x86
 
 # Boards may be defined under $(SRC_TARGET_DIR)/board/$(TARGET_DEVICE)
@@ -181,19 +142,11 @@ SDK_HOST_ARCH := x86
 # make sure only one exists.
 # Real boards should always be associated with an OEM vendor.
 board_config_mk := \
-<<<<<<< HEAD
-	$(strip $(wildcard \
-		$(SRC_TARGET_DIR)/board/$(TARGET_DEVICE)/BoardConfig.mk \
-		$(shell test -d device && find device -maxdepth 4 -path '*/$(TARGET_DEVICE)/BoardConfig.mk') \
-		$(shell test -d vendor && find vendor -maxdepth 4 -path '*/$(TARGET_DEVICE)/BoardConfig.mk') \
-	))
-=======
 	$(strip $(sort $(wildcard \
 		$(SRC_TARGET_DIR)/board/$(TARGET_DEVICE)/BoardConfig.mk \
 		$(shell test -d device && find -L device -maxdepth 4 -path '*/$(TARGET_DEVICE)/BoardConfig.mk') \
 		$(shell test -d vendor && find -L vendor -maxdepth 4 -path '*/$(TARGET_DEVICE)/BoardConfig.mk') \
 	)))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifeq ($(board_config_mk),)
   $(error No config file found for TARGET_DEVICE $(TARGET_DEVICE))
 endif
@@ -204,13 +157,10 @@ include $(board_config_mk)
 ifeq ($(TARGET_ARCH),)
   $(error TARGET_ARCH not defined by board config: $(board_config_mk))
 endif
-<<<<<<< HEAD
-=======
 ifneq ($(MALLOC_IMPL),)
   $(warning *** Unsupported option MALLOC_IMPL defined by board config: $(board_config_mk).)
   $(error Use `MALLOC_SVELTE := true` to configure jemalloc for low-memory)
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_DEVICE_DIR := $(patsubst %/,%,$(dir $(board_config_mk)))
 board_config_mk :=
 
@@ -247,17 +197,8 @@ endif
 
 ifeq (,$(strip $(OUT_DIR)))
 ifeq (,$(strip $(OUT_DIR_COMMON_BASE)))
-<<<<<<< HEAD
-ifneq ($(TOPDIR),)
 OUT_DIR := $(TOPDIR)out
 else
-OUT_DIR := $(shell readlink -f .)/out
-endif
-else
-=======
-OUT_DIR := $(TOPDIR)out
-else
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 OUT_DIR := $(OUT_DIR_COMMON_BASE)/$(notdir $(PWD))
 endif
 endif
@@ -278,17 +219,12 @@ HOST_OUT_ROOT := $(HOST_OUT_ROOT_$(HOST_BUILD_TYPE))
 HOST_OUT_release := $(HOST_OUT_ROOT_release)/$(HOST_OS)-$(HOST_PREBUILT_ARCH)
 HOST_OUT_debug := $(HOST_OUT_ROOT_debug)/$(HOST_OS)-$(HOST_PREBUILT_ARCH)
 HOST_OUT := $(HOST_OUT_$(HOST_BUILD_TYPE))
-<<<<<<< HEAD
-
-BUILD_OUT := $(OUT_DIR)/host/$(BUILD_OS)-$(HOST_PREBUILT_ARCH)
-=======
 # TODO: remove
 BUILD_OUT := $(HOST_OUT)
 
 HOST_CROSS_OUT_release := $(HOST_OUT_ROOT_release)/windows-$(HOST_PREBUILT_ARCH)
 HOST_CROSS_OUT_debug := $(HOST_OUT_ROOT_debug)/windows-$(HOST_PREBUILT_ARCH)
 HOST_CROSS_OUT := $(HOST_CROSS_OUT_$(HOST_BUILD_TYPE))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 TARGET_PRODUCT_OUT_ROOT := $(TARGET_OUT_ROOT)/product
 
@@ -297,24 +233,12 @@ HOST_COMMON_OUT_ROOT := $(HOST_OUT_ROOT)/common
 
 PRODUCT_OUT := $(TARGET_PRODUCT_OUT_ROOT)/$(TARGET_DEVICE)
 
-<<<<<<< HEAD
-ifneq ($(TARGET_BOARD_OUT_DIR),)
-BOARD_OUT := $(TARGET_PRODUCT_OUT_ROOT)/$(TARGET_BOARD_OUT_DIR)
-endif
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 OUT_DOCS := $(TARGET_COMMON_OUT_ROOT)/docs
 
 BUILD_OUT_EXECUTABLES := $(BUILD_OUT)/bin
 
 HOST_OUT_EXECUTABLES := $(HOST_OUT)/bin
 HOST_OUT_SHARED_LIBRARIES := $(HOST_OUT)/lib64
-<<<<<<< HEAD
-HOST_OUT_JAVA_LIBRARIES := $(HOST_OUT)/framework
-HOST_OUT_SDK_ADDON := $(HOST_OUT)/sdk_addon
-
-=======
 HOST_OUT_RENDERSCRIPT_BITCODE := $(HOST_OUT_SHARED_LIBRARIES)
 HOST_OUT_JAVA_LIBRARIES := $(HOST_OUT)/framework
 HOST_OUT_SDK_ADDON := $(HOST_OUT)/sdk_addon
@@ -322,7 +246,6 @@ HOST_OUT_SDK_ADDON := $(HOST_OUT)/sdk_addon
 HOST_CROSS_OUT_EXECUTABLES := $(HOST_CROSS_OUT)/bin
 HOST_CROSS_OUT_SHARED_LIBRARIES := $(HOST_CROSS_OUT)/lib
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 HOST_OUT_INTERMEDIATES := $(HOST_OUT)/obj
 HOST_OUT_HEADERS := $(HOST_OUT_INTERMEDIATES)/include
 HOST_OUT_INTERMEDIATE_LIBRARIES := $(HOST_OUT_INTERMEDIATES)/lib
@@ -330,11 +253,6 @@ HOST_OUT_NOTICE_FILES := $(HOST_OUT_INTERMEDIATES)/NOTICE_FILES
 HOST_OUT_COMMON_INTERMEDIATES := $(HOST_COMMON_OUT_ROOT)/obj
 HOST_OUT_FAKE := $(HOST_OUT)/fake_packages
 
-<<<<<<< HEAD
-HOST_OUT_GEN := $(HOST_OUT)/gen
-HOST_OUT_COMMON_GEN := $(HOST_COMMON_OUT_ROOT)/gen
-
-=======
 HOST_CROSS_OUT_INTERMEDIATES := $(HOST_CROSS_OUT)/obj
 HOST_CROSS_OUT_HEADERS := $(HOST_CROSS_OUT_INTERMEDIATES)/include
 HOST_CROSS_OUT_INTERMEDIATE_LIBRARIES := $(HOST_CROSS_OUT_INTERMEDIATES)/lib
@@ -345,7 +263,6 @@ HOST_OUT_COMMON_GEN := $(HOST_COMMON_OUT_ROOT)/gen
 
 HOST_CROSS_OUT_GEN := $(HOST_CROSS_OUT)/gen
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Out for HOST_2ND_ARCH
 HOST_2ND_ARCH_VAR_PREFIX := 2ND_
 HOST_2ND_ARCH_MODULE_SUFFIX := _32
@@ -353,10 +270,7 @@ $(HOST_2ND_ARCH_VAR_PREFIX)HOST_OUT_INTERMEDIATES := $(HOST_OUT)/obj32
 $(HOST_2ND_ARCH_VAR_PREFIX)HOST_OUT_INTERMEDIATE_LIBRARIES := $($(HOST_2ND_ARCH_VAR_PREFIX)HOST_OUT_INTERMEDIATES)/lib
 $(HOST_2ND_ARCH_VAR_PREFIX)HOST_OUT_SHARED_LIBRARIES := $(HOST_OUT)/lib
 $(HOST_2ND_ARCH_VAR_PREFIX)HOST_OUT_EXECUTABLES := $(HOST_OUT_EXECUTABLES)
-<<<<<<< HEAD
-=======
 $(HOST_2ND_ARCH_VAR_PREFIX)HOST_OUT_JAVA_LIBRARIES := $(HOST_OUT_JAVA_LIBRARIES)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # The default host library path.
 # It always points to the path where we build libraries in the default bitness.
@@ -366,13 +280,6 @@ else
 HOST_LIBRARY_PATH := $(HOST_OUT_SHARED_LIBRARIES)
 endif
 
-<<<<<<< HEAD
-ifeq ($(BOARD_OUT),)
-TARGET_OUT_INTERMEDIATES := $(PRODUCT_OUT)/obj
-else
-TARGET_OUT_INTERMEDIATES := $(BOARD_OUT)/obj
-endif
-=======
 # Out for HOST_CROSS_2ND_ARCH
 HOST_CROSS_2ND_ARCH_VAR_PREFIX := 2ND_
 HOST_CROSS_2ND_ARCH_MODULE_SUFFIX := _64
@@ -382,21 +289,10 @@ $(HOST_CROSS_2ND_ARCH_VAR_PREFIX)HOST_CROSS_OUT_SHARED_LIBRARIES := $(HOST_CROSS
 $(HOST_CROSS_2ND_ARCH_VAR_PREFIX)HOST_CROSS_OUT_EXECUTABLES := $(HOST_CROSS_OUT_EXECUTABLES)
 
 TARGET_OUT_INTERMEDIATES := $(PRODUCT_OUT)/obj
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_OUT_HEADERS := $(TARGET_OUT_INTERMEDIATES)/include
 TARGET_OUT_INTERMEDIATE_LIBRARIES := $(TARGET_OUT_INTERMEDIATES)/lib
 TARGET_OUT_COMMON_INTERMEDIATES := $(TARGET_COMMON_OUT_ROOT)/obj
 
-<<<<<<< HEAD
-ifeq ($(BOARD_OUT),)
-TARGET_OUT_GEN := $(PRODUCT_OUT)/gen
-else
-TARGET_OUT_GEN := $(BOARD_OUT)/gen
-endif
-TARGET_OUT_COMMON_GEN := $(TARGET_COMMON_OUT_ROOT)/gen
-
-TARGET_OUT := $(PRODUCT_OUT)/$(TARGET_COPY_OUT_SYSTEM)
-=======
 TARGET_OUT_GEN := $(PRODUCT_OUT)/gen
 TARGET_OUT_COMMON_GEN := $(TARGET_COMMON_OUT_ROOT)/gen
 
@@ -407,24 +303,16 @@ else
 target_out_shared_libraries_base := $(TARGET_OUT)
 endif
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_OUT_EXECUTABLES := $(TARGET_OUT)/bin
 TARGET_OUT_OPTIONAL_EXECUTABLES := $(TARGET_OUT)/xbin
 ifeq ($(TARGET_IS_64_BIT),true)
 # /system/lib always contains 32-bit libraries,
 # and /system/lib64 (if present) always contains 64-bit libraries.
-<<<<<<< HEAD
-TARGET_OUT_SHARED_LIBRARIES := $(TARGET_OUT)/lib64
-else
-TARGET_OUT_SHARED_LIBRARIES := $(TARGET_OUT)/lib
-endif
-=======
 TARGET_OUT_SHARED_LIBRARIES := $(target_out_shared_libraries_base)/lib64
 else
 TARGET_OUT_SHARED_LIBRARIES := $(target_out_shared_libraries_base)/lib
 endif
 TARGET_OUT_RENDERSCRIPT_BITCODE := $(TARGET_OUT_SHARED_LIBRARIES)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_OUT_JAVA_LIBRARIES := $(TARGET_OUT)/framework
 TARGET_OUT_APPS := $(TARGET_OUT)/app
 TARGET_OUT_APPS_PRIVILEGED := $(TARGET_OUT)/priv-app
@@ -439,12 +327,8 @@ TARGET_2ND_ARCH_VAR_PREFIX := $(HOST_2ND_ARCH_VAR_PREFIX)
 TARGET_2ND_ARCH_MODULE_SUFFIX := $(HOST_2ND_ARCH_MODULE_SUFFIX)
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_INTERMEDIATES := $(PRODUCT_OUT)/obj_$(TARGET_2ND_ARCH)
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_INTERMEDIATE_LIBRARIES := $($(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_INTERMEDIATES)/lib
-<<<<<<< HEAD
-$(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_SHARED_LIBRARIES := $(TARGET_OUT)/lib
-=======
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_SHARED_LIBRARIES := $(target_out_shared_libraries_base)/lib
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_RENDERSCRIPT_BITCODE := $($(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_SHARED_LIBRARIES)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_EXECUTABLES := $(TARGET_OUT_EXECUTABLES)
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_APPS := $(TARGET_OUT_APPS)
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_APPS_PRIVILEGED := $(TARGET_OUT_APPS_PRIVILEGED)
@@ -459,15 +343,10 @@ TARGET_OUT_DATA_KEYCHARS := $(TARGET_OUT_KEYCHARS)
 TARGET_OUT_DATA_ETC := $(TARGET_OUT_ETC)
 ifeq ($(TARGET_IS_64_BIT),true)
 TARGET_OUT_DATA_NATIVE_TESTS := $(TARGET_OUT_DATA)/nativetest64
-<<<<<<< HEAD
-else
-TARGET_OUT_DATA_NATIVE_TESTS := $(TARGET_OUT_DATA)/nativetest
-=======
 TARGET_OUT_DATA_METRIC_TESTS := $(TARGET_OUT_DATA)/benchmarktest64
 else
 TARGET_OUT_DATA_NATIVE_TESTS := $(TARGET_OUT_DATA)/nativetest
 TARGET_OUT_DATA_METRIC_TESTS := $(TARGET_OUT_DATA)/benchmarktest
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 TARGET_OUT_DATA_FAKE := $(TARGET_OUT_DATA)/fake_packages
 
@@ -475,22 +354,11 @@ $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_DATA_EXECUTABLES := $(TARGET_OUT_DATA_EX
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_DATA_SHARED_LIBRARIES := $($(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_SHARED_LIBRARIES)
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_DATA_APPS := $(TARGET_OUT_DATA_APPS)
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_DATA_NATIVE_TESTS := $(TARGET_OUT_DATA)/nativetest
-<<<<<<< HEAD
-=======
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_DATA_METRIC_TESTS := $(TARGET_OUT_DATA)/benchmarktest
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 TARGET_OUT_CACHE := $(PRODUCT_OUT)/cache
 
 TARGET_OUT_VENDOR := $(PRODUCT_OUT)/$(TARGET_COPY_OUT_VENDOR)
-<<<<<<< HEAD
-TARGET_OUT_VENDOR_EXECUTABLES := $(TARGET_OUT_VENDOR)/bin
-TARGET_OUT_VENDOR_OPTIONAL_EXECUTABLES := $(TARGET_OUT_VENDOR)/xbin
-ifeq ($(TARGET_IS_64_BIT),true)
-TARGET_OUT_VENDOR_SHARED_LIBRARIES := $(TARGET_OUT_VENDOR)/lib64
-else
-TARGET_OUT_VENDOR_SHARED_LIBRARIES := $(TARGET_OUT_VENDOR)/lib
-=======
 ifneq ($(filter address,$(SANITIZE_TARGET)),)
 target_out_vendor_shared_libraries_base := $(PRODUCT_OUT)/$(TARGET_COPY_OUT_DATA)/vendor
 else
@@ -503,7 +371,6 @@ ifeq ($(TARGET_IS_64_BIT),true)
 TARGET_OUT_VENDOR_SHARED_LIBRARIES := $(target_out_vendor_shared_libraries_base)/lib64
 else
 TARGET_OUT_VENDOR_SHARED_LIBRARIES := $(target_out_vendor_shared_libraries_base)/lib
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 TARGET_OUT_VENDOR_JAVA_LIBRARIES := $(TARGET_OUT_VENDOR)/framework
 TARGET_OUT_VENDOR_APPS := $(TARGET_OUT_VENDOR)/app
@@ -543,11 +410,8 @@ $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_ODM_EXECUTABLES := $(TARGET_OUT_ODM_EXEC
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_ODM_SHARED_LIBRARIES := $(TARGET_OUT_ODM)/lib
 $(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_ODM_APPS := $(TARGET_OUT_ODM_APPS)
 
-<<<<<<< HEAD
-=======
 TARGET_OUT_BREAKPAD := $(PRODUCT_OUT)/breakpad
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_OUT_UNSTRIPPED := $(PRODUCT_OUT)/symbols
 TARGET_OUT_EXECUTABLES_UNSTRIPPED := $(TARGET_OUT_UNSTRIPPED)/system/bin
 TARGET_OUT_SHARED_LIBRARIES_UNSTRIPPED := $(TARGET_OUT_UNSTRIPPED)/system/lib
@@ -575,10 +439,7 @@ TARGET_INSTALLER_ROOT_OUT := $(TARGET_INSTALLER_OUT)/root
 TARGET_INSTALLER_SYSTEM_OUT := $(TARGET_INSTALLER_OUT)/root/system
 
 COMMON_MODULE_CLASSES := TARGET-NOTICE_FILES HOST-NOTICE_FILES HOST-JAVA_LIBRARIES
-<<<<<<< HEAD
-=======
 PER_ARCH_MODULE_CLASSES := SHARED_LIBRARIES STATIC_LIBRARIES EXECUTABLES GYP RENDERSCRIPT_BITCODE
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifeq (,$(strip $(DIST_DIR)))
   DIST_DIR := $(OUT_DIR)/dist
@@ -587,10 +448,7 @@ endif
 ifeq ($(PRINT_BUILD_CONFIG),)
 PRINT_BUILD_CONFIG := true
 endif
-<<<<<<< HEAD
-=======
 
 ifeq ($(USE_CLANG_PLATFORM_BUILD),)
 USE_CLANG_PLATFORM_BUILD := true
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

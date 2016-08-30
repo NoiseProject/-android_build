@@ -47,16 +47,12 @@ endif
 ifeq (true,$(EMMA_INSTRUMENT))
 ifeq (true,$(LOCAL_EMMA_INSTRUMENT))
 ifeq (true,$(EMMA_INSTRUMENT_STATIC))
-<<<<<<< HEAD
-LOCAL_STATIC_JAVA_LIBRARIES += emma
-=======
 ifdef LOCAL_JACK_ENABLED
 # Jack supports coverage with Jacoco
 LOCAL_STATIC_JAVA_LIBRARIES += jacocoagent
 else
 LOCAL_STATIC_JAVA_LIBRARIES += emma
 endif # LOCAL_JACK_ENABLED
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif # LOCAL_EMMA_INSTRUMENT
 endif # EMMA_INSTRUMENT_STATIC
 else
@@ -75,11 +71,7 @@ $(common_javalib.jar) : $(full_classes_proguard_jar)
 else
 $(common_javalib.jar) : $(full_classes_jar)
 endif
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"target Static Jar:"${CL_RST}" $(PRIVATE_MODULE) ($@)"
-=======
 	@echo "target Static Jar: $(PRIVATE_MODULE) ($@)"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(copy-file-to-target)
 
 ifdef LOCAL_JACK_ENABLED
@@ -94,13 +86,8 @@ else # !LOCAL_IS_STATIC_JAVA_LIBRARY
 $(common_javalib.jar): PRIVATE_DEX_FILE := $(built_dex)
 $(common_javalib.jar): PRIVATE_SOURCE_ARCHIVE := $(full_classes_jarjar_jar)
 $(common_javalib.jar): PRIVATE_DONT_DELETE_JAR_DIRS := $(LOCAL_DONT_DELETE_JAR_DIRS)
-<<<<<<< HEAD
-$(common_javalib.jar) : $(built_dex) $(java_resource_sources)
-	@echo -e ${CL_GRN}"target Jar:"${CL_RST}" $(PRIVATE_MODULE) ($@)"
-=======
 $(common_javalib.jar) : $(built_dex) $(java_resource_sources) | $(ZIPTIME)
 	@echo "target Jar: $(PRIVATE_MODULE) ($@)"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifdef LOCAL_JACK_ENABLED
 	$(create-empty-package)
 else
@@ -110,10 +97,7 @@ endif
 ifdef LOCAL_JACK_ENABLED
 	$(add-carried-jack-resources)
 endif
-<<<<<<< HEAD
-=======
 	$(remove-timestamps-from-package)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifdef LOCAL_DEX_PREOPT
 ifneq ($(dexpreopt_boot_jar_module),) # boot jar
@@ -127,11 +111,7 @@ else # ! boot jar
 $(built_odex): PRIVATE_MODULE := $(LOCAL_MODULE)
 # Use pattern rule - we may have multiple built odex files.
 $(built_odex) : $(dir $(LOCAL_BUILT_MODULE))% : $(common_javalib.jar)
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"Dexpreopt Jar:"${CL_RST}" $(PRIVATE_MODULE) ($@)"
-=======
 	@echo "Dexpreopt Jar: $(PRIVATE_MODULE) ($@)"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(call dexpreopt-one-file,$<,$@)
 
 $(LOCAL_BUILT_MODULE) : $(common_javalib.jar) | $(ACP)

@@ -7,15 +7,9 @@ LOCAL_CFLAGS += -DGTEST_OS_LINUX_ANDROID -DGTEST_HAS_STD_STRING
 LOCAL_C_INCLUDES += external/gtest/include
 
 ifndef LOCAL_SDK_VERSION
-<<<<<<< HEAD
-LOCAL_STATIC_LIBRARIES += libgtest libgtest_main
-else
-LOCAL_STATIC_LIBRARIES += libgtest_ndk libgtest_main_ndk
-=======
 LOCAL_STATIC_LIBRARIES += libgtest_main libgtest
 else
 LOCAL_STATIC_LIBRARIES += libgtest_main_ndk libgtest_ndk
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 ifdef LOCAL_MODULE_PATH

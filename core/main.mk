@@ -38,11 +38,6 @@ endif
 #endif
 
 # Check for broken versions of make.
-<<<<<<< HEAD
-# (Allow any version under Cygwin since we don't actually build the platform there.)
-ifeq (,$(findstring CYGWIN,$(shell uname -sm)))
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifneq (1,$(strip $(shell expr $(MAKE_VERSION) \>= 3.81)))
 $(warning ********************************************************************************)
 $(warning *  You are using version $(MAKE_VERSION) of make.)
@@ -51,10 +46,6 @@ $(warning *  see https://source.android.com/source/download.html)
 $(warning ********************************************************************************)
 $(error stopping)
 endif
-<<<<<<< HEAD
-endif
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Absolute path of the present working direcotry.
 # This overrides the shell variable $PWD, which does not necessarily points to
@@ -66,12 +57,6 @@ TOPDIR :=
 
 BUILD_SYSTEM := $(TOPDIR)build/core
 
-<<<<<<< HEAD
-# This is the default target.  It must be the first declared target.
-.PHONY: droid
-DEFAULT_GOAL := droid
-$(DEFAULT_GOAL):
-=======
 # Ensure JAVA_NOT_REQUIRED is not set externally.
 JAVA_NOT_REQUIRED := false
 
@@ -82,7 +67,6 @@ $(DEFAULT_GOAL): droid_targets
 
 .PHONY: droid_targets
 droid_targets:
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Used to force goals to build.  Only use for conditionally defined goals.
 .PHONY: FORCE
@@ -99,22 +83,15 @@ dont_bother_goals := clean clobber dataclean installclean \
     vendorimage-nodeps \
     ramdisk-nodeps \
     bootimage-nodeps \
-<<<<<<< HEAD
-    recoveryimage-nodeps
-=======
     recoveryimage-nodeps \
     product-graph dump-products
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifneq ($(filter $(dont_bother_goals), $(MAKECMDGOALS)),)
 dont_bother := true
 endif
 
-<<<<<<< HEAD
-=======
 ORIGINAL_MAKECMDGOALS := $(MAKECMDGOALS)
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Targets that provide quick help on the build system.
 include $(BUILD_SYSTEM)/help.mk
 
@@ -122,10 +99,6 @@ include $(BUILD_SYSTEM)/help.mk
 # and host information.
 include $(BUILD_SYSTEM)/config.mk
 
-<<<<<<< HEAD
-# CTS-specific config.
--include cts/build/config.mk
-=======
 relaunch_with_ninja :=
 ifneq ($(USE_NINJA),false)
 ifndef BUILDING_WITH_NINJA
@@ -161,7 +134,6 @@ endif
 -include cts/build/config.mk
 # VTS-specific config.
 -include test/vts/tools/vts-tradefed/build/config.mk
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # This allows us to force a clean build - included after the config.mk
 # environment setup is done, but before we generate any dependencies.  This
@@ -172,20 +144,12 @@ include $(BUILD_SYSTEM)/cleanbuild.mk
 # Include the google-specific config
 -include vendor/google/build/config.mk
 
-<<<<<<< HEAD
-VERSION_CHECK_SEQUENCE_NUMBER := 5
-=======
 VERSION_CHECK_SEQUENCE_NUMBER := 6
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 -include $(OUT_DIR)/versions_checked.mk
 ifneq ($(VERSION_CHECK_SEQUENCE_NUMBER),$(VERSIONS_CHECKED))
 
 $(info Checking build tools versions...)
 
-<<<<<<< HEAD
-ifneq ($(HOST_OS),windows)
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # check for a case sensitive file system
 ifneq (a,$(shell mkdir -p $(OUT_DIR) ; \
                 echo a > $(OUT_DIR)/casecheck.txt; \
@@ -197,10 +161,6 @@ $(warning Please move your source tree to a case-sensitive filesystem.)
 $(warning ************************************************************)
 $(error Case-insensitive filesystems not supported)
 endif
-<<<<<<< HEAD
-endif
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Make sure that there are no spaces in the absolute path; the
 # build system can't deal with them.
@@ -217,19 +177,6 @@ $(warning ************************************************************)
 $(error Directory names containing spaces not supported)
 endif
 
-<<<<<<< HEAD
-java_version_str := $(shell unset _JAVA_OPTIONS && java -version 2>&1)
-javac_version_str := $(shell unset _JAVA_OPTIONS && javac -version 2>&1)
-
-# Check for the correct version of java, should be 1.7 by
-# default, and 1.8 if EXPERIMENTAL_USE_JAVA8 is set
-ifneq ($(EXPERIMENTAL_USE_JAVA8),)
-required_version := "1.8.x"
-required_javac_version := "1.8"
-java_version := $(shell echo '$(java_version_str)' | grep 'openjdk .*[ "]1\.8[\. "$$]')
-javac_version := $(shell echo '$(javac_version_str)' | grep '[ "]1\.8[\. "$$]')
-else # default
-=======
 ifeq ($(JAVA_NOT_REQUIRED), false)
 java_version_str := $(shell unset _JAVA_OPTIONS && java -version 2>&1)
 javac_version_str := $(shell unset _JAVA_OPTIONS && javac -version 2>&1)
@@ -242,16 +189,11 @@ required_javac_version := "1.8"
 java_version := $(shell echo '$(java_version_str)' | grep '[ "]1\.8[\. "$$]')
 javac_version := $(shell echo '$(javac_version_str)' | grep '[ "]1\.8[\. "$$]')
 else
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 required_version := "1.7.x"
 required_javac_version := "1.7"
 java_version := $(shell echo '$(java_version_str)' | grep '^java .*[ "]1\.7[\. "$$]')
 javac_version := $(shell echo '$(javac_version_str)' | grep '[ "]1\.7[\. "$$]')
-<<<<<<< HEAD
-endif # if EXPERIMENTAL_USE_JAVA8
-=======
 endif # if LEGACY_USE_JAVA7 == ''
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifeq ($(strip $(java_version)),)
 $(info ************************************************************)
@@ -269,34 +211,20 @@ endif
 
 # Check for the current JDK.
 #
-<<<<<<< HEAD
-# For Java 1.7, we require OpenJDK on linux and Oracle JDK on Mac OS.
-requires_openjdk := false
-ifeq ($(HOST_OS), linux)
-=======
 # For Java 1.7/1.8, we require OpenJDK on linux and Oracle JDK on Mac OS.
 requires_openjdk := false
 ifeq ($(BUILD_OS),linux)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 requires_openjdk := true
 endif
 
 
 # Check for the current jdk
 ifeq ($(requires_openjdk), true)
-<<<<<<< HEAD
-# The user asked for java7 openjdk, so check that the host
-# java version is really openjdk
-ifeq ($(shell echo '$(java_version_str)' | grep -i openjdk),)
-$(info ************************************************************)
-$(info You asked for an OpenJDK 7 build but your version is)
-=======
 # The user asked for openjdk, so check that the host
 # java version is really openjdk and not some other JDK.
 ifeq ($(shell echo '$(java_version_str)' | grep -i openjdk),)
 $(info ************************************************************)
 $(info You asked for an OpenJDK based build but your version is)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(info $(java_version_str).)
 $(info ************************************************************)
 $(error stop)
@@ -314,15 +242,12 @@ $(error stop)
 endif # java version is not Sun Oracle JDK
 endif # if requires_openjdk
 
-<<<<<<< HEAD
-=======
 KNOWN_INCOMPATIBLE_JAVAC_VERSIONS := google
 incompat_javac := $(foreach v,$(KNOWN_INCOMPATIBLE_JAVAC_VERSIONS),$(findstring $(v),$(javac_version_str)))
 ifneq ($(incompat_javac),)
 javac_version :=
 endif
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Check for the correct version of javac
 ifeq ($(strip $(javac_version)),)
 $(info ************************************************************)
@@ -330,16 +255,12 @@ $(info You are attempting to build with the incorrect version)
 $(info of javac.)
 $(info $(space))
 $(info Your version is: $(javac_version_str).)
-<<<<<<< HEAD
-$(info The required version is: $(required_javac_version))
-=======
 ifneq ($(incompat_javac),)
 $(info This '$(incompat_javac)' version is not supported for Android platform builds.)
 $(info Use a publicly available JDK and make sure you have run envsetup.sh / lunch.)
 else
 $(info The required version is: $(required_javac_version))
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(info $(space))
 $(info Please follow the machine setup instructions at)
 $(info $(space)$(space)$(space)$(space)https://source.android.com/source/download.html)
@@ -347,10 +268,7 @@ $(info ************************************************************)
 $(error stop)
 endif
 
-<<<<<<< HEAD
-=======
 endif # if JAVA_NOT_REQUIRED
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifndef BUILD_EMULATOR
   # Emulator binaries are now provided under prebuilts/android-emulator/
@@ -413,8 +331,6 @@ TARGET_BUILD_JAVA_SUPPORT_LEVEL := platform
 # The pdk (Platform Development Kit) build
 include build/core/pdk_config.mk
 
-<<<<<<< HEAD
-=======
 #
 # -----------------------------------------------------------------
 # Jack version configuration
@@ -439,7 +355,6 @@ ifneq ($(PLATFORM_VERSION_CODENAME),REL)
   ADDITIONAL_BUILD_PROPERTIES += ro.bionic.ld.warning=1
 endif
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # -----------------------------------------------------------------
 ###
 ### In this section we set up the things that are different
@@ -454,11 +369,7 @@ endif
 
 # Add build properties for ART. These define system properties used by installd
 # to pass flags to dex2oat.
-<<<<<<< HEAD
-ADDITIONAL_BUILD_PROPERTIES += persist.sys.dalvik.vm.lib.2=libart
-=======
 ADDITIONAL_BUILD_PROPERTIES += persist.sys.dalvik.vm.lib.2=libart.so
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ADDITIONAL_BUILD_PROPERTIES += dalvik.vm.isa.$(TARGET_ARCH).variant=$(DEX2OAT_TARGET_CPU_VARIANT)
 ifneq ($(DEX2OAT_TARGET_INSTRUCTION_SET_FEATURES),)
   ADDITIONAL_BUILD_PROPERTIES += dalvik.vm.isa.$(TARGET_ARCH).features=$(DEX2OAT_TARGET_INSTRUCTION_SET_FEATURES)
@@ -479,14 +390,11 @@ tags_to_install :=
 ifneq (,$(user_variant))
   # Target is secure in user builds.
   ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=1
-<<<<<<< HEAD
-=======
   ADDITIONAL_DEFAULT_PROPERTIES += security.perf_harden=1
 
   ifeq ($(user_variant),user)
     ADDITIONAL_DEFAULT_PROPERTIES += ro.adb.secure=1
   endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   ifeq ($(user_variant),userdebug)
     # Pick up some extra useful tools
@@ -496,21 +404,6 @@ ifneq (,$(user_variant))
     enable_target_debugging :=
   endif
 
-<<<<<<< HEAD
-  # Turn on Dalvik preoptimization for user builds, but only if not
-  # explicitly disabled and the build is running on Linux (since host
-  # Dalvik isn't built for non-Linux hosts).
-  ifeq (,$(WITH_DEXPREOPT))
-    ifeq ($(user_variant),user)
-      ifeq ($(HOST_OS),linux)
-        # TODO: turn on WITH_DEXPREOPT for libart user builds.
-        # WITH_DEXPREOPT := true
-      endif
-    endif
-  endif
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   # Disallow mock locations by default for user builds
   ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=0
 
@@ -546,18 +439,9 @@ ifneq ($(filter ro.setupwizard.mode=ENABLED, $(call collapse-pairs, $(ADDITIONAL
           ro.setupwizard.mode=OPTIONAL
 endif
 ifndef is_sdk_build
-<<<<<<< HEAD
-  # Don't verify or compile the image on eng builds to speed startup.
-  ADDITIONAL_BUILD_PROPERTIES += dalvik.vm.image-dex2oat-filter=verify-at-runtime
-  # Don't verify or compile apps on eng builds to speed startup.
-  ADDITIONAL_BUILD_PROPERTIES += dalvik.vm.dex2oat-filter=verify-at-runtime
-endif
-  ADDITIONAL_BUILD_PROPERTIES += dalvik.vm.usejit=true
-=======
   # To speedup startup of non-preopted builds, don't verify or compile the boot image.
   ADDITIONAL_BUILD_PROPERTIES += dalvik.vm.image-dex2oat-filter=verify-at-runtime
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 ## sdk ##
@@ -568,11 +452,7 @@ ifdef is_sdk_build
 sdk_repo_goal := $(strip $(filter sdk_repo,$(MAKECMDGOALS)))
 MAKECMDGOALS := $(strip $(filter-out sdk_repo,$(MAKECMDGOALS)))
 
-<<<<<<< HEAD
-ifneq ($(words $(filter-out $(INTERNAL_MODIFIER_TARGETS) checkbuild emulator_tests target-files-package,$(MAKECMDGOALS))),1)
-=======
 ifneq ($(words $(sort $(filter-out $(INTERNAL_MODIFIER_TARGETS) checkbuild emulator_tests target-files-package,$(MAKECMDGOALS)))),1)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(error The 'sdk' target may not be specified with any other targets)
 endif
 
@@ -618,24 +498,6 @@ ifeq ($(filter-out $(INTERNAL_MODIFIER_TARGETS),$(MAKECMDGOALS)),)
 $(INTERNAL_MODIFIER_TARGETS): $(DEFAULT_GOAL)
 endif
 
-<<<<<<< HEAD
-# Bring in all modules that need to be built.
-ifeq ($(HOST_OS),windows)
-SDK_ONLY := true
-endif
-
-ifeq ($(SDK_ONLY),true)
-include $(TOPDIR)sdk/build/windows_sdk_whitelist.mk
-include $(TOPDIR)development/build/windows_sdk_whitelist.mk
-
-# Exclude tools/acp when cross-compiling windows under linux
-ifeq ($(findstring Linux,$(UNAME)),)
-subdirs += build/tools/acp
-endif
-
-else	# !SDK_ONLY
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 #
 # Typical build; include any Android.mk files we can find.
 #
@@ -643,11 +505,6 @@ subdirs := $(TOP)
 
 FULL_BUILD := true
 
-<<<<<<< HEAD
-endif	# !SDK_ONLY
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Before we go and include all of the module makefiles, stash away
 # the PRODUCT_* values so that later we can verify they are not modified.
 stash_product_vars:=true
@@ -674,10 +531,7 @@ NOTICE-TARGET-%: ;
 # A helper goal printing out install paths
 .PHONY: GET-INSTALL-PATH
 GET-INSTALL-PATH:
-<<<<<<< HEAD
-=======
 	@echo "Install paths for modules in $(ONE_SHOT_MAKEFILE):"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	@$(foreach m, $(ALL_MODULES), $(if $(ALL_MODULES.$(m).INSTALLED), \
 		echo 'INSTALL-PATH: $(m) $(ALL_MODULES.$(m).INSTALLED)';))
 
@@ -693,9 +547,6 @@ ifneq ($(dont_bother),true)
 subdir_makefiles := \
 	$(shell build/tools/findleaves.py $(FIND_LEAVES_EXCLUDES) $(subdirs) Android.mk)
 
-<<<<<<< HEAD
-$(foreach mk, $(subdir_makefiles), $(info including $(mk) ...)$(eval include $(mk)))
-=======
 ifeq ($(USE_SOONG),true)
 subdir_makefiles := $(SOONG_ANDROID_MK) $(call filter-soong-makefiles,$(subdir_makefiles))
 endif
@@ -706,7 +557,6 @@ ifdef PDK_FUSION_PLATFORM_ZIP
 # Bring in the PDK platform.zip modules.
 include $(BUILD_SYSTEM)/pdk_fusion_modules.mk
 endif # PDK_FUSION_PLATFORM_ZIP
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 endif # dont_bother
 
@@ -776,11 +626,8 @@ $(strip $(foreach m,$(1),\
     $(m))))
 endef
 
-<<<<<<< HEAD
-=======
 # If a module is for a cross host os, the required modules must be for
 # that OS too.
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # If a module is built for 32-bit, the required modules must be 32-bit too;
 # Otherwise if the module is an exectuable or shared library,
 #   the required modules must be 64-bit;
@@ -788,11 +635,8 @@ endef
 $(foreach m,$(ALL_MODULES),\
   $(eval r := $(ALL_MODULES.$(m).REQUIRED))\
   $(if $(r),\
-<<<<<<< HEAD
-=======
     $(if $(ALL_MODULES.$(m).FOR_HOST_CROSS),\
       $(eval r := $(addprefix host_cross_,$(r))))\
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     $(if $(ALL_MODULES.$(m).FOR_2ND_ARCH),\
       $(eval r_r := $(call get-32-bit-modules-if-we-can,$(r))),\
       $(if $(filter EXECUTABLES SHARED_LIBRARIES,$(ALL_MODULES.$(m).CLASS)),\
@@ -815,14 +659,6 @@ $(foreach m,$(ALL_MODULES), \
     $(eval r := $(call module-installed-files,$(r))) \
     $(eval t_m := $(filter $(TARGET_OUT_ROOT)/%, $(ALL_MODULES.$(m).INSTALLED))) \
     $(eval h_m := $(filter $(HOST_OUT_ROOT)/%, $(ALL_MODULES.$(m).INSTALLED))) \
-<<<<<<< HEAD
-    $(eval t_r := $(filter $(TARGET_OUT_ROOT)/%, $(r))) \
-    $(eval h_r := $(filter $(HOST_OUT_ROOT)/%, $(r))) \
-    $(eval t_m := $(filter-out $(t_r), $(t_m))) \
-    $(eval h_m := $(filter-out $(h_r), $(h_m))) \
-    $(if $(t_m), $(eval $(call add-required-deps, $(t_m),$(t_r)))) \
-    $(if $(h_m), $(eval $(call add-required-deps, $(h_m),$(h_r)))) \
-=======
     $(eval hc_m := $(filter $(HOST_CROSS_OUT_ROOT)/%, $(ALL_MODULES.$(m).INSTALLED))) \
     $(eval t_r := $(filter $(TARGET_OUT_ROOT)/%, $(r))) \
     $(eval h_r := $(filter $(HOST_OUT_ROOT)/%, $(r))) \
@@ -833,45 +669,30 @@ $(foreach m,$(ALL_MODULES), \
     $(if $(t_m), $(eval $(call add-required-deps, $(t_m),$(t_r)))) \
     $(if $(h_m), $(eval $(call add-required-deps, $(h_m),$(h_r)))) \
     $(if $(hc_m), $(eval $(call add-required-deps, $(hc_m),$(hc_r)))) \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
    ) \
  )
 
 t_m :=
 h_m :=
-<<<<<<< HEAD
-t_r :=
-h_r :=
-=======
 hc_m :=
 t_r :=
 h_r :=
 hc_r :=
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Establish the dependecies on the shared libraries.
 # It also adds the shared library module names to ALL_MODULES.$(m).REQUIRED,
 # so they can be expanded to product_MODULES later.
-<<<<<<< HEAD
-# $(1): TARGET_ or HOST_.
-# $(2): non-empty for 2nd arch.
-=======
 # $(1): TARGET_ or HOST_ or HOST_CROSS_.
 # $(2): non-empty for 2nd arch.
 # $(3): non-empty for host cross compile.
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 define resolve-shared-libs-depes
 $(foreach m,$($(if $(2),$($(1)2ND_ARCH_VAR_PREFIX))$(1)DEPENDENCIES_ON_SHARED_LIBRARIES),\
   $(eval p := $(subst :,$(space),$(m)))\
   $(eval mod := $(firstword $(p)))\
   $(eval deps := $(subst $(comma),$(space),$(lastword $(p))))\
   $(if $(2),$(eval deps := $(addsuffix $($(1)2ND_ARCH_MODULE_SUFFIX),$(deps))))\
-<<<<<<< HEAD
-  $(eval r := $(filter $($(1)OUT_ROOT)/%,$(call module-installed-files,\
-=======
   $(if $(3),$(eval deps := $(addprefix host_cross_,$(deps))))\
   $(eval r := $(filter $($(1)OUT)/%,$(call module-installed-files,\
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     $(deps))))\
   $(eval $(call add-required-deps,$(word 2,$(p)),$(r)))\
   $(eval ALL_MODULES.$(mod).REQUIRED += $(deps)))
@@ -885,12 +706,9 @@ $(call resolve-shared-libs-depes,HOST_)
 ifdef HOST_2ND_ARCH
 $(call resolve-shared-libs-depes,HOST_,true)
 endif
-<<<<<<< HEAD
-=======
 ifdef HOST_CROSS_OS
 $(call resolve-shared-libs-depes,HOST_CROSS_,,true)
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 m :=
 r :=
@@ -983,11 +801,7 @@ overridden_packages := $(call get-package-overrides,$(modules_to_install))
 ifdef overridden_packages
 #  old_modules_to_install := $(modules_to_install)
   modules_to_install := \
-<<<<<<< HEAD
-      $(filter-out $(foreach p,$(overridden_packages),$(p) %/$(p).apk), \
-=======
       $(filter-out $(foreach p,$(overridden_packages),$(p) %/$(p).apk %/$(p).odex), \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
           $(modules_to_install))
 endif
 #$(error filtered out
@@ -1081,21 +895,12 @@ files: prebuilt \
 # -------------------------------------------------------------------
 
 .PHONY: checkbuild
-<<<<<<< HEAD
-checkbuild: $(modules_to_check)
-ifeq (true,$(ANDROID_BUILD_EVERYTHING_BY_DEFAULT)$(filter $(MAKECMDGOALS),checkbuild))
-droid: checkbuild
-else
-# ANDROID_BUILD_EVERYTHING_BY_DEFAULT not set, or checkbuild is one of the cmd goals.
-checkbuild: droid
-=======
 checkbuild: $(modules_to_check) droid_targets
 ifeq ($(USE_SOONG),true)
 checkbuild: checkbuild-soong
 endif
 ifeq (true,$(ANDROID_BUILD_EVERYTHING_BY_DEFAULT))
 droid: checkbuild
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 .PHONY: ramdisk
@@ -1132,12 +937,8 @@ ifndef BUILD_MODULES_IN_PATHS
 all_modules: $(ALL_MODULES)
 else
 # BUILD_MODULES_IN_PATHS is a list of paths relative to the top of the tree
-<<<<<<< HEAD
-module_path_patterns := $(foreach p, $(BUILD_MODULES_IN_PATHS),\
-=======
 build_modules_in_paths := $(patsubst ./%,%,$(BUILD_MODULES_IN_PATHS))
 module_path_patterns := $(foreach p, $(build_modules_in_paths),\
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     $(if $(filter %/,$(p)),$(p)%,$(p)/%))
 my_all_modules := $(sort $(foreach m, $(ALL_MODULES),$(if $(filter\
     $(module_path_patterns), $(addsuffix /,$(ALL_MODULES.$(m).PATH))),$(m))))
@@ -1154,12 +955,8 @@ droidcore: files \
 	$(INSTALLED_USERDATAIMAGE_TARGET) \
 	$(INSTALLED_CACHEIMAGE_TARGET) \
 	$(INSTALLED_VENDORIMAGE_TARGET) \
-<<<<<<< HEAD
-	$(INSTALLED_FILES_FILE)
-=======
 	$(INSTALLED_FILES_FILE) \
 	$(INSTALLED_FILES_FILE_VENDOR)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # dist_files only for putting your library into the dist directory with a full build.
 .PHONY: dist_files
@@ -1201,11 +998,7 @@ ifneq ($(TARGET_BUILD_APPS),)
 .PHONY: apps_only
 apps_only: $(unbundled_build_modules)
 
-<<<<<<< HEAD
-droid: apps_only
-=======
 droid_targets: apps_only
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Combine the NOTICE files for a apps_only build
 $(eval $(call combine-notice-files, \
@@ -1223,10 +1016,7 @@ else # TARGET_BUILD_APPS
     $(BUILT_OTATOOLS_PACKAGE) \
     $(SYMBOLS_ZIP) \
     $(INSTALLED_FILES_FILE) \
-<<<<<<< HEAD
-=======
     $(INSTALLED_FILES_FILE_VENDOR) \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     $(INSTALLED_BUILD_PROP_TARGET) \
     $(BUILT_TARGET_FILES_PACKAGE) \
     $(INSTALLED_ANDROID_INFO_TXT_TARGET) \
@@ -1254,11 +1044,7 @@ else # TARGET_BUILD_APPS
   endif
 
 # Building a full system-- the default is to build droidcore
-<<<<<<< HEAD
-droid: droidcore dist_files
-=======
 droid_targets: droidcore dist_files
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 endif # TARGET_BUILD_APPS
 
@@ -1290,21 +1076,13 @@ target-native-tests : native-target-tests
 tests : host-tests target-tests
 
 # To catch more build breakage, check build tests modules in eng and userdebug builds.
-<<<<<<< HEAD
-=======
 ifneq ($(ANDROID_NO_TEST_CHECK),true)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifneq ($(TARGET_BUILD_PDK),true)
 ifneq ($(filter eng userdebug,$(TARGET_BUILD_VARIANT)),)
 droidcore : target-tests host-tests
 endif
 endif
-<<<<<<< HEAD
-
-.PHONY: lintall
-=======
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifneq (,$(filter samplecode, $(MAKECMDGOALS)))
 .PHONY: samplecode
@@ -1317,11 +1095,7 @@ $(foreach module,$(sample_MODULES),$(eval $(call \
 sample_ADDITIONAL_INSTALLED := \
         $(filter-out $(modules_to_install) $(modules_to_check) $(ALL_PREBUILT),$(sample_MODULES))
 samplecode: $(sample_APKS_COLLECTION)
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"Collect sample code apks:"${CL_RST}" $^"
-=======
 	@echo "Collect sample code apks: $^"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	# remove apks that are not intended to be installed.
 	rm -f $(sample_ADDITIONAL_INSTALLED)
 endif  # samplecode in $(MAKECMDGOALS)
@@ -1332,11 +1106,7 @@ findbugs: $(INTERNAL_FINDBUGS_HTML_TARGET) $(INTERNAL_FINDBUGS_XML_TARGET)
 .PHONY: clean
 clean:
 	@rm -rf $(OUT_DIR)/*
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"Entire build directory removed."${CL_RST}
-=======
 	@echo "Entire build directory removed."
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 .PHONY: clobber
 clobber: clean
@@ -1346,11 +1116,7 @@ clobber: clean
 #xxx scrape this from ALL_MODULE_NAME_TAGS
 .PHONY: modules
 modules:
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"Available sub-modules:"${CL_RST}
-=======
 	@echo "Available sub-modules:"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	@echo "$(call module-names-for-tag-list,$(ALL_MODULE_TAGS))" | \
 	      tr -s ' ' '\n' | sort -u | $(COLUMN)
 
@@ -1361,7 +1127,4 @@ showcommands:
 .PHONY: nothing
 nothing:
 	@echo Successfully read the makefiles.
-<<<<<<< HEAD
-=======
 endif # !relaunch_with_ninja
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

@@ -31,10 +31,7 @@ if sys.hexversion < 0x02070000:
 import datetime
 import errno
 import os
-<<<<<<< HEAD
-=======
 import shutil
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 import tempfile
 import zipfile
 
@@ -143,29 +140,11 @@ def CreateImage(input_dir, info_dict, what, block_list=None):
   if not os.path.exists(fs_config):
     fs_config = None
 
-<<<<<<< HEAD
-  fc_config = os.path.join(input_dir, "BOOT/RAMDISK/file_contexts")
-  if not os.path.exists(fc_config):
-    fc_config = None
-
-  # Override values loaded from info_dict.
-  if fs_config:
-    image_props["fs_config"] = fs_config
-  if fc_config:
-    image_props["selinux_fc"] = fc_config
-  if block_list:
-    image_props["block_list"] = block_list
-  if image_props.get("system_root_image") == "true":
-    image_props["ramdisk_dir"] = os.path.join(input_dir, "BOOT/RAMDISK")
-    image_props["ramdisk_fs_config"] = os.path.join(
-        input_dir, "META/boot_filesystem_config.txt")
-=======
   # Override values loaded from info_dict.
   if fs_config:
     image_props["fs_config"] = fs_config
   if block_list:
     image_props["block_list"] = block_list
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   succ = build_image.BuildImage(os.path.join(input_dir, what),
                                 image_props, img)
@@ -175,9 +154,6 @@ def CreateImage(input_dir, info_dict, what, block_list=None):
 
 
 def AddUserdata(output_zip, prefix="IMAGES/"):
-<<<<<<< HEAD
-  """Create an empty userdata image and store it in output_zip."""
-=======
   """Create a userdata image and store it in output_zip.
 
   In most case we just create and store an empty userdata.img;
@@ -185,19 +161,13 @@ def AddUserdata(output_zip, prefix="IMAGES/"):
   data from the target files, by setting "userdata_img_with_data=true"
   in OPTIONS.info_dict.
   """
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   prebuilt_path = os.path.join(OPTIONS.input_tmp, prefix, "userdata.img")
   if os.path.exists(prebuilt_path):
     print "userdata.img already exists in %s, no need to rebuild..." % (prefix,)
     return
 
-<<<<<<< HEAD
-  image_props = build_image.ImagePropFromGlobalDict(OPTIONS.info_dict,
-                                                    "data")
-=======
   image_props = build_image.ImagePropFromGlobalDict(OPTIONS.info_dict, "data")
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   # We only allow yaffs to have a 0/missing partition_size.
   # Extfs, f2fs must have a size. Skip userdata.img if no size.
   if (not image_props.get("fs_type", "").startswith("yaffs") and
@@ -214,12 +184,6 @@ def AddUserdata(output_zip, prefix="IMAGES/"):
 
   # The name of the directory it is making an image out of matters to
   # mkyaffs2image.  So we create a temp dir, and within it we create an
-<<<<<<< HEAD
-  # empty dir named "data", and build the image from that.
-  temp_dir = tempfile.mkdtemp()
-  user_dir = os.path.join(temp_dir, "data")
-  os.mkdir(user_dir)
-=======
   # empty dir named "data", or a symlink to the DATA dir,
   # and build the image from that.
   temp_dir = tempfile.mkdtemp()
@@ -233,7 +197,6 @@ def AddUserdata(output_zip, prefix="IMAGES/"):
     os.symlink(os.path.join(OPTIONS.input_tmp, "DATA"),
                user_dir)
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   img = tempfile.NamedTemporaryFile()
 
   fstab = OPTIONS.info_dict["fstab"]
@@ -245,12 +208,7 @@ def AddUserdata(output_zip, prefix="IMAGES/"):
   common.CheckSize(img.name, "userdata.img", OPTIONS.info_dict)
   common.ZipWrite(output_zip, img.name, prefix + "userdata.img")
   img.close()
-<<<<<<< HEAD
-  os.rmdir(user_dir)
-  os.rmdir(temp_dir)
-=======
   shutil.rmtree(temp_dir)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 
 def AddCache(output_zip, prefix="IMAGES/"):
@@ -261,12 +219,7 @@ def AddCache(output_zip, prefix="IMAGES/"):
     print "cache.img already exists in %s, no need to rebuild..." % (prefix,)
     return
 
-<<<<<<< HEAD
-  image_props = build_image.ImagePropFromGlobalDict(OPTIONS.info_dict,
-                                                    "cache")
-=======
   image_props = build_image.ImagePropFromGlobalDict(OPTIONS.info_dict, "cache")
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   # The build system has to explicitly request for cache.img.
   if "fs_type" not in image_props:
     return
@@ -315,24 +268,14 @@ def AddImagesToTargetFiles(filename):
   except KeyError:
     has_vendor = False
 
-<<<<<<< HEAD
-  OPTIONS.info_dict = common.LoadInfoDict(input_zip)
-  if "selinux_fc" in OPTIONS.info_dict:
-    OPTIONS.info_dict["selinux_fc"] = os.path.join(
-        OPTIONS.input_tmp, "BOOT", "RAMDISK", "file_contexts")
-=======
   OPTIONS.info_dict = common.LoadInfoDict(input_zip, OPTIONS.input_tmp)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   common.ZipClose(input_zip)
   output_zip = zipfile.ZipFile(filename, "a",
                                compression=zipfile.ZIP_DEFLATED)
 
-<<<<<<< HEAD
-=======
   has_recovery = (OPTIONS.info_dict.get("no_recovery") != "true")
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   def banner(s):
     print "\n\n++++ " + s + " ++++\n\n"
 
@@ -350,21 +293,6 @@ def AddImagesToTargetFiles(filename):
     if boot_image:
       boot_image.AddToZip(output_zip)
 
-<<<<<<< HEAD
-  banner("recovery")
-  recovery_image = None
-  prebuilt_path = os.path.join(OPTIONS.input_tmp, "IMAGES", "recovery.img")
-  if os.path.exists(prebuilt_path):
-    print "recovery.img already exists in IMAGES/, no need to rebuild..."
-    if OPTIONS.rebuild_recovery:
-      recovery_image = common.GetBootableImage(
-          "IMAGES/recovery.img", "recovery.img", OPTIONS.input_tmp, "RECOVERY")
-  else:
-    recovery_image = common.GetBootableImage(
-        "IMAGES/recovery.img", "recovery.img", OPTIONS.input_tmp, "RECOVERY")
-    if recovery_image:
-      recovery_image.AddToZip(output_zip)
-=======
   recovery_image = None
   if has_recovery:
     banner("recovery")
@@ -380,7 +308,6 @@ def AddImagesToTargetFiles(filename):
           "IMAGES/recovery.img", "recovery.img", OPTIONS.input_tmp, "RECOVERY")
       if recovery_image:
         recovery_image.AddToZip(output_zip)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   banner("system")
   AddSystem(output_zip, recovery_img=recovery_image, boot_img=boot_image)
@@ -392,8 +319,6 @@ def AddImagesToTargetFiles(filename):
   banner("cache")
   AddCache(output_zip)
 
-<<<<<<< HEAD
-=======
   # For devices using A/B update, copy over images from RADIO/ to IMAGES/ and
   # make sure we have all the needed images ready under IMAGES/.
   ab_partitions = os.path.join(OPTIONS.input_tmp, "META", "ab_partitions.txt")
@@ -411,7 +336,6 @@ def AddImagesToTargetFiles(filename):
       img_path = 'IMAGES/' + img_name
       assert img_path in output_zip.namelist(), "cannot find " + img_name
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   common.ZipClose(output_zip)
 
 def main(argv):

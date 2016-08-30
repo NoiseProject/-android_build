@@ -20,12 +20,7 @@
 # You can set TARGET_ARCH_VARIANT to use an arch version other
 # than mips64r6. Each value should correspond to a file named
 # $(BUILD_COMBOS)/arch/<name>.mk which must contain
-<<<<<<< HEAD
-# makefile variable definitions similar to the preprocessor
-# defines in build/core/combo/include/arch/<combo>/AndroidConfig.h. Their
-=======
 # makefile variable definitions. Their
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # purpose is to allow module Android.mk files to selectively compile
 # different versions of code based upon the funtionality and
 # instructions available in a given architecture version.
@@ -61,15 +56,6 @@ TARGET_TOOLCHAIN_ROOT := prebuilts/gcc/$(HOST_PREBUILT_TAG)/mips/mips64el-linux-
 TARGET_TOOLS_PREFIX := $(TARGET_TOOLCHAIN_ROOT)/bin/mips64el-linux-android-
 endif
 
-<<<<<<< HEAD
-TARGET_CC := $(TARGET_TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX)
-TARGET_CXX := $(TARGET_TOOLS_PREFIX)g++$(HOST_EXECUTABLE_SUFFIX)
-TARGET_AR := $(TARGET_TOOLS_PREFIX)ar$(HOST_EXECUTABLE_SUFFIX)
-TARGET_OBJCOPY := $(TARGET_TOOLS_PREFIX)objcopy$(HOST_EXECUTABLE_SUFFIX)
-TARGET_LD := $(TARGET_TOOLS_PREFIX)ld$(HOST_EXECUTABLE_SUFFIX)
-TARGET_READELF := $(TARGET_TOOLS_PREFIX)readelf$(HOST_EXECUTABLE_SUFFIX)
-TARGET_STRIP := $(TARGET_TOOLS_PREFIX)strip$(HOST_EXECUTABLE_SUFFIX)
-=======
 TARGET_CC := $(TARGET_TOOLS_PREFIX)gcc
 TARGET_CXX := $(TARGET_TOOLS_PREFIX)g++
 TARGET_AR := $(TARGET_TOOLS_PREFIX)ar
@@ -82,7 +68,6 @@ TARGET_NM := $(TARGET_TOOLS_PREFIX)nm
 define $(combo_var_prefix)transform-shared-lib-to-toc
 $(call _gen_toc_command_for_elf,$(1),$(2))
 endef
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 TARGET_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 
@@ -98,32 +83,19 @@ ifeq ($(FORCE_MIPS_DEBUGGING),true)
   TARGET_mips_CFLAGS += -fno-omit-frame-pointer
 endif
 
-<<<<<<< HEAD
-android_config_h := $(call select-android-config-h,linux-mips64)
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_GLOBAL_CFLAGS += \
 			$(TARGET_mips_CFLAGS) \
 			-U__unix -U__unix__ -Umips \
 			-ffunction-sections \
 			-fdata-sections \
 			-funwind-tables \
-<<<<<<< HEAD
-=======
 			-fstack-protector-strong \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 			-Wa,--noexecstack \
 			-Werror=format-security \
 			-D_FORTIFY_SOURCE=2 \
 			-no-canonical-prefixes \
 			-fno-canonical-system-headers \
 			$(arch_variant_cflags) \
-<<<<<<< HEAD
-			-include $(android_config_h) \
-			-I $(dir $(android_config_h))
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Help catch common 32/64-bit errors.
 TARGET_GLOBAL_CFLAGS += \
@@ -142,17 +114,12 @@ TARGET_GLOBAL_LDFLAGS += \
 			-Wl,--build-id=md5 \
 			-Wl,--warn-shared-textrel \
 			-Wl,--fatal-warnings \
-<<<<<<< HEAD
-			$(arch_variant_ldflags)
-
-=======
 			-Wl,--no-undefined-version \
 			$(arch_variant_ldflags)
 
 # Disable transitive dependency library symbol resolving.
 TARGET_GLOBAL_LDFLAGS += -Wl,--allow-shlib-undefined
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_GLOBAL_CPPFLAGS += -fvisibility-inlines-hidden
 
 # More flags/options can be added here
@@ -166,10 +133,6 @@ TARGET_RELEASE_CFLAGS := \
 
 libc_root := bionic/libc
 libm_root := bionic/libm
-<<<<<<< HEAD
-libthread_db_root := bionic/libthread_db
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 
 ## on some hosts, the target cross-compiler is not available so do not run this command
@@ -190,10 +153,7 @@ TARGET_LIBGCOV := $(shell $(TARGET_CC) $(TARGET_GLOBAL_CFLAGS) \
 endif
 
 KERNEL_HEADERS_COMMON := $(libc_root)/kernel/uapi
-<<<<<<< HEAD
-=======
 KERNEL_HEADERS_COMMON += $(libc_root)/kernel/common
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 KERNEL_HEADERS_ARCH   := $(libc_root)/kernel/uapi/asm-mips
 # TODO: perhaps use $(libc_root)/kernel/uapi/asm-$(TARGET_ARCH) instead of asm-mips ?
 KERNEL_HEADERS := $(KERNEL_HEADERS_COMMON) $(KERNEL_HEADERS_ARCH)
@@ -204,11 +164,7 @@ TARGET_C_INCLUDES := \
 	$(KERNEL_HEADERS) \
 	$(libm_root)/include \
 	$(libm_root)/include/mips \
-<<<<<<< HEAD
-	$(libthread_db_root)/include
-=======
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # TODO: perhaps use $(libm_root)/include/mips64 instead of mips ?
 
 TARGET_CRTBEGIN_STATIC_O := $(TARGET_OUT_INTERMEDIATE_LIBRARIES)/crtbegin_static.o
@@ -220,9 +176,4 @@ TARGET_CRTEND_SO_O := $(TARGET_OUT_INTERMEDIATE_LIBRARIES)/crtend_so.o
 
 TARGET_PACK_MODULE_RELOCATIONS := true
 
-<<<<<<< HEAD
-TARGET_DEFAULT_SYSTEM_SHARED_LIBRARIES := libc libstdc++ libm
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_LINKER := /system/bin/linker64

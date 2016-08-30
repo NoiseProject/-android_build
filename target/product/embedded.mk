@@ -22,11 +22,8 @@ PRODUCT_PACKAGES += \
     adbd \
     atrace \
     bootanimation \
-<<<<<<< HEAD
-=======
     bootstat \
     cmd \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     debuggerd \
     dumpstate \
     dumpsys \
@@ -43,15 +40,10 @@ PRODUCT_PACKAGES += \
     libFFTEm \
     libGLESv1_CM \
     libGLESv2 \
-<<<<<<< HEAD
-    libbinder \
-    libc \
-=======
     libGLESv3 \
     libbinder \
     libc \
     libc_malloc_debug \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     libcutils \
     libdl \
     libgui \
@@ -87,11 +79,7 @@ PRODUCT_PACKAGES += \
 # SELinux packages
 PRODUCT_PACKAGES += \
     sepolicy \
-<<<<<<< HEAD
-    file_contexts \
-=======
     file_contexts.bin \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     seapp_contexts \
     property_contexts \
     mac_permissions.xml \
@@ -106,9 +94,5 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += \
     system/core/rootdir/init.usb.rc:root/init.usb.rc \
     system/core/rootdir/init.usb.configfs.rc:root/init.usb.configfs.rc \
-<<<<<<< HEAD
-    system/core/rootdir/init.trace.rc:root/init.trace.rc \
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     system/core/rootdir/ueventd.rc:root/ueventd.rc \
     system/core/rootdir/etc/hosts:system/etc/hosts

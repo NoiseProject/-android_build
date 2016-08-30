@@ -24,10 +24,6 @@
 
 #include <selinux/selinux.h>
 #include <selinux/label.h>
-<<<<<<< HEAD
-#include <selinux/android.h>
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 #include "private/android_filesystem_config.h"
 

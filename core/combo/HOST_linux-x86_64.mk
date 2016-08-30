@@ -23,14 +23,6 @@ endif
 HOST_CC  := $(HOST_TOOLCHAIN_PREFIX)gcc
 HOST_CXX := $(HOST_TOOLCHAIN_PREFIX)g++
 HOST_AR  := $(HOST_TOOLCHAIN_PREFIX)ar
-<<<<<<< HEAD
-
-# gcc location for clang; to be updated when clang is updated
-HOST_TOOLCHAIN_FOR_CLANG := prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.15-4.8/
-
-HOST_GLOBAL_CFLAGS += -m64 -Wa,--noexecstack
-HOST_GLOBAL_LDFLAGS += -m64 -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now
-=======
 HOST_READELF  := $(HOST_TOOLCHAIN_PREFIX)readelf
 HOST_NM  := $(HOST_TOOLCHAIN_PREFIX)nm
 
@@ -43,27 +35,16 @@ HOST_TOOLCHAIN_FOR_CLANG := prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.15-
 
 HOST_GLOBAL_CFLAGS += -m64 -Wa,--noexecstack
 HOST_GLOBAL_LDFLAGS += -m64 -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--no-undefined-version
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifneq ($(strip $(BUILD_HOST_static)),)
 # Statically-linked binaries are desirable for sandboxed environment
 HOST_GLOBAL_LDFLAGS += -static
 endif # BUILD_HOST_static
 
-<<<<<<< HEAD
-# TODO: Add AndroidConfig.h for linux-x86_64
-HOST_GLOBAL_CFLAGS += -fPIC \
-  -no-canonical-prefixes \
-  -include $(call select-android-config-h,linux-x86)
-
-# TODO: Set _FORTIFY_SOURCE=2. Bug 20558757.
-HOST_GLOBAL_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 -fstack-protector
-=======
 HOST_GLOBAL_CFLAGS += -fPIC \
   -no-canonical-prefixes \
 
 HOST_GLOBAL_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fstack-protector
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Workaround differences in inttypes.h between host and target.
 # See bug 12708004.

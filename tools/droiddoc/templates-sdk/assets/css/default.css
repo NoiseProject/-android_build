@@ -732,11 +732,7 @@ a.back-link {
     text-align:center;
     width: 50%;
   }
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   .training-nav-top a.prev-page-link {
     padding-left: 15px;
     text-align: left;
@@ -844,11 +840,7 @@ a.back-link {
     margin: 0 0 6px;
     line-height: 16px;
   }
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   /* Class colors */
   ol.class-list li:nth-child(10n+1) .title {
     background: #00bcd4;
@@ -880,11 +872,7 @@ a.back-link {
   ol.class-list li:nth-child(10n+10) .title {
     background: #7e57c2;
   }
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   @media (max-width: 719px) {
     ol.class-list ol,
     ol.class-list .description {
@@ -2640,8 +2628,6 @@ div.note.distribute {
   margin-bottom:0;
 }
 
-<<<<<<< HEAD
-=======
 .summary-table {
   background-color:#e1e4e6;
   padding:1em;
@@ -2656,7 +2642,6 @@ div.note.distribute {
   font-size:.98em;
 }
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 body.about blockquote {
   display:block;
   float:right;
@@ -3359,11 +3344,7 @@ attrs, methods, etc. */
 h4.jd-details-title {
   font-size:1.15em;
   background-color: #E2E2E2;
-<<<<<<< HEAD
-  margin:1.5em 0 .6em;
-=======
   margin:4em 0 .6em;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   padding:3px 95px 3px 3px; /* room for api-level */
 }
 body.google h4.jd-details-title {
@@ -6395,11 +6376,6 @@ div.jd-descr > .resource-widget[data-section=distribute\/tools] .section-card-me
 .dac-button.dac-raised.dac-primary, .landing-secondary, .button {
   background-color: #039bef; }
   .dac-button.dac-raised.dac-primary:hover, .landing-secondary:hover, .button:hover {
-<<<<<<< HEAD
-    background-color: #0288d1; color:#fff; }
-  .dac-button.dac-raised.dac-primary:active, .landing-secondary:active, .button:active {
-    background-color: #0277bd; }
-=======
     background-color: #0288d1;
     color:#fff; }
   .dac-button.dac-raised.dac-primary:active, .landing-secondary:active, .button:active {
@@ -6407,7 +6383,6 @@ div.jd-descr > .resource-widget[data-section=distribute\/tools] .section-card-me
     color:#fff; }
   .dac-button.dac-raised.dac-primary.disabled, .button.disabled {
     background-color: #bbb; }
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 .dac-button.dac-raised.dac-red, .landing-primary {
   background-color: #bf3722; }
@@ -7812,8 +7787,6 @@ div.jd-descr > .resource-widget[data-section=distribute\/tools] .section-card-me
   text-align: center;
 }
 
-<<<<<<< HEAD
-=======
 /* Android Studio download page */
 section#features {
   padding-top:0;
@@ -7828,7 +7801,6 @@ section#features {
   margin-top:0;
 }
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 @media (max-width: 719px) {
   .dac-hero-figure {
     height: 150px;
@@ -7838,8 +7810,6 @@ section#features {
   .dac-hero-figure img {
     max-height: 150px;
   }
-<<<<<<< HEAD
-=======
 
   /* Android Studio download page */
   .feature .dac-hero-figure,
@@ -7851,7 +7821,6 @@ section#features {
     width:90%;
     margin:0 auto;
   }
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 .dac-hero-carousel {
@@ -8571,20 +8540,12 @@ At the bottom of this section, we provide information about the spritesheet itse
 $spritesheet: width height image $spritesheet-sprites;
 */
 .dac-sprite, #tb li:before, #qv li:before {
-<<<<<<< HEAD
-  background-image: url(/assets/images/sprite.png);
-=======
   background-image: url(../../assets/images/sprite.png);
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   display: inline-block;
   vertical-align: middle; }
   @media screen and (min-device-pixel-ratio: 1.5) {
     .dac-sprite, #tb li:before, #qv li:before {
-<<<<<<< HEAD
-      background-image: url(/assets/images/sprite-2x.png);
-=======
       background-image: url(../../assets/images/sprite-2x.png);
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
       background-size: 50% 50%; } }
 
 .dac-sprite.dac-auto-chevron {
@@ -8938,9 +8899,6 @@ $spritesheet: width height image $spritesheet-sprites;
   .dac-hero-cta.mprev {
   white-space:nowrap;
   }
-<<<<<<< HEAD
-}
-=======
 }
 
 /** Custom search API styles */
@@ -9023,4 +8981,3 @@ $spritesheet: width height image $spritesheet-sprites;
 .dac-custom-search-no-results {
   color: #999;
 }
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

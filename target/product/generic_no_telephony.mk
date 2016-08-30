@@ -22,18 +22,12 @@ PRODUCT_PACKAGES := \
     BluetoothMidiService \
     Camera2 \
     Gallery2 \
-<<<<<<< HEAD
-    MusicFX \
-    OneTimeInitializer \
-    SystemUI \
-=======
     Music \
     MusicFX \
     OneTimeInitializer \
     Provision \
     SystemUI \
     EasterEgg \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     WallpaperCropper
 
 PRODUCT_PACKAGES += \

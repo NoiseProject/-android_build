@@ -76,15 +76,9 @@ $(eval $(call check-api, \
 
 .PHONY: update-public-api
 update-public-api: $(INTERNAL_PLATFORM_API_FILE) | $(ACP)
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"Copying current.txt"${CL_RST}
-	$(hide) $(ACP) $(INTERNAL_PLATFORM_API_FILE) frameworks/base/api/current.txt
-	@echo -e ${CL_GRN}"Copying removed.txt"${CL_RST}
-=======
 	@echo Copying current.txt
 	$(hide) $(ACP) $(INTERNAL_PLATFORM_API_FILE) frameworks/base/api/current.txt
 	@echo Copying removed.txt
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(hide) $(ACP) $(INTERNAL_PLATFORM_REMOVED_API_FILE) frameworks/base/api/removed.txt
 
 update-api : update-public-api
@@ -135,8 +129,6 @@ update-system-api: $(INTERNAL_PLATFORM_SYSTEM_API_FILE) | $(ACP)
 	@echo Copying system-removed.txt
 	$(hide) $(ACP) $(INTERNAL_PLATFORM_SYSTEM_REMOVED_API_FILE) frameworks/base/api/system-removed.txt
 
-<<<<<<< HEAD
-=======
 #####################Check Test API#####################
 .PHONY: check-test-api
 checkapi : check-test-api
@@ -170,5 +162,4 @@ update-test-api: $(INTERNAL_PLATFORM_TEST_API_FILE) | $(ACP)
 	$(hide) $(ACP) $(INTERNAL_PLATFORM_TEST_REMOVED_API_FILE) frameworks/base/api/test-removed.txt
 
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif

@@ -985,11 +985,7 @@ function scrollIntoView(nav) {
     }
     // get the selected item's offset from its container nav by measuring the item's offset
     // relative to the document then subtract the container nav's offset relative to the document
-<<<<<<< HEAD
-    var selectedOffset = $selected.offset().top - $nav.offset().top;
-=======
     var selectedOffset = $selected.offset().top - $nav.offset().top + 60;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     if (selectedOffset > $nav.height() * .8) { // multiply nav height by .8 so we move up the item
                                                // if it's more than 80% down the nav
       // scroll the item up by an amount equal to 80% the container nav's height
@@ -1332,11 +1328,7 @@ function requestAppendHL(uri) {
 function changeNavLang(lang) {
   if (lang === 'en') { return; }
 
-<<<<<<< HEAD
-  var $links = $('a[' + lang + '-lang]');
-=======
   var $links = $("a[" + lang + "-lang],p[" + lang + "-lang]");
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   $links.each(function(){ // for each link with a translation
     var $link = $(this);
     // put the desired language from the attribute as the text
@@ -1394,11 +1386,7 @@ function toggleContent(obj) {
     $(".toggle-content-text:eq(0)", obj).toggle();
     div.removeClass("closed").addClass("open");
     $(".toggle-content-img:eq(0)", div).attr("title", "hide").attr("src", toRoot
-<<<<<<< HEAD
-                  + "assets/images/triangle-opened.png");
-=======
                   + "assets/images/styles/disclosure_up.png");
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   } else { // if it's open, close it
     toggleMe.slideUp('fast', function() {  // Wait until the animation is done before closing arrow
       $(".toggle-content-text:eq(0)", obj).toggle();
@@ -1406,11 +1394,7 @@ function toggleContent(obj) {
       div.find(".toggle-content").removeClass("open").addClass("closed")
               .find(".toggle-content-toggleme").hide();
       $(".toggle-content-img", div).attr("title", "show").attr("src", toRoot
-<<<<<<< HEAD
-                  + "assets/images/triangle-closed.png");
-=======
                   + "assets/images/styles/disclosure_down.png");
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     });
   }
   return false;
@@ -2562,25 +2546,15 @@ function search_focus_changed(obj, focused)
 }
 
 function submit_search() {
-<<<<<<< HEAD
-  var query = document.getElementById('search_autocomplete').value;
-  location.hash = 'q=' + query;
-  loadSearchResults();
-=======
   var query = escapeHTML(document.getElementById('search_autocomplete').value);
   location.hash = 'q=' + query;
   searchControl.query = query;
   searchControl.init();
   searchControl.trackSearchRequest(query);
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   $("#searchResults").slideDown('slow', setStickyTop);
   return false;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 function hideResults() {
   $("#searchResults").slideUp('fast', setStickyTop);
   $("#search-close").addClass("hide");
@@ -2589,116 +2563,11 @@ function hideResults() {
   $("#search_autocomplete").val("").blur();
 
   // reset the ajax search callback to nothing, so results don't appear unless ENTER
-<<<<<<< HEAD
-  searchControl.setSearchStartingCallback(this, function(control, searcher, query) {});
-
-  // forcefully regain key-up event control (previously jacked by search api)
-  $("#search_autocomplete").keyup(function(event) {
-    return search_changed(event, false, toRoot);
-  });
-=======
   searchControl.reset();
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   return false;
 }
 
-<<<<<<< HEAD
-
-
-/* ########################################################## */
-/* ################  CUSTOM SEARCH ENGINE  ################## */
-/* ########################################################## */
-
-var searchControl;
-google.load('search', '1', {"callback" : function() {
-            searchControl = new google.search.SearchControl();
-          } });
-
-function loadSearchResults() {
-  document.getElementById("search_autocomplete").style.color = "#000";
-
-  searchControl = new google.search.SearchControl();
-
-  // use our existing search form and use tabs when multiple searchers are used
-  drawOptions = new google.search.DrawOptions();
-  drawOptions.setDrawMode(google.search.SearchControl.DRAW_MODE_TABBED);
-  drawOptions.setInput(document.getElementById("search_autocomplete"));
-
-  // configure search result options
-  searchOptions = new google.search.SearcherOptions();
-  searchOptions.setExpandMode(GSearchControl.EXPAND_MODE_OPEN);
-
-  // configure each of the searchers, for each tab
-  devSiteSearcher = new google.search.WebSearch();
-  devSiteSearcher.setUserDefinedLabel("All");
-  devSiteSearcher.setSiteRestriction("001482626316274216503:zu90b7s047u");
-
-  designSearcher = new google.search.WebSearch();
-  designSearcher.setUserDefinedLabel("Design");
-  designSearcher.setSiteRestriction("http://developer.android.com/design/");
-
-  trainingSearcher = new google.search.WebSearch();
-  trainingSearcher.setUserDefinedLabel("Training");
-  trainingSearcher.setSiteRestriction("http://developer.android.com/training/");
-
-  guidesSearcher = new google.search.WebSearch();
-  guidesSearcher.setUserDefinedLabel("Guides");
-  guidesSearcher.setSiteRestriction("http://developer.android.com/guide/");
-
-  referenceSearcher = new google.search.WebSearch();
-  referenceSearcher.setUserDefinedLabel("Reference");
-  referenceSearcher.setSiteRestriction("http://developer.android.com/reference/");
-
-  googleSearcher = new google.search.WebSearch();
-  googleSearcher.setUserDefinedLabel("Google Services");
-  googleSearcher.setSiteRestriction("http://developer.android.com/google/");
-
-  blogSearcher = new google.search.WebSearch();
-  blogSearcher.setUserDefinedLabel("Blog");
-  blogSearcher.setSiteRestriction("http://android-developers.blogspot.com");
-
-  // add each searcher to the search control
-  searchControl.addSearcher(devSiteSearcher, searchOptions);
-  searchControl.addSearcher(designSearcher, searchOptions);
-  searchControl.addSearcher(trainingSearcher, searchOptions);
-  searchControl.addSearcher(guidesSearcher, searchOptions);
-  searchControl.addSearcher(referenceSearcher, searchOptions);
-  searchControl.addSearcher(googleSearcher, searchOptions);
-  searchControl.addSearcher(blogSearcher, searchOptions);
-
-  // configure result options
-  searchControl.setResultSetSize(google.search.Search.LARGE_RESULTSET);
-  searchControl.setLinkTarget(google.search.Search.LINK_TARGET_SELF);
-  searchControl.setTimeoutInterval(google.search.SearchControl.TIMEOUT_SHORT);
-  searchControl.setNoResultsString(google.search.SearchControl.NO_RESULTS_DEFAULT_STRING);
-
-  // upon ajax search, refresh the url and search title
-  searchControl.setSearchStartingCallback(this, function(control, searcher, query) {
-    updateResultTitle(query);
-    var query = document.getElementById('search_autocomplete').value;
-    location.hash = 'q=' + query;
-  });
-
-  // once search results load, set up click listeners
-  searchControl.setSearchCompleteCallback(this, function(control, searcher, query) {
-    addResultClickListeners();
-  });
-
-  // draw the search results box
-  searchControl.draw(document.getElementById("leftSearchControl"), drawOptions);
-
-  // get query and execute the search
-  searchControl.execute(decodeURI(getQuery(location.hash)));
-
-  document.getElementById("search_autocomplete").focus();
-  addTabListeners();
-}
-// End of loadSearchResults
-
-
-google.setOnLoadCallback(function(){
-=======
 /* ########################################################## */
 /* ################  CUSTOM SEARCH ENGINE  ################## */
 /* ########################################################## */
@@ -2925,24 +2794,17 @@ dacsearch.CustomSearchEngine.prototype.debounce_ = function(func, wait) {
 
 google.setOnLoadCallback(function(){
   searchControl = new dacsearch.CustomSearchEngine();
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   if (location.hash.indexOf("q=") == -1) {
     // if there's no query in the url, don't search and make sure results are hidden
     $('#searchResults').hide();
     return;
   } else {
     // first time loading search results for this page
-<<<<<<< HEAD
-    $('#searchResults').slideDown('slow', setStickyTop);
-    $("#search-close").removeClass("hide");
-    loadSearchResults();
-=======
     searchControl.query = escapeHTML(decodeURI(location.hash.split('q=')[1]));
     searchControl.init();
     searchControl.trackSearchRequest(searchControl.query);
     $('#searchResults').slideDown('slow', setStickyTop);
     $("#search-close").removeClass("hide");
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   }
 }, true);
 
@@ -2971,11 +2833,7 @@ $(window).hashchange( function(){
 
   // If the hash isn't a search query or there's an error in the query,
   // then adjust the scroll position to account for sticky header, then exit.
-<<<<<<< HEAD
-  if ((location.hash.indexOf("q=") == -1) || (query == "undefined")) {
-=======
   if ((location.hash.indexOf("q=") == -1) || (searchControl.query == "undefined")) {
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     // If the results pane is open, close it.
     if (!$("#searchResults").is(":hidden")) {
       hideResults();
@@ -2984,73 +2842,11 @@ $(window).hashchange( function(){
     return;
   }
 
-<<<<<<< HEAD
-  // Otherwise, we have a search to do
-  var query = decodeURI(getQuery(location.hash));
-  searchControl.execute(query);
-  $('#searchResults').slideDown('slow', setStickyTop);
-  $("#search_autocomplete").focus();
-  $("#search-close").removeClass("hide");
-
-  updateResultTitle(query);
-});
-
-function updateResultTitle(query) {
-  $("#searchTitle").html("Results for <em>" + escapeHTML(query) + "</em>");
-}
-
-// forcefully regain key-up event control (previously jacked by search api)
-$("#search_autocomplete").keyup(function(event) {
-  return search_changed(event, false, toRoot);
-});
-
-// add event listeners to each tab so we can track the browser history
-function addTabListeners() {
-  var tabHeaders = $(".gsc-tabHeader");
-  for (var i = 0; i < tabHeaders.length; i++) {
-    $(tabHeaders[i]).attr("id",i).click(function() {
-    /*
-      // make a copy of the page numbers for the search left pane
-      setTimeout(function() {
-        // remove any residual page numbers
-        $('#searchResults .gsc-tabsArea .gsc-cursor-box.gs-bidi-start-align').remove();
-        // move the page numbers to the left position; make a clone,
-        // because the element is drawn to the DOM only once
-        // and because we're going to remove it (previous line),
-        // we need it to be available to move again as the user navigates
-        $('#searchResults .gsc-webResult .gsc-cursor-box.gs-bidi-start-align:visible')
-                        .clone().appendTo('#searchResults .gsc-tabsArea');
-        }, 200);
-      */
-    });
-  }
-  setTimeout(function(){$(tabHeaders[0]).click()},200);
-}
-
-// add analytics tracking events to each result link
-function addResultClickListeners() {
-  $("#searchResults a.gs-title").each(function(index, link) {
-    // When user clicks enter for Google search results, track it
-    $(link).click(function() {
-      ga('send', 'event', 'Google Click', 'clicked: ' + $(this).attr('href'),
-                'query: ' + $("#search_autocomplete").val().toLowerCase());
-    });
-  });
-}
-
-
-function getQuery(hash) {
-  var queryParts = hash.split('=');
-  return queryParts[1];
-}
-
-=======
   $('#searchResults').slideDown('slow', setStickyTop);
   $("#search_autocomplete").focus();
   $("#search-close").removeClass("hide");
 });
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 /* returns the given string with all HTML brackets converted to entities
     TODO: move this to the site's JS library */
 function escapeHTML(string) {
@@ -3651,21 +3447,13 @@ function toggleInherited(linkObj, expand) {
     if ( (expand == null && a.hasClass("closed")) || expand ) {
         list.style.display = "none";
         summary.style.display = "block";
-<<<<<<< HEAD
-        trigger.src = toRoot + "assets/images/triangle-opened.png";
-=======
         trigger.src = toRoot + "assets/images/styles/disclosure_up.png";
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         a.removeClass("closed");
         a.addClass("opened");
     } else if ( (expand == null && a.hasClass("opened")) || (expand == false) ) {
         list.style.display = "block";
         summary.style.display = "none";
-<<<<<<< HEAD
-        trigger.src = toRoot + "assets/images/triangle-closed.png";
-=======
         trigger.src = toRoot + "assets/images/styles/disclosure_down.png";
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         a.removeClass("opened");
         a.addClass("closed");
     }
@@ -4035,11 +3823,7 @@ function showSamples() {
 
     return $el;
   }
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   function createResponsiveFlowColumn(cardSize) {
     var cardWidth = parseInt(cardSize.match(/(\d+)/)[1], 10);
     var column = $('<div>').addClass('col-' + (cardWidth / 3) + 'of6');
@@ -4080,11 +3864,7 @@ function showSamples() {
 
       var cardSize = cardSizes[j++ % cardSizes.length];
       cardSize = cardSize.replace(/^\s+|\s+$/,'');
-<<<<<<< HEAD
-      
-=======
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
       var column = createResponsiveFlowColumn(cardSize).appendTo(cardParent);
 
       // A stack has a third dimension which is the number of stacked items
@@ -5164,14 +4944,11 @@ function showSamples() {
     this.el.removeClass('dac-active');
     $('body').removeClass('dac-modal-open');
     this.isOpen = false;
-<<<<<<< HEAD
-=======
     // When closing the modal for Android Studio downloads, reload the page
     // because otherwise we might get stuck with post-download dialog state
     if ($("[data-modal='studio_tos']").length) {
       location.reload();
     }
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   };
 
   Modal.prototype.open_ = function() {

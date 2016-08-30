@@ -44,16 +44,12 @@ include $(BUILD_SYSTEM)/binary.mk
 relocation_packer_input := $(linked_module)
 relocation_packer_output := $(intermediates)/PACKED/$(my_built_module_stem)
 
-<<<<<<< HEAD
-my_pack_module_relocations := $(LOCAL_PACK_MODULE_RELOCATIONS)
-=======
 my_pack_module_relocations := false
 ifneq ($(DISABLE_RELOCATION_PACKER),true)
     my_pack_module_relocations := $(firstword \
       $(LOCAL_PACK_MODULE_RELOCATIONS_$($(my_prefix)$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH)) \
       $(LOCAL_PACK_MODULE_RELOCATIONS))
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifeq ($(my_pack_module_relocations),)
   my_pack_module_relocations := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_PACK_MODULE_RELOCATIONS)
@@ -92,11 +88,6 @@ endif
 symbolic_input := $(relocation_packer_output)
 symbolic_output := $(my_unstripped_path)/$(my_installed_module_stem)
 $(symbolic_output) : $(symbolic_input) | $(ACP)
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"target Symbolic:"${CL_RST}" $(PRIVATE_MODULE) ($@)"
-	$(copy-file-to-target)
-
-=======
 	@echo "target Symbolic: $(PRIVATE_MODULE) ($@)"
 	$(copy-file-to-target)
 
@@ -114,7 +105,6 @@ $(breakpad_output) : $(breakpad_input) | $(BREAKPAD_DUMP_SYMS)
 	$(hide) $(BREAKPAD_DUMP_SYMS) -c $< > $@
 $(LOCAL_BUILT_MODULE) : $(breakpad_output)
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ###########################################################
 ## Strip
@@ -122,13 +112,9 @@ endif
 strip_input := $(symbolic_output)
 strip_output := $(LOCAL_BUILT_MODULE)
 
-<<<<<<< HEAD
-my_strip_module := $(LOCAL_STRIP_MODULE)
-=======
 my_strip_module := $(firstword \
   $(LOCAL_STRIP_MODULE_$($(my_prefix)$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH)) \
   $(LOCAL_STRIP_MODULE))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifeq ($(my_strip_module),)
   my_strip_module := true
 endif
@@ -167,28 +153,17 @@ else
 # use cp(1) instead.
 ifneq ($(LOCAL_ACP_UNAVAILABLE),true)
 $(strip_output): $(strip_input) | $(ACP)
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"target Unstripped:"${CL_RST}" $(PRIVATE_MODULE) ($@)"
-	$(copy-file-to-target)
-else
-$(strip_output): $(strip_input)
-	@echo -e ${CL_GRN}"target Unstripped:"${CL_RST}" $(PRIVATE_MODULE) ($@)"
-=======
 	@echo "target Unstripped: $(PRIVATE_MODULE) ($@)"
 	$(copy-file-to-target)
 else
 $(strip_output): $(strip_input)
 	@echo "target Unstripped: $(PRIVATE_MODULE) ($@)"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(copy-file-to-target-with-cp)
 endif
 endif # my_strip_module
 
 $(cleantarget): PRIVATE_CLEAN_FILES += \
     $(linked_module) \
-<<<<<<< HEAD
-=======
     $(breakpad_output) \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     $(symbolic_output) \
     $(strip_output)

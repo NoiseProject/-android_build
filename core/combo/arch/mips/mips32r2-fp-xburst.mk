@@ -9,12 +9,8 @@ arch_variant_cflags := \
     -mfp32 \
     -modd-spreg \
     -mno-fused-madd \
-<<<<<<< HEAD
-    -Wa,-mmxu
-=======
     -Wa,-mmxu \
     -mno-synci
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 arch_variant_ldflags := \
     -Wl,-melf32ltsmip

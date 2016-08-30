@@ -30,15 +30,6 @@ endif
 endif
 
 full_classes_compiled_jar := $(intermediates.COMMON)/classes-full-debug.jar
-<<<<<<< HEAD
-emma_intermediates_dir := $(intermediates.COMMON)/emma_out
-# emma is hardcoded to use the leaf name of its input for the output file --
-# only the output directory can be changed
-full_classes_emma_jar := $(emma_intermediates_dir)/lib/$(notdir $(full_classes_compiled_jar))
-
-LOCAL_INTERMEDIATE_TARGETS += \
-    $(full_classes_compiled_jar) \
-=======
 full_classes_jarjar_jar := $(intermediates.COMMON)/classes-jarjar.jar
 emma_intermediates_dir := $(intermediates.COMMON)/emma_out
 # emma is hardcoded to use the leaf name of its input for the output file --
@@ -48,16 +39,12 @@ full_classes_emma_jar := $(emma_intermediates_dir)/lib/$(notdir $(full_classes_j
 LOCAL_INTERMEDIATE_TARGETS += \
     $(full_classes_compiled_jar) \
     $(full_classes_jarjar_jar) \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     $(full_classes_emma_jar)
 
 #######################################
 include $(BUILD_SYSTEM)/base_rules.mk
 #######################################
 
-<<<<<<< HEAD
-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_RMTYPEDEFS :=
-=======
 java_sources := $(addprefix $(LOCAL_PATH)/, $(filter %.java,$(LOCAL_SRC_FILES))) \
                 $(filter %.java,$(LOCAL_GENERATED_SOURCES))
 all_java_sources := $(java_sources)
@@ -94,7 +81,6 @@ $(full_classes_jarjar_jar): $(full_classes_compiled_jar) | $(ACP)
 	@echo Copying: $@
 	$(hide) $(ACP) -fp $< $@
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifeq (true,$(LOCAL_EMMA_INSTRUMENT))
 $(full_classes_emma_jar): PRIVATE_EMMA_COVERAGE_FILE := $(intermediates.COMMON)/coverage.em
@@ -108,39 +94,6 @@ $(full_classes_emma_jar): PRIVATE_EMMA_COVERAGE_FILTER := *,-emma,-emmarun,-com.
 endif
 # this rule will generate both $(PRIVATE_EMMA_COVERAGE_FILE) and
 # $(full_classes_emma_jar)
-<<<<<<< HEAD
-$(full_classes_emma_jar) : $(full_classes_compiled_jar) | $(EMMA_JAR)
-	$(transform-classes.jar-to-emma)
-
-$(built_javalib_jar) : $(full_classes_emma_jar)
-	@echo -e ${CL_YLW}"Copying:"${CL_RST}" $@"
-	$(hide) $(ACP) -fp $< $@
-
-else # LOCAL_EMMA_INSTRUMENT
-# Directly build into $(built_javalib_jar).
-full_classes_compiled_jar := $(built_javalib_jar)
-endif # LOCAL_EMMA_INSTRUMENT
-
-$(full_classes_compiled_jar): PRIVATE_JAVAC_DEBUG_FLAGS := -g
-# The layers file allows you to enforce a layering between java packages.
-# Run build/tools/java-layers.py for more details.
-layers_file := $(addprefix $(LOCAL_PATH)/, $(LOCAL_JAVA_LAYERS_FILE))
-
-$(full_classes_compiled_jar): PRIVATE_JAVA_LAYERS_FILE := $(layers_file)
-$(full_classes_compiled_jar): PRIVATE_JAVACFLAGS := $(LOCAL_JAVACFLAGS)
-$(full_classes_compiled_jar): PRIVATE_JAR_EXCLUDE_FILES :=
-$(full_classes_compiled_jar): PRIVATE_JAR_PACKAGES :=
-$(full_classes_compiled_jar): PRIVATE_JAR_EXCLUDE_PACKAGES :=
-$(full_classes_compiled_jar): \
-        $(java_sources) \
-        $(java_resource_sources) \
-        $(full_java_lib_deps) \
-        $(jar_manifest_file) \
-        $(proto_java_sources_file_stamp) \
-        $(LOCAL_MODULE_MAKEFILE) \
-        $(LOCAL_ADDITIONAL_DEPENDENCIES)
-	$(transform-host-java-to-package)
-=======
 $(full_classes_emma_jar) : $(full_classes_jarjar_jar) | $(EMMA_JAR)
 	$(transform-classes.jar-to-emma)
 
@@ -154,4 +107,3 @@ $(built_javalib_jar): $(full_classes_jarjar_jar) | $(ACP)
 	$(hide) $(ACP) -fp $< $@
 endif # LOCAL_EMMA_INSTRUMENT
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

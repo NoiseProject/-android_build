@@ -6,11 +6,8 @@ ARCH_ARM_HAVE_VFP               := true
 ARCH_ARM_HAVE_VFP_D32           := true
 ARCH_ARM_HAVE_NEON              := true
 
-<<<<<<< HEAD
-=======
 local_arch_has_lpae := false
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifneq (,$(filter cortex-a15 krait denver,$(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)))
 	# TODO: krait is not a cortex-a15, we set the variant to cortex-a15 so that
 	#       hardware divide operations are generated. This should be removed and a
@@ -18,18 +15,7 @@ ifneq (,$(filter cortex-a15 krait denver,$(TARGET_$(combo_2nd_arch_prefix)CPU_VA
 	#       core/clang/arm.mk.
 	arch_variant_cflags := -mcpu=cortex-a15
 
-<<<<<<< HEAD
-	# Fake an ARM compiler flag as these processors support LPAE which GCC/clang
-	# don't advertise.
-	arch_variant_cflags += -D__ARM_FEATURE_LPAE=1
-	arch_variant_ldflags := \
-		-Wl,--no-fix-cortex-a8
-else
-ifeq ($(strip $(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)),cortex-a9)
-	arch_variant_cflags := -mcpu=cortex-a9
-=======
 	local_arch_has_lpae := true
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	arch_variant_ldflags := \
 		-Wl,--no-fix-cortex-a8
 else
@@ -38,15 +24,10 @@ ifeq ($(strip $(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)),cortex-a8)
 	arch_variant_ldflags := \
 		-Wl,--fix-cortex-a8
 else
-<<<<<<< HEAD
-ifeq ($(strip $(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)),cortex-a7)
-	arch_variant_cflags := -mcpu=cortex-a7
-=======
 ifneq (,$(filter cortex-a7 cortex-a53 cortex-a53.a57,$(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)))
 	arch_variant_cflags := -mcpu=cortex-a7
 
 	local_arch_has_lpae := true
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	arch_variant_ldflags := \
 		-Wl,--no-fix-cortex-a8
 else
@@ -57,20 +38,6 @@ else
 endif
 endif
 endif
-<<<<<<< HEAD
-endif
-
-arch_variant_cflags += \
-	-mfloat-abi=softfp
-
-ifeq ($(strip $(TARGET_$(combo_2nd_arch_prefix)FPU_VARIANT)),)
-arch_variant_cflags += \
-	-mfpu=neon
-else
-arch_variant_cflags += \
-	-mfpu=$(TARGET_$(combo_2nd_arch_prefix)FPU_VARIANT)
-endif
-=======
 
 ifeq (true,$(local_arch_has_lpae))
 	# Fake an ARM compiler flag as these processors support LPAE which GCC/clang
@@ -85,4 +52,3 @@ local_arch_has_lpae :=
 arch_variant_cflags += \
     -mfloat-abi=softfp \
     -mfpu=neon
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

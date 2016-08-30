@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 
 # List of variables we want to print in the build banner.
 print_build_config_vars := \
@@ -32,7 +30,6 @@ print_build_config_vars += \
   PDK_FUSION_PLATFORM_ZIP
 endif
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # ---------------------------------------------------------------
 # the setpath shell function in envsetup.sh uses this to figure out
 # what to add to the path given the config we have chosen.
@@ -73,15 +70,7 @@ ifdef dumpvar_goals
   absolute_dumpvar := $(strip $(filter abs-%,$(dumpvar_goals)))
   ifdef absolute_dumpvar
     dumpvar_goals := $(patsubst abs-%,%,$(dumpvar_goals))
-<<<<<<< HEAD
-    ifneq ($(filter /%,$($(dumpvar_goals))),)
-      DUMPVAR_VALUE := $($(dumpvar_goals))
-    else
-      DUMPVAR_VALUE := $(PWD)/$($(dumpvar_goals))
-    endif
-=======
     DUMPVAR_VALUE := $(abspath $($(dumpvar_goals)))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     dumpvar_target := dumpvar-abs-$(dumpvar_goals)
   else
     DUMPVAR_VALUE := $($(dumpvar_goals))
@@ -98,31 +87,6 @@ ifneq ($(dumpvar_goals),report_config)
 PRINT_BUILD_CONFIG:=
 endif
 
-<<<<<<< HEAD
-endif # CALLED_FROM_SETUP
-
-
-ifneq ($(PRINT_BUILD_CONFIG),)
-HOST_OS_EXTRA:=$(shell python -c "import platform; print(platform.platform())")
-$(info ============================================)
-$(info   NP_VERSION=$(NP_VERSION))
-$(info   PLATFORM_VERSION_CODENAME=$(PLATFORM_VERSION_CODENAME))
-$(info   PLATFORM_VERSION=$(PLATFORM_VERSION))
-$(info   TARGET_PRODUCT=$(TARGET_PRODUCT))
-$(info   TARGET_BUILD_VARIANT=$(TARGET_BUILD_VARIANT))
-$(info   TARGET_BUILD_TYPE=$(TARGET_BUILD_TYPE))
-$(info   TARGET_ARCH=$(TARGET_ARCH))
-$(info   TARGET_GCC_VERSION=$(TARGET_GCC_VERSION))
-$(info   TARGET_NDK_GCC_VERSION=$(TARGET_NDK_GCC_VERSION))
-$(info   TARGET_ARCH_VARIANT=$(TARGET_ARCH_VARIANT))
-$(info   TARGET_CPU_VARIANT=$(TARGET_CPU_VARIANT))
-$(info   HOST_ARCH=$(HOST_ARCH))
-$(info   HOST_OS=$(HOST_OS))
-$(info   HOST_OS_EXTRA=$(HOST_OS_EXTRA))
-$(info   HOST_BUILD_TYPE=$(HOST_BUILD_TYPE))
-$(info   BUILD_ID=$(BUILD_ID))
-$(info   OUT_DIR=$(OUT_DIR))
-=======
 ifneq ($(filter report_config,$(DUMP_MANY_VARS)),)
 # Construct the shell commands that print the config banner.
 report_config_sh := echo '============================================';
@@ -155,6 +119,5 @@ ifneq ($(PRINT_BUILD_CONFIG),)
 $(info ============================================)
 $(foreach v, $(print_build_config_vars),\
   $(info $v=$($(v))))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(info ============================================)
 endif

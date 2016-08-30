@@ -7,16 +7,7 @@ CLANG_CONFIG_arm_EXTRA_CFLAGS :=
 ifneq (,$(filter krait,$(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)))
   # Android's clang support's krait as a CPU whereas GCC doesn't. Specify
   # -mcpu here rather than the more normal core/combo/arch/arm/armv7-a-neon.mk.
-<<<<<<< HEAD
-  CLANG_CONFIG_arm_EXTRA_CFLAGS += -mcpu=krait
-endif
-
-ifeq ($(HOST_OS),darwin)
-  # Darwin is really bad at dealing with idiv/sdiv. Don't use krait on Darwin.
-  CLANG_CONFIG_arm_EXTRA_CFLAGS += -mcpu=cortex-a9
-=======
   CLANG_CONFIG_arm_EXTRA_CFLAGS += -mcpu=krait -mfpu=neon-vfpv4
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 CLANG_CONFIG_arm_EXTRA_CPPFLAGS :=
@@ -38,20 +29,10 @@ CLANG_CONFIG_arm_UNKNOWN_CFLAGS := \
   -fno-partial-inlining \
   -fno-strict-volatile-bitfields \
   -fno-tree-copy-prop \
-<<<<<<< HEAD
-  -fno-tree-loop-optimize \
-  -Wa,--noexecstack
-=======
   -fno-tree-loop-optimize
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 define subst-clang-incompatible-arm-flags
   $(subst -march=armv5te,-march=armv5t,\
   $(subst -march=armv5e,-march=armv5,\
-<<<<<<< HEAD
-  $(subst -mfpu=neon-fp16,-mfpu=neon,\
-  $(1))))
-=======
   $(1)))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endef

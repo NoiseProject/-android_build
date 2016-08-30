@@ -20,12 +20,7 @@
 # You can set TARGET_ARCH_VARIANT to use an arch version other
 # than ARMv5TE. Each value should correspond to a file named
 # $(BUILD_COMBOS)/arch/<name>.mk which must contain
-<<<<<<< HEAD
-# makefile variable definitions similar to the preprocessor
-# defines in build/core/combo/include/arch/<combo>/AndroidConfig.h. Their
-=======
 # makefile variable definitions. Their
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # purpose is to allow module Android.mk files to selectively compile
 # different versions of code based upon the funtionality and
 # instructions available in a given architecture version.
@@ -61,15 +56,6 @@ TARGET_TOOLCHAIN_ROOT := prebuilts/gcc/$(HOST_PREBUILT_TAG)/aarch64/aarch64-linu
 TARGET_TOOLS_PREFIX := $(TARGET_TOOLCHAIN_ROOT)/bin/aarch64-linux-android-
 endif
 
-<<<<<<< HEAD
-TARGET_CC := $(TARGET_TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX)
-TARGET_CXX := $(TARGET_TOOLS_PREFIX)g++$(HOST_EXECUTABLE_SUFFIX)
-TARGET_AR := $(TARGET_TOOLS_PREFIX)ar$(HOST_EXECUTABLE_SUFFIX)
-TARGET_OBJCOPY := $(TARGET_TOOLS_PREFIX)objcopy$(HOST_EXECUTABLE_SUFFIX)
-TARGET_LD := $(TARGET_TOOLS_PREFIX)ld$(HOST_EXECUTABLE_SUFFIX)
-TARGET_READELF := $(TARGET_TOOLS_PREFIX)readelf$(HOST_EXECUTABLE_SUFFIX)
-TARGET_STRIP := $(TARGET_TOOLS_PREFIX)strip$(HOST_EXECUTABLE_SUFFIX)
-=======
 TARGET_CC := $(TARGET_TOOLS_PREFIX)gcc
 TARGET_CXX := $(TARGET_TOOLS_PREFIX)g++
 TARGET_AR := $(TARGET_TOOLS_PREFIX)ar
@@ -82,22 +68,14 @@ TARGET_NM := $(TARGET_TOOLS_PREFIX)nm
 define $(combo_var_prefix)transform-shared-lib-to-toc
 $(call _gen_toc_command_for_elf,$(1),$(2))
 endef
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 TARGET_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 
 TARGET_GLOBAL_CFLAGS += \
     -fno-strict-aliasing \
 
-<<<<<<< HEAD
-android_config_h := $(call select-android-config-h,linux-arm64)
-
-TARGET_GLOBAL_CFLAGS += \
-			-fstack-protector \
-=======
 TARGET_GLOBAL_CFLAGS += \
 			-fstack-protector-strong \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 			-ffunction-sections \
 			-fdata-sections \
 			-funwind-tables \
@@ -108,11 +86,6 @@ TARGET_GLOBAL_CFLAGS += \
 			-no-canonical-prefixes \
 			-fno-canonical-system-headers \
 			$(arch_variant_cflags) \
-<<<<<<< HEAD
-			-include $(android_config_h) \
-			-I $(dir $(android_config_h))
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Help catch common 32/64-bit errors.
 TARGET_GLOBAL_CFLAGS += \
@@ -142,12 +115,9 @@ TARGET_GLOBAL_LDFLAGS += \
 			-Wl,-maarch64linux \
 			-Wl,--hash-style=gnu \
 			-Wl,--fix-cortex-a53-843419 \
-<<<<<<< HEAD
-=======
 			-fuse-ld=gold \
 			-Wl,--icf=safe \
 			-Wl,--no-undefined-version \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 			$(arch_variant_ldflags)
 
 # Disable transitive dependency library symbol resolving.
@@ -175,10 +145,7 @@ TARGET_LIBGCOV := $(shell $(TARGET_CC) $(TARGET_GLOBAL_CFLAGS) \
 	-print-file-name=libgcov.a)
 
 KERNEL_HEADERS_COMMON := $(libc_root)/kernel/uapi
-<<<<<<< HEAD
-=======
 KERNEL_HEADERS_COMMON += $(libc_root)/kernel/common
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 KERNEL_HEADERS_ARCH   := $(libc_root)/kernel/uapi/asm-$(TARGET_ARCH)
 KERNEL_HEADERS := $(KERNEL_HEADERS_COMMON) $(KERNEL_HEADERS_ARCH)
 
@@ -198,9 +165,4 @@ TARGET_CRTEND_SO_O := $(TARGET_OUT_INTERMEDIATE_LIBRARIES)/crtend_so.o
 
 TARGET_PACK_MODULE_RELOCATIONS := true
 
-<<<<<<< HEAD
-TARGET_DEFAULT_SYSTEM_SHARED_LIBRARIES := libc libm
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_LINKER := /system/bin/linker64

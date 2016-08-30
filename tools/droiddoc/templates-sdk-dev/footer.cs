@@ -1,25 +1,3 @@
-<<<<<<< HEAD
-<div id="footer" class="wrap" <?cs if:fullpage ?>style="width:940px"<?cs /if ?>>
-        
-<?cs if:reference ?>
-  <div id="copyright">
-    <?cs call:custom_copyright() ?>
-  </div>
-  <div id="build_info">
-    <?cs call:custom_buildinfo() ?>
-  </div>
-<?cs elif:!hide_license_footer ?>
-  <div id="copyright">
-    <?cs call:custom_cc_copyright() ?>
-  </div>
-<?cs /if ?>
-<?cs if:!no_footer_links ?>
-  <div id="footerlinks">
-    <?cs call:custom_footerlinks() ?>
-  </div>
-<?cs /if ?>
-</div> <!-- end footer -->
-=======
 <?cs # page footer content ?>
 <div class="wrap">
   <div class="dac-footer<?cs if:fullpage ?> dac-landing<?cs /if ?>">
@@ -239,4 +217,3 @@
   </div>
 </div>
 <!-- end langreset modal -->
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

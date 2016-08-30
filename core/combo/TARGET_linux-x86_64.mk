@@ -49,15 +49,6 @@ TARGET_TOOLCHAIN_ROOT := prebuilts/gcc/$(HOST_PREBUILT_TAG)/x86/x86_64-linux-and
 TARGET_TOOLS_PREFIX := $(TARGET_TOOLCHAIN_ROOT)/bin/x86_64-linux-android-
 endif
 
-<<<<<<< HEAD
-TARGET_CC := $(TARGET_TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX)
-TARGET_CXX := $(TARGET_TOOLS_PREFIX)g++$(HOST_EXECUTABLE_SUFFIX)
-TARGET_AR := $(TARGET_TOOLS_PREFIX)ar$(HOST_EXECUTABLE_SUFFIX)
-TARGET_OBJCOPY := $(TARGET_TOOLS_PREFIX)objcopy$(HOST_EXECUTABLE_SUFFIX)
-TARGET_LD := $(TARGET_TOOLS_PREFIX)ld$(HOST_EXECUTABLE_SUFFIX)
-TARGET_READELF := $(TARGET_TOOLS_PREFIX)readelf$(HOST_EXECUTABLE_SUFFIX)
-TARGET_STRIP := $(TARGET_TOOLS_PREFIX)strip$(HOST_EXECUTABLE_SUFFIX)
-=======
 TARGET_CC := $(TARGET_TOOLS_PREFIX)gcc
 TARGET_CXX := $(TARGET_TOOLS_PREFIX)g++
 TARGET_AR := $(TARGET_TOOLS_PREFIX)ar
@@ -70,7 +61,6 @@ TARGET_NM := $(TARGET_TOOLS_PREFIX)nm
 define $(combo_var_prefix)transform-shared-lib-to-toc
 $(call _gen_toc_command_for_elf,$(1),$(2))
 endef
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifneq ($(wildcard $(TARGET_CC)),)
 TARGET_LIBGCC := \
@@ -87,10 +77,7 @@ libc_root := bionic/libc
 libm_root := bionic/libm
 
 KERNEL_HEADERS_COMMON := $(libc_root)/kernel/uapi
-<<<<<<< HEAD
-=======
 KERNEL_HEADERS_COMMON += $(libc_root)/kernel/common
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 KERNEL_HEADERS_ARCH   := $(libc_root)/kernel/uapi/asm-x86 # x86 covers both x86 and x86_64.
 KERNEL_HEADERS := $(KERNEL_HEADERS_COMMON) $(KERNEL_HEADERS_ARCH)
 
@@ -107,11 +94,7 @@ TARGET_GLOBAL_CFLAGS += \
 			-fstrict-aliasing \
 			-funswitch-loops \
 			-funwind-tables \
-<<<<<<< HEAD
-			-fstack-protector \
-=======
 			-fstack-protector-strong \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 			-m64 \
 			-no-canonical-prefixes \
 			-fno-canonical-system-headers
@@ -122,13 +105,6 @@ TARGET_GLOBAL_CFLAGS += \
     -Werror=int-to-pointer-cast \
     -Werror=implicit-function-declaration \
 
-<<<<<<< HEAD
-android_config_h := $(call select-android-config-h,target_linux-x86)
-TARGET_ANDROID_CONFIG_CFLAGS := -include $(android_config_h) -I $(dir $(android_config_h))
-TARGET_GLOBAL_CFLAGS += $(TARGET_ANDROID_CONFIG_CFLAGS)
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_GLOBAL_CFLAGS += $(arch_variant_cflags)
 
 ifeq ($(ARCH_X86_HAVE_SSSE3),true)   # yes, really SSSE3, not SSE3!
@@ -162,10 +138,7 @@ TARGET_GLOBAL_LDFLAGS += -Wl,--warn-shared-textrel
 TARGET_GLOBAL_LDFLAGS += -Wl,--fatal-warnings
 TARGET_GLOBAL_LDFLAGS += -Wl,--gc-sections
 TARGET_GLOBAL_LDFLAGS += -Wl,--hash-style=gnu
-<<<<<<< HEAD
-=======
 TARGET_GLOBAL_LDFLAGS += -Wl,--no-undefined-version
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 TARGET_C_INCLUDES := \
 	$(libc_root)/arch-x86_64/include \
@@ -181,11 +154,6 @@ TARGET_CRTEND_O := $(TARGET_OUT_INTERMEDIATE_LIBRARIES)/crtend_android.o
 TARGET_CRTBEGIN_SO_O := $(TARGET_OUT_INTERMEDIATE_LIBRARIES)/crtbegin_so.o
 TARGET_CRTEND_SO_O := $(TARGET_OUT_INTERMEDIATE_LIBRARIES)/crtend_so.o
 
-<<<<<<< HEAD
-TARGET_DEFAULT_SYSTEM_SHARED_LIBRARIES := libc libm
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 TARGET_LINKER := /system/bin/linker64
 
 TARGET_GLOBAL_YASM_FLAGS := -f elf64 -m amd64

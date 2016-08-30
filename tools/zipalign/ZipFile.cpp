@@ -34,10 +34,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <assert.h>
-<<<<<<< HEAD
-=======
 #include <inttypes.h>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 using namespace android;
 
@@ -210,11 +207,7 @@ void ZipFile::discardEntries(void)
 status_t ZipFile::readCentralDir(void)
 {
     status_t result = NO_ERROR;
-<<<<<<< HEAD
-    unsigned char* buf = NULL;
-=======
     uint8_t* buf = NULL;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     off_t fileLength, seekStart;
     long readAmount;
     int i;
@@ -230,11 +223,7 @@ status_t ZipFile::readCentralDir(void)
         goto bail;
     }
 
-<<<<<<< HEAD
-    buf = new unsigned char[EndOfCentralDir::kMaxEOCDSearch];
-=======
     buf = new uint8_t[EndOfCentralDir::kMaxEOCDSearch];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     if (buf == NULL) {
         ALOGD("Failure allocating %d bytes for EOCD search",
              EndOfCentralDir::kMaxEOCDSearch);
@@ -308,11 +297,7 @@ status_t ZipFile::readCentralDir(void)
      * we're hoping to preserve.
      */
     if (fseek(mZipFp, mEOCD.mCentralDirOffset, SEEK_SET) != 0) {
-<<<<<<< HEAD
-        ALOGD("Failure seeking to central dir offset %ld\n",
-=======
         ALOGD("Failure seeking to central dir offset %" PRIu32 "\n",
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
              mEOCD.mCentralDirOffset);
         result = UNKNOWN_ERROR;
         goto bail;
@@ -321,11 +306,7 @@ status_t ZipFile::readCentralDir(void)
     /*
      * Loop through and read the central dir entries.
      */
-<<<<<<< HEAD
-    ALOGV("Scanning %d entries...\n", mEOCD.mTotalNumEntries);
-=======
     ALOGV("Scanning %" PRIu16 " entries...\n", mEOCD.mTotalNumEntries);
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     int entry;
     for (entry = 0; entry < mEOCD.mTotalNumEntries; entry++) {
         ZipEntry* pEntry = new ZipEntry;
@@ -345,11 +326,7 @@ status_t ZipFile::readCentralDir(void)
      * If all went well, we should now be back at the EOCD.
      */
     {
-<<<<<<< HEAD
-        unsigned char checkBuf[4];
-=======
         uint8_t checkBuf[4];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (fread(checkBuf, 1, 4, mZipFp) != 4) {
             ALOGD("EOCD check read failed\n");
             result = INVALID_OPERATION;
@@ -389,11 +366,7 @@ status_t ZipFile::addCommon(const char* fileName, const void* data, size_t size,
     status_t result = NO_ERROR;
     long lfhPosn, startPosn, endPosn, uncompressedLen;
     FILE* inputFp = NULL;
-<<<<<<< HEAD
-    unsigned long crc;
-=======
     uint32_t crc;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     time_t modWhen;
 
     if (mReadOnly)
@@ -494,25 +467,16 @@ status_t ZipFile::addCommon(const char* fileName, const void* data, size_t size,
         bool scanResult;
         int method;
         long compressedLen;
-<<<<<<< HEAD
-
-        scanResult = ZipUtils::examineGzip(inputFp, &method, &uncompressedLen,
-                        &compressedLen, &crc);
-=======
         unsigned long longcrc;
 
         scanResult = ZipUtils::examineGzip(inputFp, &method, &uncompressedLen,
                         &compressedLen, &longcrc);
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (!scanResult || method != ZipEntry::kCompressDeflated) {
             ALOGD("this isn't a deflated gzip file?");
             result = UNKNOWN_ERROR;
             goto bail;
         }
-<<<<<<< HEAD
-=======
         crc = longcrc;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
         result = copyPartialFpToFp(mZipFp, inputFp, compressedLen, NULL);
         if (result != NO_ERROR) {
@@ -602,11 +566,7 @@ status_t ZipFile::add(const ZipFile* pSourceZip, const ZipEntry* pSourceEntry,
         goto bail;
     }
 
-<<<<<<< HEAD
-    result = pEntry->initFromExternal(pSourceZip, pSourceEntry);
-=======
     result = pEntry->initFromExternal(pSourceEntry);
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     if (result != NO_ERROR)
         goto bail;
     if (padding != 0) {
@@ -713,11 +673,7 @@ status_t ZipFile::addRecompress(const ZipFile* pSourceZip, const ZipEntry* pSour
         goto bail;
     }
 
-<<<<<<< HEAD
-    result = pEntry->initFromExternal(pSourceZip, pSourceEntry);
-=======
     result = pEntry->initFromExternal(pSourceEntry);
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     if (result != NO_ERROR)
         goto bail;
 
@@ -757,11 +713,7 @@ status_t ZipFile::addRecompress(const ZipFile* pSourceZip, const ZipEntry* pSour
             goto bail;
         }
         long startPosn = ftell(mZipFp);
-<<<<<<< HEAD
-        unsigned long crc;
-=======
         uint32_t crc;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (compressFpToFp(mZipFp, NULL, buf, uncompressedLen, &crc) != NO_ERROR) {
             ALOGW("recompress of '%s' failed\n", pEntry->mCDE.mFileName);
             result = UNKNOWN_ERROR;
@@ -831,15 +783,9 @@ bail:
  * On exit, "srcFp" will be seeked to the end of the file, and "dstFp"
  * will be seeked immediately past the data.
  */
-<<<<<<< HEAD
-status_t ZipFile::copyFpToFp(FILE* dstFp, FILE* srcFp, unsigned long* pCRC32)
-{
-    unsigned char tmpBuf[32768];
-=======
 status_t ZipFile::copyFpToFp(FILE* dstFp, FILE* srcFp, uint32_t* pCRC32)
 {
     uint8_t tmpBuf[32768];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     size_t count;
 
     *pCRC32 = crc32(0L, Z_NULL, 0);
@@ -868,11 +814,7 @@ status_t ZipFile::copyFpToFp(FILE* dstFp, FILE* srcFp, uint32_t* pCRC32)
  * On exit, "dstFp" will be seeked immediately past the data.
  */
 status_t ZipFile::copyDataToFp(FILE* dstFp,
-<<<<<<< HEAD
-    const void* data, size_t size, unsigned long* pCRC32)
-=======
     const void* data, size_t size, uint32_t* pCRC32)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 {
     size_t count;
 
@@ -897,15 +839,9 @@ status_t ZipFile::copyDataToFp(FILE* dstFp,
  * will be seeked immediately past the data just written.
  */
 status_t ZipFile::copyPartialFpToFp(FILE* dstFp, FILE* srcFp, long length,
-<<<<<<< HEAD
-    unsigned long* pCRC32)
-{
-    unsigned char tmpBuf[32768];
-=======
     uint32_t* pCRC32)
 {
     uint8_t tmpBuf[32768];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     size_t count;
 
     if (pCRC32 != NULL)
@@ -913,11 +849,7 @@ status_t ZipFile::copyPartialFpToFp(FILE* dstFp, FILE* srcFp, long length,
 
     while (length) {
         long readSize;
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         readSize = sizeof(tmpBuf);
         if (readSize > length)
             readSize = length;
@@ -949,17 +881,6 @@ status_t ZipFile::copyPartialFpToFp(FILE* dstFp, FILE* srcFp, long length,
  * will be seeked immediately past the compressed data.
  */
 status_t ZipFile::compressFpToFp(FILE* dstFp, FILE* srcFp,
-<<<<<<< HEAD
-    const void* data, size_t size, unsigned long* pCRC32)
-{
-    status_t result = NO_ERROR;
-    const size_t kBufSize = 1024 * 1024;
-    unsigned char* inBuf = NULL;
-    unsigned char* outBuf = NULL;
-    size_t outSize = 0;
-    bool atEof = false;     // no feof() aviailable yet
-    unsigned long crc;
-=======
     const void* data, size_t size, uint32_t* pCRC32)
 {
     status_t result = NO_ERROR;
@@ -969,7 +890,6 @@ status_t ZipFile::compressFpToFp(FILE* dstFp, FILE* srcFp,
     size_t outSize = 0;
     bool atEof = false;     // no feof() aviailable yet
     uint32_t crc;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     ZopfliOptions options;
     unsigned char bp = 0;
 
@@ -985,11 +905,7 @@ status_t ZipFile::compressFpToFp(FILE* dstFp, FILE* srcFp,
         /*
          * Create an input buffer and an output buffer.
          */
-<<<<<<< HEAD
-        inBuf = new unsigned char[kBufSize];
-=======
         inBuf = new uint8_t[kBufSize];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         if (inBuf == NULL) {
             result = NO_MEMORY;
             goto bail;
@@ -1215,11 +1131,7 @@ status_t ZipFile::filemove(FILE* fp, off_t dst, off_t src, size_t n)
     if (dst == src || n <= 0)
         return NO_ERROR;
 
-<<<<<<< HEAD
-    unsigned char readBuf[32768];
-=======
     uint8_t readBuf[32768];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     if (dst < src) {
         /* shift stuff toward start of file; must read from start */
@@ -1385,11 +1297,7 @@ bail:
  * "buf" should be positioned at the EOCD signature, and should contain
  * the entire EOCD area including the comment.
  */
-<<<<<<< HEAD
-status_t ZipFile::EndOfCentralDir::readBuf(const unsigned char* buf, int len)
-=======
 status_t ZipFile::EndOfCentralDir::readBuf(const uint8_t* buf, int len)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 {
     /* don't allow re-use */
     assert(mComment == NULL);
@@ -1417,19 +1325,11 @@ status_t ZipFile::EndOfCentralDir::readBuf(const uint8_t* buf, int len)
 
     if (mCommentLen > 0) {
         if (kEOCDLen + mCommentLen > len) {
-<<<<<<< HEAD
-            ALOGD("EOCD(%d) + comment(%d) exceeds len (%d)\n",
-                kEOCDLen, mCommentLen, len);
-            return UNKNOWN_ERROR;
-        }
-        mComment = new unsigned char[mCommentLen];
-=======
             ALOGD("EOCD(%d) + comment(%" PRIu16 ") exceeds len (%d)\n",
                 kEOCDLen, mCommentLen, len);
             return UNKNOWN_ERROR;
         }
         mComment = new uint8_t[mCommentLen];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         memcpy(mComment, buf + kEOCDLen, mCommentLen);
     }
 
@@ -1441,11 +1341,7 @@ status_t ZipFile::EndOfCentralDir::readBuf(const uint8_t* buf, int len)
  */
 status_t ZipFile::EndOfCentralDir::write(FILE* fp)
 {
-<<<<<<< HEAD
-    unsigned char buf[kEOCDLen];
-=======
     uint8_t buf[kEOCDLen];
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     ZipEntry::putLongLE(&buf[0x00], kSignature);
     ZipEntry::putShortLE(&buf[0x04], mDiskNumber);
@@ -1473,15 +1369,9 @@ status_t ZipFile::EndOfCentralDir::write(FILE* fp)
 void ZipFile::EndOfCentralDir::dump(void) const
 {
     ALOGD(" EndOfCentralDir contents:\n");
-<<<<<<< HEAD
-    ALOGD("  diskNum=%u diskWCD=%u numEnt=%u totalNumEnt=%u\n",
-        mDiskNumber, mDiskWithCentralDir, mNumEntries, mTotalNumEntries);
-    ALOGD("  centDirSize=%lu centDirOff=%lu commentLen=%u\n",
-=======
     ALOGD("  diskNum=%" PRIu16 " diskWCD=%" PRIu16 " numEnt=%" PRIu16 " totalNumEnt=%" PRIu16 "\n",
         mDiskNumber, mDiskWithCentralDir, mNumEntries, mTotalNumEntries);
     ALOGD("  centDirSize=%" PRIu32 " centDirOff=%" PRIu32 " commentLen=%" PRIu32 "\n",
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         mCentralDirSize, mCentralDirOffset, mCommentLen);
 }
 

@@ -54,10 +54,7 @@ endef
 # can have permission to touch it.
 include $(BUILD_SYSTEM)/cleanspec.mk
 INTERNAL_CLEAN_BUILD_VERSION := $(strip $(INTERNAL_CLEAN_BUILD_VERSION))
-<<<<<<< HEAD
-=======
 INTERNAL_CLEAN_STEPS := $(strip $(INTERNAL_CLEAN_STEPS))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # If the clean_steps.mk file is missing (usually after a clean build)
 # then we won't do anything.
@@ -109,13 +106,6 @@ else
   _crs_new_cmd :=
   steps :=
 endif
-<<<<<<< HEAD
-CURRENT_CLEAN_BUILD_VERSION :=
-CURRENT_CLEAN_STEPS :=
-
-# Write the new state to the file.
-#
-=======
 
 # Write the new state to the file.
 #
@@ -128,18 +118,10 @@ ifeq ($(wildcard $(clean_steps_file)),)
 rewrite_clean_steps_file := true
 endif
 ifeq ($(rewrite_clean_steps_file),true)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(shell \
   mkdir -p $(dir $(clean_steps_file)) && \
   echo "CURRENT_CLEAN_BUILD_VERSION := $(INTERNAL_CLEAN_BUILD_VERSION)" > \
       $(clean_steps_file) ;\
-<<<<<<< HEAD
-  echo "CURRENT_CLEAN_STEPS := $(INTERNAL_CLEAN_STEPS)" >> \
-      $(clean_steps_file) \
- )
-
-clean_steps_file :=
-=======
   echo "CURRENT_CLEAN_STEPS := $(wordlist 1,500,$(INTERNAL_CLEAN_STEPS))" >> $(clean_steps_file) \
  )
 define -cs-write-clean-steps-if-arg1-not-empty
@@ -157,7 +139,6 @@ CURRENT_CLEAN_BUILD_VERSION :=
 CURRENT_CLEAN_STEPS :=
 clean_steps_file :=
 rewrite_clean_steps_file :=
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 INTERNAL_CLEAN_STEPS :=
 INTERNAL_CLEAN_BUILD_VERSION :=
 
@@ -176,10 +157,6 @@ aapt_config_list := $(strip $(PRODUCT_AAPT_CONFIG) $(PRODUCT_AAPT_PREF_CONFIG))
 
 current_build_config := \
     $(TARGET_PRODUCT)-$(TARGET_BUILD_VARIANT)-{$(aapt_config_list)}
-<<<<<<< HEAD
-aapt_config_list :=
-force_installclean := false
-=======
 current_sanitize_target := $(strip $(SANITIZE_TARGET))
 ifeq (,$(current_sanitize_target))
   current_sanitize_target := false
@@ -187,22 +164,16 @@ endif
 aapt_config_list :=
 force_installclean := false
 force_objclean := false
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Read the current state from the file, if present.
 # Will set PREVIOUS_BUILD_CONFIG.
 #
 PREVIOUS_BUILD_CONFIG :=
-<<<<<<< HEAD
--include $(previous_build_config_file)
-PREVIOUS_BUILD_CONFIG := $(strip $(PREVIOUS_BUILD_CONFIG))
-=======
 PREVIOUS_SANITIZE_TARGET :=
 -include $(previous_build_config_file)
 PREVIOUS_BUILD_CONFIG := $(strip $(PREVIOUS_BUILD_CONFIG))
 PREVIOUS_SANITIZE_TARGET := $(strip $(PREVIOUS_SANITIZE_TARGET))
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifdef PREVIOUS_BUILD_CONFIG
   ifneq "$(current_build_config)" "$(PREVIOUS_BUILD_CONFIG)"
     $(info *** Build configuration changed: "$(PREVIOUS_BUILD_CONFIG)" -> "$(current_build_config)")
@@ -213,17 +184,6 @@ ifdef PREVIOUS_BUILD_CONFIG
     endif
   endif
 endif  # else, this is the first build, so no need to clean.
-<<<<<<< HEAD
-PREVIOUS_BUILD_CONFIG :=
-
-# Write the new state to the file.
-#
-$(shell \
-  mkdir -p $(dir $(previous_build_config_file)) && \
-  echo "PREVIOUS_BUILD_CONFIG := $(current_build_config)" > \
-      $(previous_build_config_file) \
- )
-=======
 
 ifdef PREVIOUS_SANITIZE_TARGET
   ifneq "$(current_sanitize_target)" "$(PREVIOUS_SANITIZE_TARGET)"
@@ -245,7 +205,6 @@ $(shell \
 endif
 PREVIOUS_BUILD_CONFIG :=
 PREVIOUS_SANITIZE_TARGET :=
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 previous_build_config_file :=
 current_build_config :=
 
@@ -289,18 +248,12 @@ installclean_files := \
 	$(PRODUCT_OUT)/obj/JAVA_LIBRARIES \
 	$(PRODUCT_OUT)/obj/FAKE \
 	$(PRODUCT_OUT)/obj/EXECUTABLES/adbd_intermediates \
-<<<<<<< HEAD
-=======
 	$(PRODUCT_OUT)/obj/EXECUTABLES/logd_intermediates \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(PRODUCT_OUT)/obj/STATIC_LIBRARIES/libfs_mgr_intermediates \
 	$(PRODUCT_OUT)/obj/EXECUTABLES/init_intermediates \
 	$(PRODUCT_OUT)/obj/ETC/mac_permissions.xml_intermediates \
 	$(PRODUCT_OUT)/obj/ETC/sepolicy_intermediates \
-<<<<<<< HEAD
-=======
 	$(PRODUCT_OUT)/obj/ETC/sepolicy.recovery_intermediates \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 	$(PRODUCT_OUT)/obj/ETC/init.environ.rc_intermediates
 
 # The files/dirs to delete during a dataclean, which removes any files
@@ -310,15 +263,12 @@ dataclean_files := \
 	$(PRODUCT_OUT)/data-qemu/* \
 	$(PRODUCT_OUT)/userdata-qemu.img
 
-<<<<<<< HEAD
-=======
 # The files/dirs to delete during an objclean, which removes any files
 # in the staging and emulator data partitions.
 objclean_files := \
 	$(TARGET_OUT_INTERMEDIATES) \
 	$($(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_INTERMEDIATES)
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # make sure *_OUT is set so that we won't result in deleting random parts
 # of the filesystem.
 ifneq (2,$(words $(HOST_OUT) $(PRODUCT_OUT)))
@@ -330,19 +280,12 @@ endif
 dataclean: FILES := $(dataclean_files)
 dataclean:
 	$(hide) rm -rf $(FILES)
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"Deleted emulator userdata images."${CL_RST}
-=======
 	@echo "Deleted emulator userdata images."
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 .PHONY: installclean
 installclean: FILES := $(installclean_files)
 installclean: dataclean
 	$(hide) rm -rf $(FILES)
-<<<<<<< HEAD
-	@echo -e ${CL_GRN}"Deleted images and staging directories."${CL_RST}
-=======
 	@echo "Deleted images and staging directories."
 
 .PHONY: objclean
@@ -350,7 +293,6 @@ objclean: FILES := $(objclean_files)
 objclean:
 	$(hide) rm -rf $(FILES)
 	@echo "Deleted images and staging directories."
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ifeq "$(force_installclean)" "true"
   $(info *** Forcing "make installclean"...)
@@ -360,47 +302,6 @@ ifeq "$(force_installclean)" "true"
 endif
 force_installclean :=
 
-<<<<<<< HEAD
-###########################################################
-# Clean build tools when swithcing between prebuilt host tools (such as in
-# apps_only build) and tools built from source (platform build).
-previous_prebuilt_tools_config_file := $(HOST_OUT)/previous_prebuilt_tools_config.mk
-ifneq (,$(TARGET_BUILD_APPS)$(filter true,$(TARGET_BUILD_PDK)))
-current_prebuilt_tools := true
-else
-current_prebuilt_tools := false
-endif
-PREVIOUS_PREBUILT_TOOLS :=
--include $(previous_prebuilt_tools_config_file)
-force_tools_clean :=
-ifdef PREVIOUS_PREBUILT_TOOLS
-ifneq ($(PREVIOUS_PREBUILT_TOOLS),$(current_prebuilt_tools))
-force_tools_clean := true
-endif
-endif # else, this is the first build, so no need to clean.
-
-# Write the new state to the file.
-$(shell \
-  mkdir -p $(dir $(previous_prebuilt_tools_config_file)) && \
-  echo "PREVIOUS_PREBUILT_TOOLS:=$(current_prebuilt_tools)" > \
-    $(previous_prebuilt_tools_config_file))
-
-ifeq ($(force_tools_clean),true)
-# For this list of prebuilt tools, see prebuilts/sdk/tools/Android.mk.
-tools_clean_files := \
-  $(HOST_OUT_COMMON_INTERMEDIATES)/JAVA_LIBRARIES/signapk_intermediates \
-  $(HOST_OUT_COMMON_INTERMEDIATES)/JAVA_LIBRARIES/dx_intermediates \
-  $(HOST_OUT_COMMON_INTERMEDIATES)/JAVA_LIBRARIES/shrinkedAndroid_intermediates \
-  $(HOST_OUT)/obj*/EXECUTABLES/aapt_intermediates \
-  $(HOST_OUT)/obj*/EXECUTABLES/aidl_intermediates \
-  $(HOST_OUT)/obj*/EXECUTABLES/zipalign_intermediates \
-  $(HOST_OUT)/obj*/lib/libc++$(HOST_SHLIB_SUFFIX) \
-
-$(info *** build type changed, clean host tools...)
-$(info *** rm -rf $(tools_clean_files))
-$(shell rm -rf $(tools_clean_files))
-endif
-=======
 ifeq "$(force_objclean)" "true"
   $(info *** Forcing cleanup of intermediate files...)
   $(info *** rm -rf $(objclean_files))
@@ -408,7 +309,6 @@ ifeq "$(force_objclean)" "true"
   $(info *** Done with the cleaning, now starting the real build.)
 endif
 force_objclean :=
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 ###########################################################
 

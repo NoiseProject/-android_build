@@ -13,11 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-<<<<<<< HEAD
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_x86_64.mk)
-
-PRODUCT_NAME := aosp_x86_64
-=======
 
 # This is a build configuration for a full-featured build of the
 # Open-Source part of the tree. It's geared toward a US-centric
@@ -52,4 +47,3 @@ PRODUCT_NAME := aosp_x86_64
 PRODUCT_DEVICE := generic_x86_64
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := AOSP on IA x86_64 Emulator
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

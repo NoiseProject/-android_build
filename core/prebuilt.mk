@@ -8,10 +8,7 @@
 
 ifdef LOCAL_IS_HOST_MODULE
   my_prefix := HOST_
-<<<<<<< HEAD
-=======
   LOCAL_HOST_PREFIX :=
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 else
   my_prefix := TARGET_
 endif
@@ -45,12 +42,6 @@ ifeq ($(my_module_arch_supported),true)
 OVERRIDE_BUILT_MODULE_PATH :=
 LOCAL_BUILT_MODULE :=
 LOCAL_INSTALLED_MODULE :=
-<<<<<<< HEAD
-LOCAL_MODULE_STEM :=
-LOCAL_BUILT_MODULE_STEM :=
-LOCAL_INSTALLED_MODULE_STEM :=
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 LOCAL_INTERMEDIATE_TARGETS :=
 include $(BUILD_SYSTEM)/prebuilt_internal.mk
 endif # $(my_module_arch_supported)
@@ -59,8 +50,6 @@ endif # $(my_skip_non_preferred_arch) not true
 
 LOCAL_2ND_ARCH_VAR_PREFIX :=
 
-<<<<<<< HEAD
-=======
 ifdef LOCAL_IS_HOST_MODULE
 ifdef HOST_CROSS_OS
 ifneq (,$(filter EXECUTABLES STATIC_LIBRARIES SHARED_LIBRARIES,$(LOCAL_MODULE_CLASS)))
@@ -96,5 +85,4 @@ endif
 endif
 endif
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 my_module_arch_supported :=

@@ -1,32 +1,6 @@
 function hmm() {
 cat <<EOF
 Invoke ". build/envsetup.sh" from your shell to add the following functions to your environment:
-<<<<<<< HEAD
-- lunch:   lunch <product_name>-<build_variant>
-- tapas:   tapas [<App1> <App2> ...] [arm|x86|mips|armv5|arm64|x86_64|mips64] [eng|userdebug|user]
-- croot:   Changes directory to the top of the tree.
-- m:       Makes from the top of the tree.
-- mm:      Builds all of the modules in the current directory, but not their dependencies.
-- mmm:     Builds all of the modules in the supplied directories, but not their dependencies.
-           To limit the modules being built use the syntax: mmm dir/:target1,target2.
-- mma:     Builds all of the modules in the current directory, and their dependencies.
-- mmma:    Builds all of the modules in the supplied directories, and their dependencies.
-- cgrep:   Greps on all local C/C++ files.
-- ggrep:   Greps on all local Gradle files.
-- jgrep:   Greps on all local Java files.
-- resgrep: Greps on all local res/*.xml files.
-- mangrep: Greps on all local AndroidManifest.xml files.
-- sepgrep: Greps on all local sepolicy files.
-- sgrep:   Greps on all local source files.
-- godir:   Go to the directory containing a file.
-- cmremote: Add git remote for CM Gerrit Review
-- cmgerrit: A Git wrapper that fetches/pushes patch from/to CM Gerrit Review
-- cmrebase: Rebase a Gerrit change and push it again
-- mka:      Builds using SCHED_BATCH on all processors
-- reposync: Parallel repo sync using ionice and SCHED_BATCH
-
-Environemnt options:
-=======
 - lunch:     lunch <product_name>-<build_variant>
 - tapas:     tapas [<App1> <App2> ...] [arm|x86|mips|armv5|arm64|x86_64|mips64] [eng|userdebug|user]
 - croot:     Changes directory to the top of the tree.
@@ -48,7 +22,6 @@ Environemnt options:
 - godir:     Go to the directory containing a file.
 
 Environment options:
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 - SANITIZE_HOST: Set to 'true' to use ASAN for all host modules. Note that
                  ASAN_OPTIONS=detect_leaks=0 will be set by default until the
                  build is leak-check clean.
@@ -58,21 +31,12 @@ EOF
     T=$(gettop)
     local A
     A=""
-<<<<<<< HEAD
-    for i in `cat $T/build/envsetup.sh | sed -n "/^[ \t]*function /s/function \([a-z_]*\).*/\1/p" | sort | uniq`; do
-=======
     for i in `cat $T/build/envsetup.sh | sed -n "/^[[:blank:]]*function /s/function \([a-z_]*\).*/\1/p" | sort | uniq`; do
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
       A="$A $i"
     done
     echo $A
 }
 
-<<<<<<< HEAD
-# Get the value of a build variable as an absolute path.
-function get_abs_build_var()
-{
-=======
 # Get all the build variables needed by this script in a single call to the build system.
 function build_build_var_cache()
 {
@@ -129,7 +93,6 @@ function get_abs_build_var()
     return
     fi
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     T=$(gettop)
     if [ ! "$T" ]; then
         echo "Couldn't locate the top of the tree.  Try setting TOP." >&2
@@ -142,15 +105,12 @@ function get_abs_build_var()
 # Get the exact value of a build variable.
 function get_build_var()
 {
-<<<<<<< HEAD
-=======
     if [ "$BUILD_VAR_CACHE_READY" = "true" ]
     then
         eval echo \"\${var_cache_$1}\"
     return
     fi
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     T=$(gettop)
     if [ ! "$T" ]; then
         echo "Couldn't locate the top of the tree.  Try setting TOP." >&2
@@ -168,17 +128,6 @@ function check_product()
         echo "Couldn't locate the top of the tree.  Try setting TOP." >&2
         return
     fi
-<<<<<<< HEAD
-
-    if (echo -n $1 | grep -q -e "^np_") ; then
-       NP_BUILD=$(echo -n $1 | sed -e 's/^np_//g')
-    else
-       NP_BUILD=
-    fi
-    export NP_BUILD
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
         TARGET_BUILD_TYPE= \
@@ -241,10 +190,6 @@ function setpaths()
     # defined in core/config.mk
     targetgccversion=$(get_build_var TARGET_GCC_VERSION)
     targetgccversion2=$(get_build_var 2ND_TARGET_GCC_VERSION)
-<<<<<<< HEAD
-    targetlegacygccversion=$(get_build_var TARGET_LEGACY_GCC_VERSION)
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     export TARGET_GCC_VERSION=$targetgccversion
 
     # The gcc toolchain does not exists for windows/cygwin. In this case, do not reference it.
@@ -276,28 +221,8 @@ function setpaths()
         export ANDROID_TOOLCHAIN_2ND_ARCH=$gccprebuiltdir/$toolchaindir2
     fi
 
-<<<<<<< HEAD
-    unset ANDROID_KERNEL_TOOLCHAIN_PATH
-    case $ARCH in
-        arm)
-            # Legacy toolchain configuration used for ARM kernel compilation
-            toolchaindir=arm/arm-eabi-$targetlegacygccversion/bin
-            if [ -d "$gccprebuiltdir/$toolchaindir" ]; then
-                 export ARM_EABI_TOOLCHAIN="$gccprebuiltdir/$toolchaindir"
-                 ANDROID_KERNEL_TOOLCHAIN_PATH="$ARM_EABI_TOOLCHAIN":
-            fi
-            ;;
-        *)
-            # No need to set ARM_EABI_TOOLCHAIN for other ARCHs
-            ;;
-    esac
-
-    export ANDROID_DEV_SCRIPTS=$T/development/scripts:$T/prebuilts/devtools/tools:$T/external/selinux/prebuilts/bin
-    export ANDROID_BUILD_PATHS=$(get_build_var ANDROID_BUILD_PATHS):$ANDROID_TOOLCHAIN:$ANDROID_TOOLCHAIN_2ND_ARCH:$ANDROID_KERNEL_TOOLCHAIN_PATH$ANDROID_DEV_SCRIPTS:
-=======
     export ANDROID_DEV_SCRIPTS=$T/development/scripts:$T/prebuilts/devtools/tools:$T/external/selinux/prebuilts/bin
     export ANDROID_BUILD_PATHS=$(get_build_var ANDROID_BUILD_PATHS):$ANDROID_TOOLCHAIN:$ANDROID_TOOLCHAIN_2ND_ARCH:$ANDROID_DEV_SCRIPTS:
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     # If prebuilts/android-emulator/<system>/ exists, prepend it to our PATH
     # to ensure that the corresponding 'emulator' binaries are used.
@@ -318,10 +243,7 @@ function setpaths()
     fi
 
     export PATH=$ANDROID_BUILD_PATHS$PATH
-<<<<<<< HEAD
-=======
     export PYTHONPATH=$T/development/python-packages:$PYTHONPATH
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     unset ANDROID_JAVA_TOOLCHAIN
     unset ANDROID_PRE_BUILD_PATHS
@@ -458,13 +380,9 @@ function choosetype()
         fi
     done
 
-<<<<<<< HEAD
-    set_stuff_for_environment
-=======
     build_build_var_cache
     set_stuff_for_environment
     destroy_build_var_cache
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 #
@@ -478,16 +396,10 @@ function chooseproduct()
     if [ "x$TARGET_PRODUCT" != x ] ; then
         default_value=$TARGET_PRODUCT
     else
-<<<<<<< HEAD
-        default_value=full
-    fi
-
-=======
         default_value=aosp_arm
     fi
 
     export TARGET_BUILD_APPS=
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     export TARGET_PRODUCT=
     local ANSWER
     while [ -z "$TARGET_PRODUCT" ]
@@ -515,13 +427,9 @@ function chooseproduct()
         fi
     done
 
-<<<<<<< HEAD
-    set_stuff_for_environment
-=======
     build_build_var_cache
     set_stuff_for_environment
     destroy_build_var_cache
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function choosevariant()
@@ -584,15 +492,10 @@ function choosecombo()
     choosevariant $3
 
     echo
-<<<<<<< HEAD
-    set_stuff_for_environment
-    printconfig
-=======
     build_build_var_cache
     set_stuff_for_environment
     printconfig
     destroy_build_var_cache
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 # Clear this variable.  It will be built up again when the vendorsetup.sh
@@ -611,15 +514,12 @@ function add_lunch_combo()
 }
 
 # add the default one here
-<<<<<<< HEAD
-=======
 add_lunch_combo aosp_arm-eng
 add_lunch_combo aosp_arm64-eng
 add_lunch_combo aosp_mips-eng
 add_lunch_combo aosp_mips64-eng
 add_lunch_combo aosp_x86-eng
 add_lunch_combo aosp_x86_64-eng
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 function print_lunch_menu()
 {
@@ -640,52 +540,6 @@ function print_lunch_menu()
     echo
 }
 
-<<<<<<< HEAD
-function brunch()
-{
-    breakfast $*
-    if [ $? -eq 0 ]; then
-        time mka bacon
-    else
-        echo "No such item in brunch menu. Try 'breakfast'"
-        return 1
-    fi
-    return $?
-}
-
-function breakfast()
-{
-    target=$1
-    NP_DEVICES_ONLY="true"
-    unset LUNCH_MENU_CHOICES
-    add_lunch_combo full-eng
-    for f in `/bin/ls vendor/np/vendorsetup.sh 2> /dev/null`
-        do
-            echo "including $f"
-            . $f
-        done
-    unset f
-
-    if [ $# -eq 0 ]; then
-        # No arguments, so let's have the full menu
-        lunch
-    else
-        echo "z$target" | grep -q "-"
-        if [ $? -eq 0 ]; then
-            # A buildtype was specified, assume a full device name
-            lunch $target
-        else
-            # This is probably just the np model name
-            lunch np_$target-userdebug
-        fi
-    fi
-    return $?
-}
-
-alias bib=breakfast
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 function lunch()
 {
     local answer
@@ -723,19 +577,6 @@ function lunch()
 
     export TARGET_BUILD_APPS=
 
-<<<<<<< HEAD
-    local product=$(echo -n $selection | sed -e "s/-.*$//")
-    check_product $product
-    if [ $? -ne 0 ]
-    then
-        echo
-        echo "** Don't have a product spec for: '$product'"
-        echo "** Do you have the right repo manifest?"
-        product=
-    fi
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     local variant=$(echo -n $selection | sed -e "s/^[^\-]*-//")
     check_variant $variant
     if [ $? -ne 0 ]
@@ -746,8 +587,6 @@ function lunch()
         variant=
     fi
 
-<<<<<<< HEAD
-=======
     local product=$(echo -n $selection | sed -e "s/-.*$//")
     TARGET_PRODUCT=$product \
     TARGET_BUILD_VARIANT=$variant \
@@ -760,7 +599,6 @@ function lunch()
         product=
     fi
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     if [ -z "$product" -o -z "$variant" ]
     then
         echo
@@ -775,10 +613,7 @@ function lunch()
 
     set_stuff_for_environment
     printconfig
-<<<<<<< HEAD
-=======
     destroy_build_var_cache
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 # Tab completion for lunch.
@@ -816,17 +651,10 @@ function tapas()
         return
     fi
 
-<<<<<<< HEAD
-    local product=full
-    case $arch in
-      x86)    product=full_x86;;
-      mips)   product=full_mips;;
-=======
     local product=aosp_arm
     case $arch in
       x86)    product=aosp_x86;;
       mips)   product=aosp_mips;;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
       armv5)  product=generic_armv5;;
       arm64)  product=aosp_arm64;;
       x86_64) product=aosp_x86_64;;
@@ -848,15 +676,10 @@ function tapas()
     export TARGET_BUILD_TYPE=release
     export TARGET_BUILD_APPS=$apps
 
-<<<<<<< HEAD
-    set_stuff_for_environment
-    printconfig
-=======
     build_build_var_cache
     set_stuff_for_environment
     printconfig
     destroy_build_var_cache
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function gettop
@@ -1000,11 +823,6 @@ function mmm()
                 MAKEFILE="$MAKEFILE $MFILE"
             else
                 case $DIR in
-<<<<<<< HEAD
-                  showcommands | snod | dist | incrementaljavac | *=*) ARGS="$ARGS $DIR";;
-                  GET-INSTALL-PATH) GET_INSTALL_PATH=$DIR;;
-                  *) echo "No Android.mk in $DIR."; return 1;;
-=======
                   showcommands | snod | dist | *=*) ARGS="$ARGS $DIR";;
                   GET-INSTALL-PATH) GET_INSTALL_PATH=$DIR;;
                   *) if [ -d $DIR ]; then
@@ -1013,7 +831,6 @@ function mmm()
                          echo "Couldn't locate the directory $DIR";
                      fi
                      return 1;;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
                 esac
             fi
         done
@@ -1040,14 +857,10 @@ function mma()
       return 1
     fi
     local MY_PWD=`PWD= /bin/pwd|sed 's:'$T'/::'`
-<<<<<<< HEAD
-    $DRV make -C $T -f build/core/main.mk $@ all_modules BUILD_MODULES_IN_PATHS="$MY_PWD"
-=======
     local MODULES_IN_PATHS=MODULES-IN-$MY_PWD
     # Convert "/" to "-".
     MODULES_IN_PATHS=${MODULES_IN_PATHS//\//-}
     $DRV make -C $T -f build/core/main.mk $@ $MODULES_IN_PATHS
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   fi
 }
 
@@ -1065,20 +878,6 @@ function mmma()
       MY_PWD=`echo $MY_PWD|sed 's:'$T'/::'`
     fi
     local DIR=
-<<<<<<< HEAD
-    local MODULE_PATHS=
-    local ARGS=
-    for DIR in $DIRS ; do
-      if [ -d $DIR ]; then
-        if [ "$MY_PWD" = "" ]; then
-          MODULE_PATHS="$MODULE_PATHS $DIR"
-        else
-          MODULE_PATHS="$MODULE_PATHS $MY_PWD/$DIR"
-        fi
-      else
-        case $DIR in
-          showcommands | snod | dist | incrementaljavac | *=*) ARGS="$ARGS $DIR";;
-=======
     local MODULES_IN_PATHS=
     local ARGS=
     for DIR in $DIRS ; do
@@ -1093,18 +892,13 @@ function mmma()
       else
         case $DIR in
           showcommands | snod | dist | *=*) ARGS="$ARGS $DIR";;
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
           *) echo "Couldn't find directory $DIR"; return 1;;
         esac
       fi
     done
-<<<<<<< HEAD
-    $DRV make -C $T -f build/core/main.mk $DASH_ARGS $ARGS all_modules BUILD_MODULES_IN_PATHS="$MODULE_PATHS"
-=======
     # Convert "/" to "-".
     MODULES_IN_PATHS=${MODULES_IN_PATHS//\//-}
     $DRV make -C $T -f build/core/main.mk $DASH_ARGS $ARGS $MODULES_IN_PATHS
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   else
     echo "Couldn't locate the top of the tree.  Try setting TOP."
     return 1
@@ -1148,20 +942,6 @@ function qpid() {
         append='$'
         shift
     elif [ "$1" = "--help" -o "$1" = "-h" ]; then
-<<<<<<< HEAD
-		echo "usage: qpid [[--exact] <process name|pid>"
-		return 255
-	fi
-
-    local EXE="$1"
-    if [ "$EXE" ] ; then
-		qpid | \grep "$prepend$EXE$append"
-	else
-		adb shell ps \
-			| tr -d '\r' \
-			| sed -e 1d -e 's/^[^ ]* *\([0-9]*\).* \([^ ]*\)$/\1 \2/'
-	fi
-=======
         echo "usage: qpid [[--exact] <process name|pid>"
         return 255
     fi
@@ -1174,7 +954,6 @@ function qpid() {
             | tr -d '\r' \
             | sed -e 1d -e 's/^[^ ]* *\([0-9]*\).* \([^ ]*\)$/\1 \2/'
     fi
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function pid()
@@ -1195,11 +974,7 @@ function pid()
         echo "$PID"
     else
         echo "usage: pid [--exact] <process name>"
-<<<<<<< HEAD
-		return 255
-=======
         return 255
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     fi
 }
 
@@ -1212,27 +987,6 @@ function pid()
 
 function coredump_setup()
 {
-<<<<<<< HEAD
-	echo "Getting root...";
-	adb root;
-	adb wait-for-device;
-
-	echo "Remounting root parition read-write...";
-	adb shell mount -w -o remount -t rootfs rootfs;
-	sleep 1;
-	adb wait-for-device;
-	adb shell mkdir -p /cores;
-	adb shell mount -t tmpfs tmpfs /cores;
-	adb shell chmod 0777 /cores;
-
-	echo "Granting SELinux permission to dump in /cores...";
-	adb shell restorecon -R /cores;
-
-	echo "Set core pattern.";
-	adb shell 'echo /cores/core.%p > /proc/sys/kernel/core_pattern';
-
-	echo "Done."
-=======
     echo "Getting root...";
     adb root;
     adb wait-for-device;
@@ -1252,7 +1006,6 @@ function coredump_setup()
     adb shell 'echo /cores/core.%p > /proc/sys/kernel/core_pattern';
 
     echo "Done."
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 # coredump_enable - enable core dumps for the specified process
@@ -1263,15 +1016,6 @@ function coredump_setup()
 
 function coredump_enable()
 {
-<<<<<<< HEAD
-	local PID=$1;
-	if [ -z "$PID" ]; then
-		printf "Expecting a PID!\n";
-		return;
-	fi;
-	echo "Setting core limit for $PID to infinite...";
-	adb shell prlimit $PID 4 -1 -1
-=======
     local PID=$1;
     if [ -z "$PID" ]; then
         printf "Expecting a PID!\n";
@@ -1279,7 +1023,6 @@ function coredump_enable()
     fi;
     echo "Setting core limit for $PID to infinite...";
     adb shell prlimit $PID 4 -1 -1
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 # core - send SIGV and pull the core for process
@@ -1290,30 +1033,6 @@ function coredump_enable()
 
 function core()
 {
-<<<<<<< HEAD
-	local PID=$1;
-
-	if [ -z "$PID" ]; then
-		printf "Expecting a PID!\n";
-		return;
-	fi;
-
-	local CORENAME=core.$PID;
-	local COREPATH=/cores/$CORENAME;
-	local SIG=SEGV;
-
-	coredump_enable $1;
-
-	local done=0;
-	while [ $(adb shell "[ -d /proc/$PID ] && echo -n yes") ]; do
-		printf "\tSending SIG%s to %d...\n" $SIG $PID;
-		adb shell kill -$SIG $PID;
-		sleep 1;
-	done;
-
-	adb shell "while [ ! -f $COREPATH ] ; do echo waiting for $COREPATH to be generated; sleep 1; done"
-	echo "Done: core is under $COREPATH on device.";
-=======
     local PID=$1;
 
     if [ -z "$PID" ]; then
@@ -1336,7 +1055,6 @@ function core()
 
     adb shell "while [ ! -f $COREPATH ] ; do echo waiting for $COREPATH to be generated; sleep 1; done"
     echo "Done: core is under $COREPATH on device.";
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 # systemstack - dump the current stack trace of all threads in the system process
@@ -1414,24 +1132,16 @@ case `uname -s` in
     Darwin)
         function sgrep()
         {
-<<<<<<< HEAD
-            find -E . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.(c|h|cc|cpp|S|java|xml|sh|mk|aidl)' -print0 | xargs -0 grep --color -n "$@"
-=======
             find -E . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.(c|h|cc|cpp|S|java|xml|sh|mk|aidl|vts)' \
                 -exec grep --color -n "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         }
 
         ;;
     *)
         function sgrep()
         {
-<<<<<<< HEAD
-            find . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.\(c\|h\|cc\|cpp\|S\|java\|xml\|sh\|mk\|aidl\)' -print0 | xargs -0 grep --color -n "$@"
-=======
             find . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.\(c\|h\|cc\|cpp\|S\|java\|xml\|sh\|mk\|aidl\|vts\)' \
                 -exec grep --color -n "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         }
         ;;
 esac
@@ -1443,117 +1153,73 @@ function gettargetarch
 
 function ggrep()
 {
-<<<<<<< HEAD
-    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f -name "*\.gradle" -print0 | xargs -0 grep --color -n "$@"
-=======
     find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f -name "*\.gradle" \
         -exec grep --color -n "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function jgrep()
 {
-<<<<<<< HEAD
-    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f -name "*\.java" -print0 | xargs -0 grep --color -n "$@"
-=======
     find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f -name "*\.java" \
         -exec grep --color -n "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function cgrep()
 {
-<<<<<<< HEAD
-    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name '*.c' -o -name '*.cc' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' \) -print0 | xargs -0 grep --color -n "$@"
-=======
     find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name '*.c' -o -name '*.cc' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' \) \
         -exec grep --color -n "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function resgrep()
 {
-<<<<<<< HEAD
-    for dir in `find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -name res -type d`; do find $dir -type f -name '*\.xml' -print0 | xargs -0 grep --color -n "$@"; done;
-=======
     for dir in `find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -name res -type d`; do
         find $dir -type f -name '*\.xml' -exec grep --color -n "$@" {} +
     done
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function mangrep()
 {
-<<<<<<< HEAD
-    find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -type f -name 'AndroidManifest.xml' -print0 | xargs -0 grep --color -n "$@"
-=======
     find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -type f -name 'AndroidManifest.xml' \
         -exec grep --color -n "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function sepgrep()
 {
-<<<<<<< HEAD
-    find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -name sepolicy -type d -print0 | xargs -0 grep --color -n -r --exclude-dir=\.git "$@"
-=======
     find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -name sepolicy -type d \
         -exec grep --color -n -r --exclude-dir=\.git "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 function rcgrep()
 {
-<<<<<<< HEAD
-    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f -name "*\.rc*" -print0 | xargs -0 grep --color -n "$@"
-=======
     find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f -name "*\.rc*" \
         -exec grep --color -n "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 }
 
 case `uname -s` in
     Darwin)
         function mgrep()
         {
-<<<<<<< HEAD
-            find -E . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -type f -iregex '.*/(Makefile|Makefile\..*|.*\.make|.*\.mak|.*\.mk)' -print0 | xargs -0 grep --color -n "$@"
-=======
             find -E . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -type f -iregex '.*/(Makefile|Makefile\..*|.*\.make|.*\.mak|.*\.mk)' \
                 -exec grep --color -n "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         }
 
         function treegrep()
         {
-<<<<<<< HEAD
-            find -E . -name .repo -prune -o -name .git -prune -o -type f -iregex '.*\.(c|h|cpp|S|java|xml)' -print0 | xargs -0 grep --color -n -i "$@"
-=======
             find -E . -name .repo -prune -o -name .git -prune -o -type f -iregex '.*\.(c|h|cpp|S|java|xml)' \
                 -exec grep --color -n -i "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         }
 
         ;;
     *)
         function mgrep()
         {
-<<<<<<< HEAD
-            find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -regextype posix-egrep -iregex '(.*\/Makefile|.*\/Makefile\..*|.*\.make|.*\.mak|.*\.mk)' -type f -print0 | xargs -0 grep --color -n "$@"
-=======
             find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -regextype posix-egrep -iregex '(.*\/Makefile|.*\/Makefile\..*|.*\.make|.*\.mak|.*\.mk)' -type f \
                 -exec grep --color -n "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         }
 
         function treegrep()
         {
-<<<<<<< HEAD
-            find . -name .repo -prune -o -name .git -prune -o -regextype posix-egrep -iregex '.*\.(c|h|cpp|S|java|xml)' -type f -print0 | xargs -0 grep --color -n -i "$@"
-=======
             find . -name .repo -prune -o -name .git -prune -o -regextype posix-egrep -iregex '.*\.(c|h|cpp|S|java|xml)' -type f \
                 -exec grep --color -n -i "$@" {} +
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         }
 
         ;;
@@ -1818,349 +1484,7 @@ function godir () {
     \cd $T/$pathname
 }
 
-<<<<<<< HEAD
-function cmremote()
-{
-    git remote rm cmremote 2> /dev/null
-    if [ ! -d .git ]
-    then
-        echo .git directory not found. Please run this from the root directory of the Android repository you wish to set up.
-    fi
-    GERRIT_REMOTE=$(cat .git/config  | grep git://github.com | awk '{ print $NF }' | sed s#git://github.com/##g)
-    if [ -z "$GERRIT_REMOTE" ]
-    then
-        echo Unable to set up the git remote, are you in the root of the repo?
-        return 0
-    fi
-    CMUSER=`git config --get review.review.cyanogenmod.com.username`
-    if [ -z "$CMUSER" ]
-    then
-        git remote add cmremote ssh://review.cyanogenmod.com:29418/$GERRIT_REMOTE
-    else
-        git remote add cmremote ssh://$CMUSER@review.cyanogenmod.com:29418/$GERRIT_REMOTE
-    fi
-    echo You can now push to "cmremote".
-}
-
-function cmgerrit() {
-    if [ $# -eq 0 ]; then
-        $FUNCNAME help
-        return 1
-    fi
-    local user=`git config --get review.review.cyanogenmod.com.username`
-    local review=`git config --get remote.github.review`
-    local project=`git config --get remote.github.projectname`
-    local command=$1
-    shift
-    case $command in
-        help)
-            if [ $# -eq 0 ]; then
-                cat <<EOF
-Usage:
-    $FUNCNAME COMMAND [OPTIONS] [CHANGE-ID[/PATCH-SET]][{@|^|~|:}ARG] [-- ARGS]
-
-Commands:
-    fetch   Just fetch the change as FETCH_HEAD
-    help    Show this help, or for a specific command
-    pull    Pull a change into current branch
-    push    Push HEAD or a local branch to Gerrit for a specific branch
-
-Any other Git commands that support refname would work as:
-    git fetch URL CHANGE && git COMMAND OPTIONS FETCH_HEAD{@|^|~|:}ARG -- ARGS
-
-See '$FUNCNAME help COMMAND' for more information on a specific command.
-
-Example:
-    $FUNCNAME checkout -b topic 1234/5
-works as:
-    git fetch http://DOMAIN/p/PROJECT refs/changes/34/1234/5 \\
-      && git checkout -b topic FETCH_HEAD
-will checkout a new branch 'topic' base on patch-set 5 of change 1234.
-Patch-set 1 will be fetched if omitted.
-EOF
-                return
-            fi
-            case $1 in
-                __cmg_*) echo "For internal use only." ;;
-                changes|for)
-                    if [ "$FUNCNAME" = "cmgerrit" ]; then
-                        echo "'$FUNCNAME $1' is deprecated."
-                    fi
-                    ;;
-                help) $FUNCNAME help ;;
-                fetch|pull) cat <<EOF
-usage: $FUNCNAME $1 [OPTIONS] CHANGE-ID[/PATCH-SET]
-
-works as:
-    git $1 OPTIONS http://DOMAIN/p/PROJECT \\
-      refs/changes/HASH/CHANGE-ID/{PATCH-SET|1}
-
-Example:
-    $FUNCNAME $1 1234
-will $1 patch-set 1 of change 1234
-EOF
-                    ;;
-                push) cat <<EOF
-usage: $FUNCNAME push [OPTIONS] [LOCAL_BRANCH:]REMOTE_BRANCH
-
-works as:
-    git push OPTIONS ssh://USER@DOMAIN:29418/PROJECT \\
-      {LOCAL_BRANCH|HEAD}:refs/for/REMOTE_BRANCH
-
-Example:
-    $FUNCNAME push fix6789:gingerbread
-will push local branch 'fix6789' to Gerrit for branch 'gingerbread'.
-HEAD will be pushed from local if omitted.
-EOF
-                    ;;
-                *)
-                    $FUNCNAME __cmg_err_not_supported $1 && return
-                    cat <<EOF
-usage: $FUNCNAME $1 [OPTIONS] CHANGE-ID[/PATCH-SET][{@|^|~|:}ARG] [-- ARGS]
-
-works as:
-    git fetch http://DOMAIN/p/PROJECT \\
-      refs/changes/HASH/CHANGE-ID/{PATCH-SET|1} \\
-      && git $1 OPTIONS FETCH_HEAD{@|^|~|:}ARG -- ARGS
-EOF
-                    ;;
-            esac
-            ;;
-        __cmg_get_ref)
-            $FUNCNAME __cmg_err_no_arg $command $# && return 1
-            local change_id patchset_id hash
-            case $1 in
-                */*)
-                    change_id=${1%%/*}
-                    patchset_id=${1#*/}
-                    ;;
-                *)
-                    change_id=$1
-                    patchset_id=1
-                    ;;
-            esac
-            hash=$(($change_id % 100))
-            case $hash in
-                [0-9]) hash="0$hash" ;;
-            esac
-            echo "refs/changes/$hash/$change_id/$patchset_id"
-            ;;
-        fetch|pull)
-            $FUNCNAME __cmg_err_no_arg $command $# help && return 1
-            $FUNCNAME __cmg_err_not_repo && return 1
-            local change=$1
-            shift
-            git $command $@ http://$review/p/$project \
-                $($FUNCNAME __cmg_get_ref $change) || return 1
-            ;;
-        push)
-            $FUNCNAME __cmg_err_no_arg $command $# help && return 1
-            $FUNCNAME __cmg_err_not_repo && return 1
-            if [ -z "$user" ]; then
-                echo >&2 "Gerrit username not found."
-                return 1
-            fi
-            local local_branch remote_branch
-            case $1 in
-                *:*)
-                    local_branch=${1%:*}
-                    remote_branch=${1##*:}
-                    ;;
-                *)
-                    local_branch=HEAD
-                    remote_branch=$1
-                    ;;
-            esac
-            shift
-            git push $@ ssh://$user@$review:29418/$project \
-                $local_branch:refs/for/$remote_branch || return 1
-            ;;
-        changes|for)
-            if [ "$FUNCNAME" = "cmgerrit" ]; then
-                echo >&2 "'$FUNCNAME $command' is deprecated."
-            fi
-            ;;
-        __cmg_err_no_arg)
-            if [ $# -lt 2 ]; then
-                echo >&2 "'$FUNCNAME $command' missing argument."
-            elif [ $2 -eq 0 ]; then
-                if [ -n "$3" ]; then
-                    $FUNCNAME help $1
-                else
-                    echo >&2 "'$FUNCNAME $1' missing argument."
-                fi
-            else
-                return 1
-            fi
-            ;;
-        __cmg_err_not_repo)
-            if [ -z "$review" -o -z "$project" ]; then
-                echo >&2 "Not currently in any reviewable repository."
-            else
-                return 1
-            fi
-            ;;
-        __cmg_err_not_supported)
-            $FUNCNAME __cmg_err_no_arg $command $# && return
-            case $1 in
-                #TODO: filter more git commands that don't use refname
-                init|add|rm|mv|status|clone|remote|bisect|config|stash)
-                    echo >&2 "'$FUNCNAME $1' is not supported."
-                    ;;
-                *) return 1 ;;
-            esac
-            ;;
-    #TODO: other special cases?
-        *)
-            $FUNCNAME __cmg_err_not_supported $command && return 1
-            $FUNCNAME __cmg_err_no_arg $command $# help && return 1
-            $FUNCNAME __cmg_err_not_repo && return 1
-            local args="$@"
-            local change pre_args refs_arg post_args
-            case "$args" in
-                *--\ *)
-                    pre_args=${args%%-- *}
-                    post_args="-- ${args#*-- }"
-                    ;;
-                *) pre_args="$args" ;;
-            esac
-            args=($pre_args)
-            pre_args=
-            if [ ${#args[@]} -gt 0 ]; then
-                change=${args[${#args[@]}-1]}
-            fi
-            if [ ${#args[@]} -gt 1 ]; then
-                pre_args=${args[0]}
-                for ((i=1; i<${#args[@]}-1; i++)); do
-                    pre_args="$pre_args ${args[$i]}"
-                done
-            fi
-            while ((1)); do
-                case $change in
-                    ""|--)
-                        $FUNCNAME help $command
-                        return 1
-                        ;;
-                    *@*)
-                        if [ -z "$refs_arg" ]; then
-                            refs_arg="@${change#*@}"
-                            change=${change%%@*}
-                        fi
-                        ;;
-                    *~*)
-                        if [ -z "$refs_arg" ]; then
-                            refs_arg="~${change#*~}"
-                            change=${change%%~*}
-                        fi
-                        ;;
-                    *^*)
-                        if [ -z "$refs_arg" ]; then
-                            refs_arg="^${change#*^}"
-                            change=${change%%^*}
-                        fi
-                        ;;
-                    *:*)
-                        if [ -z "$refs_arg" ]; then
-                            refs_arg=":${change#*:}"
-                            change=${change%%:*}
-                        fi
-                        ;;
-                    *) break ;;
-                esac
-            done
-            $FUNCNAME fetch $change \
-                && git $command $pre_args FETCH_HEAD$refs_arg $post_args \
-                || return 1
-            ;;
-    esac
-}
-
-function cmrebase() {
-    local repo=$1
-    local refs=$2
-    local pwd="$(pwd)"
-    local dir="$(gettop)/$repo"
-
-    if [ -z $repo ] || [ -z $refs ]; then
-        echo "CyanogenMod Gerrit Rebase Usage: "
-        echo "      cmrebase <path to project> <patch IDs on Gerrit>"
-        echo "      The patch IDs appear on the Gerrit commands that are offered."
-        echo "      They consist on a series of numbers and slashes, after the text"
-        echo "      refs/changes. For example, the ID in the following command is 26/8126/2"
-        echo ""
-        echo "      git[...]ges_apps_Camera refs/changes/26/8126/2 && git cherry-pick FETCH_HEAD"
-        echo ""
-        return
-    fi
-
-    if [ ! -d $dir ]; then
-        echo "Directory $dir doesn't exist in tree."
-        return
-    fi
-    cd $dir
-    repo=$(cat .git/config  | grep git://github.com | awk '{ print $NF }' | sed s#git://github.com/##g)
-    echo "Starting branch..."
-    repo start tmprebase .
-    echo "Bringing it up to date..."
-    repo sync .
-    echo "Fetching change..."
-    git fetch "http://review.cyanogenmod.com/p/$repo" "refs/changes/$refs" && git cherry-pick FETCH_HEAD
-    if [ "$?" != "0" ]; then
-        echo "Error cherry-picking. Not uploading!"
-        return
-    fi
-    echo "Uploading..."
-    repo upload .
-    echo "Cleaning up..."
-    repo abandon tmprebase .
-    cd $pwd
-}
-
-function mka() {
-    local T=$(gettop)
-    if [ "$T" ]; then
-        case `uname -s` in
-            Darwin)
-                make -C $T -j `sysctl hw.ncpu|cut -d" " -f2` "$@"
-                ;;
-            *)
-                mk_timer schedtool -B -n 1 -e ionice -n 1 make -C $T -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
-                ;;
-        esac
-
-    else
-        echo "Couldn't locate the top of the tree.  Try setting TOP."
-    fi
-}
-
-function reposync() {
-    case `uname -s` in
-        Darwin)
-            repo sync -j 4 "$@"
-            ;;
-        *)
-            schedtool -B -n 1 -e ionice -n 1 repo sync -j 4 "$@"
-            ;;
-    esac
-}
-
-function repodiff() {
-    if [ -z "$*" ]; then
-        echo "Usage: repodiff <ref-from> [[ref-to] [--numstat]]"
-        return
-    fi
-    diffopts=$* repo forall -c \
-      'echo "$REPO_PATH ($REPO_REMOTE)"; git diff ${diffopts} 2>/dev/null ;'
-}
-
-# Force JAVA_HOME to point to java 1.7 or java 1.6  if it isn't already set.
-#
-# Note that the MacOS path for java 1.7 includes a minor revision number (sigh).
-# For some reason, installing the JDK doesn't make it show up in the
-# JavaVM.framework/Versions/1.7/ folder.
-=======
 # Force JAVA_HOME to point to java 1.7/1.8 if it isn't already set.
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 function set_java_home() {
     # Clear the existing JAVA_HOME value if we set it ourselves, so that
     # we can reset it later, depending on the version of java the build
@@ -2173,16 +1497,6 @@ function set_java_home() {
     fi
 
     if [ ! "$JAVA_HOME" ]; then
-<<<<<<< HEAD
-      case `uname -s` in
-          Darwin)
-              export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
-              ;;
-          *)
-              export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
-              ;;
-      esac
-=======
       if [ -n "$LEGACY_USE_JAVA7" ]; then
         echo Warning: Support for JDK 7 will be dropped. Switch to JDK 8.
         case `uname -s` in
@@ -2203,7 +1517,6 @@ function set_java_home() {
                 ;;
         esac
       fi
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
       # Keep track of the fact that we set JAVA_HOME ourselves, so that
       # we can change it on the next envsetup.sh, if required.
@@ -2217,15 +1530,9 @@ function pez {
     local retval=$?
     if [ $retval -ne 0 ]
     then
-<<<<<<< HEAD
-        echo -e "\e[0;31mFAILURE\e[00m"
-    else
-        echo -e "\e[0;32mSUCCESS\e[00m"
-=======
         echo $'\E'"[0;31mFAILURE\e[00m"
     else
         echo $'\E'"[0;32mSUCCESS\e[00m"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     fi
     return $retval
 }
@@ -2247,15 +1554,9 @@ function make()
     local secs=$(($tdiff % 60))
     local ncolors=$(tput colors 2>/dev/null)
     if [ -n "$ncolors" ] && [ $ncolors -ge 8 ]; then
-<<<<<<< HEAD
-        color_failed="\e[0;31m"
-        color_success="\e[0;32m"
-        color_reset="\e[00m"
-=======
         color_failed=$'\E'"[0;31m"
         color_success=$'\E'"[0;32m"
         color_reset=$'\E'"[00m"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     else
         color_failed=""
         color_success=""
@@ -2263,15 +1564,9 @@ function make()
     fi
     echo
     if [ $ret -eq 0 ] ; then
-<<<<<<< HEAD
-        echo -n -e "${color_success}#### make completed successfully "
-    else
-        echo -n -e "${color_failed}#### make failed to build some targets "
-=======
         echo -n "${color_success}#### make completed successfully "
     else
         echo -n "${color_failed}#### make failed to build some targets "
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     fi
     if [ $hours -gt 0 ] ; then
         printf "(%02g:%02g:%02g (hh:mm:ss))" $hours $mins $secs
@@ -2280,17 +1575,11 @@ function make()
     elif [ $secs -gt 0 ] ; then
         printf "(%s seconds)" $secs
     fi
-<<<<<<< HEAD
-    echo -e " ####${color_reset}"
-=======
     echo " ####${color_reset}"
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     echo
     return $ret
 }
 
-<<<<<<< HEAD
-=======
 function provision()
 {
     if [ ! "$ANDROID_PRODUCT_OUT" ]; then
@@ -2320,7 +1609,6 @@ function provision()
     "$ANDROID_PRODUCT_OUT/provision-device" "$@"
 }
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 if [ "x$SHELL" != "x/bin/bash" ]; then
     case `ps -o command -p $$` in
         *bash*)
@@ -2333,12 +1621,8 @@ fi
 
 # Execute the contents of any vendorsetup.sh files we can find.
 for f in `test -d device && find -L device -maxdepth 4 -name 'vendorsetup.sh' 2> /dev/null | sort` \
-<<<<<<< HEAD
-         `test -d vendor && find -L vendor -maxdepth 4 -name 'vendorsetup.sh' 2> /dev/null | sort`
-=======
          `test -d vendor && find -L vendor -maxdepth 4 -name 'vendorsetup.sh' 2> /dev/null | sort` \
          `test -d product && find -L product -maxdepth 4 -name 'vendorsetup.sh' 2> /dev/null | sort`
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 do
     echo "including $f"
     . $f

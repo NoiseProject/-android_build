@@ -31,14 +31,9 @@ class SparseImage(object):
   the form of a string like "0" or "0 1-5 8".
   """
 
-<<<<<<< HEAD
-  def __init__(self, simg_fn, file_map_fn=None, clobbered_blocks=None):
-    self.simg_f = f = open(simg_fn, "rb")
-=======
   def __init__(self, simg_fn, file_map_fn=None, clobbered_blocks=None,
                mode="rb", build_map=True):
     self.simg_f = f = open(simg_fn, mode)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     header_bin = f.read(28)
     header = struct.unpack("<I4H4I", header_bin)
@@ -50,11 +45,7 @@ class SparseImage(object):
     chunk_hdr_sz = header[4]
     self.blocksize = blk_sz = header[5]
     self.total_blocks = total_blks = header[6]
-<<<<<<< HEAD
-    total_chunks = header[7]
-=======
     self.total_chunks = total_chunks = header[7]
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
     if magic != 0xED26FF3A:
       raise ValueError("Magic should be 0xED26FF3A but is 0x%08X" % (magic,))
@@ -71,12 +62,9 @@ class SparseImage(object):
     print("Total of %u %u-byte output blocks in %u input chunks."
           % (total_blks, blk_sz, total_chunks))
 
-<<<<<<< HEAD
-=======
     if not build_map:
       return
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     pos = 0   # in blocks
     care_data = []
     self.offset_map = offset_map = []
@@ -142,8 +130,6 @@ class SparseImage(object):
     else:
       self.file_map = {"__DATA": self.care_map}
 
-<<<<<<< HEAD
-=======
   def AppendFillChunk(self, data, blocks):
     f = self.simg_f
 
@@ -158,7 +144,6 @@ class SparseImage(object):
     f.seek(16, os.SEEK_SET)
     f.write(struct.pack("<2I", self.total_blocks, self.total_chunks))
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   def ReadRangeSet(self, ranges):
     return [d for d in self._GetRangeData(ranges)]
 
@@ -243,8 +228,6 @@ class SparseImage(object):
     nonzero_blocks = []
     reference = '\0' * self.blocksize
 
-<<<<<<< HEAD
-=======
     # Workaround for bug 23227672. For squashfs, we don't have a system.map. So
     # the whole system image will be treated as a single file. But for some
     # unknown bug, the updater will be killed due to OOM when writing back the
@@ -255,7 +238,6 @@ class SparseImage(object):
     MAX_BLOCKS_PER_GROUP = 1024
     nonzero_groups = []
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     f = self.simg_f
     for s, e in remaining:
       for b in range(s, e):
@@ -278,14 +260,6 @@ class SparseImage(object):
           nonzero_blocks.append(b)
           nonzero_blocks.append(b+1)
 
-<<<<<<< HEAD
-    assert zero_blocks or nonzero_blocks or clobbered_blocks
-
-    if zero_blocks:
-      out["__ZERO"] = rangelib.RangeSet(data=zero_blocks)
-    if nonzero_blocks:
-      out["__NONZERO"] = rangelib.RangeSet(data=nonzero_blocks)
-=======
           if len(nonzero_blocks) >= MAX_BLOCKS_PER_GROUP:
             nonzero_groups.append(nonzero_blocks)
             # Clear the list.
@@ -302,7 +276,6 @@ class SparseImage(object):
     if nonzero_groups:
       for i, blocks in enumerate(nonzero_groups):
         out["__NONZERO-%d" % i] = rangelib.RangeSet(data=blocks)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     if clobbered_blocks:
       out["__COPY"] = clobbered_blocks
 

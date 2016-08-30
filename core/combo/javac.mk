@@ -14,11 +14,7 @@ ifndef ANDROID_COMPILE_WITH_JACK
 ANDROID_COMPILE_WITH_JACK := true
 endif
 
-<<<<<<< HEAD
-common_jdk_flags := -source 1.7 -target 1.7 -Xmaxerrs 9999999
-=======
 common_jdk_flags := -Xmaxerrs 9999999
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Use the indexer wrapper to index the codebase instead of the javac compiler
 ifeq ($(ALTERNATE_JAVAC),)
@@ -35,16 +31,7 @@ ifdef JAVAC_WRAPPER
 endif
 
 # Whatever compiler is on this system.
-<<<<<<< HEAD
-ifeq ($(BUILD_OS), windows)
-    COMMON_JAVAC := development/host/windows/prebuilt/javawrap.exe -J-Xmx256m \
-        $(common_jdk_flags)
-else
-    COMMON_JAVAC := $(JAVACC) -J-Xmx1024M $(common_jdk_flags)
-endif
-=======
 COMMON_JAVAC := $(JAVACC) -J-Xmx1024M $(common_jdk_flags)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Eclipse.
 ifeq ($(CUSTOM_JAVA_COMPILER), eclipse)
@@ -53,11 +40,8 @@ ifeq ($(CUSTOM_JAVA_COMPILER), eclipse)
     $(info CUSTOM_JAVA_COMPILER=eclipse)
 endif
 
-<<<<<<< HEAD
-=======
 GLOBAL_JAVAC_DEBUG_FLAGS := -g
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 HOST_JAVAC ?= $(COMMON_JAVAC)
 TARGET_JAVAC ?= $(COMMON_JAVAC)
 

@@ -127,20 +127,13 @@ def CheckAllApksSigned(input_tf_zip, apk_key_map):
     sys.exit(1)
 
 
-<<<<<<< HEAD
-def SignApk(data, keyname, pw):
-=======
 def SignApk(data, keyname, pw, platform_api_level, codename_to_api_level_map):
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   unsigned = tempfile.NamedTemporaryFile()
   unsigned.write(data)
   unsigned.flush()
 
   signed = tempfile.NamedTemporaryFile()
 
-<<<<<<< HEAD
-  common.SignFile(unsigned.name, signed.name, keyname, pw, align=4)
-=======
   # For pre-N builds, don't upgrade to SHA-256 JAR signatures based on the APK's
   # minSdkVersion to avoid increasing incremental OTA update sizes. If an APK
   # didn't change, we don't want its signature to change due to the switch
@@ -162,7 +155,6 @@ def SignApk(data, keyname, pw, platform_api_level, codename_to_api_level_map):
   common.SignFile(unsigned.name, signed.name, keyname, pw,
       min_api_level=min_api_level,
       codename_to_api_level_map=codename_to_api_level_map)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   data = signed.read()
   unsigned.close()
@@ -172,12 +164,8 @@ def SignApk(data, keyname, pw, platform_api_level, codename_to_api_level_map):
 
 
 def ProcessTargetFiles(input_tf_zip, output_tf_zip, misc_info,
-<<<<<<< HEAD
-                       apk_key_map, key_passwords):
-=======
                        apk_key_map, key_passwords, platform_api_level,
                        codename_to_api_level_map):
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   maxsize = max([len(os.path.basename(i.filename))
                  for i in input_tf_zip.infolist()
@@ -208,27 +196,11 @@ def ProcessTargetFiles(input_tf_zip, output_tf_zip, misc_info,
     data = input_tf_zip.read(info.filename)
     out_info = copy.copy(info)
 
-<<<<<<< HEAD
-=======
     # Replace keys if requested.
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     if (info.filename == "META/misc_info.txt" and
         OPTIONS.replace_verity_private_key):
       ReplaceVerityPrivateKey(input_tf_zip, output_tf_zip, misc_info,
                               OPTIONS.replace_verity_private_key[1])
-<<<<<<< HEAD
-    elif (info.filename == "BOOT/RAMDISK/verity_key" and
-          OPTIONS.replace_verity_public_key):
-      new_data = ReplaceVerityPublicKey(output_tf_zip,
-                                        OPTIONS.replace_verity_public_key[1])
-      write_to_temp(info.filename, info.external_attr, new_data)
-    elif (info.filename.startswith("BOOT/") or
-          info.filename.startswith("RECOVERY/") or
-          info.filename.startswith("META/") or
-          info.filename == "SYSTEM/etc/recovery-resource.dat"):
-      write_to_temp(info.filename, info.external_attr, data)
-
-=======
     elif (info.filename in ("BOOT/RAMDISK/verity_key",
                             "BOOT/verity_key") and
           OPTIONS.replace_verity_public_key):
@@ -244,18 +216,13 @@ def ProcessTargetFiles(input_tf_zip, output_tf_zip, misc_info,
       write_to_temp(info.filename, info.external_attr, data)
 
     # Sign APKs.
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     if info.filename.endswith(".apk"):
       name = os.path.basename(info.filename)
       key = apk_key_map[name]
       if key not in common.SPECIAL_CERT_STRINGS:
         print "    signing: %-*s (%s)" % (maxsize, name, key)
-<<<<<<< HEAD
-        signed_data = SignApk(data, key, key_passwords[key])
-=======
         signed_data = SignApk(data, key, key_passwords[key], platform_api_level,
             codename_to_api_level_map)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
         common.ZipWriteStr(output_tf_zip, out_info, signed_data)
       else:
         # an APK we're not supposed to sign.
@@ -276,10 +243,7 @@ def ProcessTargetFiles(input_tf_zip, output_tf_zip, misc_info,
       new_data = ReplaceCerts(data)
       common.ZipWriteStr(output_tf_zip, out_info, new_data)
     elif info.filename in ("SYSTEM/recovery-from-boot.p",
-<<<<<<< HEAD
-=======
                            "SYSTEM/etc/recovery.img",
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
                            "SYSTEM/bin/install-recovery.sh"):
       rebuild_recovery = True
     elif (OPTIONS.replace_ota_keys and
@@ -291,12 +255,8 @@ def ProcessTargetFiles(input_tf_zip, output_tf_zip, misc_info,
           info.filename == "META/misc_info.txt"):
       pass
     elif (OPTIONS.replace_verity_public_key and
-<<<<<<< HEAD
-          info.filename == "BOOT/RAMDISK/verity_key"):
-=======
           info.filename in ("BOOT/RAMDISK/verity_key",
                             "BOOT/verity_key")):
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
       pass
     else:
       # a non-APK file; copy it verbatim
@@ -461,31 +421,18 @@ def ReplaceOtaKeys(input_tf_zip, output_tf_zip, misc_info):
   temp_file = cStringIO.StringIO()
   certs_zip = zipfile.ZipFile(temp_file, "w")
   for k in mapped_keys:
-<<<<<<< HEAD
-    certs_zip.write(k)
-  certs_zip.close()
-=======
     common.ZipWrite(certs_zip, k)
   common.ZipClose(certs_zip)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   common.ZipWriteStr(output_tf_zip, "SYSTEM/etc/security/otacerts.zip",
                      temp_file.getvalue())
 
   return new_recovery_keys
 
-<<<<<<< HEAD
-def ReplaceVerityPublicKey(targetfile_zip, key_path):
-  print "Replacing verity public key with %s" % key_path
-  with open(key_path) as f:
-    data = f.read()
-  common.ZipWriteStr(targetfile_zip, "BOOT/RAMDISK/verity_key", data)
-=======
 def ReplaceVerityPublicKey(targetfile_zip, filename, key_path):
   print "Replacing verity public key with %s" % key_path
   with open(key_path) as f:
     data = f.read()
   common.ZipWriteStr(targetfile_zip, filename, data)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   return data
 
 def ReplaceVerityPrivateKey(targetfile_input_zip, targetfile_output_zip,
@@ -515,8 +462,6 @@ def BuildKeyMap(misc_info, key_mapping_options):
       OPTIONS.key_map[s] = d
 
 
-<<<<<<< HEAD
-=======
 def GetApiLevelAndCodename(input_tf_zip):
   data = input_tf_zip.read("SYSTEM/build.prop")
   api_level = None
@@ -568,7 +513,6 @@ def GetCodenameToApiLevelMap(input_tf_zip):
   return result
 
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 def main(argv):
 
   key_mapping_options = []
@@ -627,10 +571,6 @@ def main(argv):
   CheckAllApksSigned(input_zip, apk_key_map)
 
   key_passwords = common.GetKeyPasswords(set(apk_key_map.values()))
-<<<<<<< HEAD
-  ProcessTargetFiles(input_zip, output_zip, misc_info,
-                     apk_key_map, key_passwords)
-=======
   platform_api_level, platform_codename = GetApiLevelAndCodename(input_zip)
   codename_to_api_level_map = GetCodenameToApiLevelMap(input_zip)
   # Android N will be API Level 24, but isn't yet.
@@ -642,7 +582,6 @@ def main(argv):
                      apk_key_map, key_passwords,
                      platform_api_level,
                      codename_to_api_level_map)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
   common.ZipClose(input_zip)
   common.ZipClose(output_zip)

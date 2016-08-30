@@ -117,11 +117,7 @@ ifdef product_goals
   # which really means TARGET_PRODUCT=dream make installclean.
   ifneq ($(filter-out $(INTERNAL_VALID_VARIANTS),$(TARGET_BUILD_VARIANT)),)
     MAKECMDGOALS := $(MAKECMDGOALS) $(TARGET_BUILD_VARIANT)
-<<<<<<< HEAD
-    TARGET_BUILD_VARIANT := eng
-=======
     TARGET_BUILD_VARIANT := userdebug
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     default_goal_substitution :=
   else
     default_goal_substitution := $(DEFAULT_GOAL)
@@ -153,11 +149,7 @@ endif
 unbundled_goals := $(strip $(filter APP-%,$(MAKECMDGOALS)))
 ifdef unbundled_goals
   ifneq ($(words $(unbundled_goals)),1)
-<<<<<<< HEAD
-    $(error Only one APP-* goal may be specified; saw "$(unbundled_goals)"))
-=======
     $(error Only one APP-* goal may be specified; saw "$(unbundled_goals)")
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   endif
   TARGET_BUILD_APPS := $(strip $(subst -, ,$(patsubst APP-%,%,$(unbundled_goals))))
   ifneq ($(filter $(DEFAULT_GOAL),$(MAKECMDGOALS)),)
@@ -221,9 +213,6 @@ _cpm_word2 :=
 current_product_makefile := $(strip $(current_product_makefile))
 all_product_makefiles := $(strip $(all_product_makefiles))
 
-<<<<<<< HEAD
-ifneq (,$(filter product-graph dump-products, $(MAKECMDGOALS)))
-=======
 load_all_product_makefiles :=
 ifneq (,$(filter product-graph, $(MAKECMDGOALS)))
 ifeq ($(ANDROID_PRODUCT_GRAPH),--all)
@@ -237,7 +226,6 @@ endif
 endif
 
 ifeq ($(load_all_product_makefiles),true)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Import all product makefiles.
 $(call import-products, $(all_product_makefiles))
 else
@@ -311,17 +299,11 @@ PRODUCT_AAPT_CONFIG := \
 
 # product-scoped aapt flags
 PRODUCT_AAPT_FLAGS :=
-<<<<<<< HEAD
-ifneq ($(filter en_XA ar_XB,$(PRODUCT_LOCALES)),)
-# Force generating resources for pseudo-locales.
-PRODUCT_AAPT_FLAGS += --pseudo-localize
-=======
 PRODUCT_AAPT2_CFLAGS :=
 ifneq ($(filter en_XA ar_XB,$(PRODUCT_LOCALES)),)
   # Force generating resources for pseudo-locales.
   PRODUCT_AAPT2_CFLAGS += --pseudo-localize
   PRODUCT_AAPT_FLAGS += --pseudo-localize
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 PRODUCT_BRAND := $(strip $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_BRAND))
@@ -369,27 +351,18 @@ PRODUCT_COPY_FILES := \
 PRODUCT_PROPERTY_OVERRIDES := \
     $(strip $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_PROPERTY_OVERRIDES))
 
-<<<<<<< HEAD
-=======
 PRODUCT_SHIPPING_API_LEVEL := $(strip $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_SHIPPING_API_LEVEL))
 ifdef PRODUCT_SHIPPING_API_LEVEL
 ADDITIONAL_BUILD_PROPERTIES += \
     ro.product.first_api_level=$(PRODUCT_SHIPPING_API_LEVEL)
 endif
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # A list of property assignments, like "key = value", with zero or more
 # whitespace characters on either side of the '='.
 # used for adding properties to default.prop
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES := \
     $(strip $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_DEFAULT_PROPERTY_OVERRIDES))
 
-<<<<<<< HEAD
-PRODUCT_BUILD_PROP_OVERRIDES := \
-	$(strip $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_BUILD_PROP_OVERRIDES))
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Should we use the default resources or add any product specific overlays
 PRODUCT_PACKAGE_OVERLAYS := \
     $(strip $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_PACKAGE_OVERLAYS))

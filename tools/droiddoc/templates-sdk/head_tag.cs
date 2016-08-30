@@ -22,8 +22,6 @@
 <meta name="Description" content="<?cs var:page.metaDescription ?>"><?cs
   /if ?>
 <link rel="shortcut icon" type="image/x-icon" href="<?cs var:toroot ?>favicon.ico" />
-<<<<<<< HEAD
-=======
 <link rel="alternate" href="http://developer.android.com/<?cs var:path.canonical ?>" hreflang="en" />
 <link rel="alternate" href="http://developer.android.com/intl/es/<?cs var:path.canonical ?>" hreflang="es" />
 <link rel="alternate" href="http://developer.android.com/intl/id/<?cs var:path.canonical ?>" hreflang="id" />
@@ -35,7 +33,6 @@
 <link rel="alternate" href="http://developer.android.com/intl/zh-cn/<?cs var:path.canonical ?>" hreflang="zh-cn" />
 <link rel="alternate" href="http://developer.android.com/intl/zh-tw/<?cs var:path.canonical ?>" hreflang="zh-tw" />
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 <title><?cs
   if:page.title ?><?cs
     var:page.title ?> | <?cs
@@ -44,20 +41,6 @@
 <!-- STYLESHEETS -->
 <link rel="stylesheet"
 href="<?cs
-<<<<<<< HEAD
-if:android.whichdoc != 'online' ?>http:<?cs
-/if ?>//fonts.googleapis.com/css?family=Roboto+Condensed">
-<link rel="stylesheet" href="<?cs
-if:android.whichdoc != 'online' ?>http:<?cs
-/if ?>//fonts.googleapis.com/css?family=Roboto:light,regular,medium,thin,italic,mediumitalic,bold"
-  title="roboto">
-<?cs 
-  if:ndk ?><link rel="stylesheet" href="<?cs
-  if:android.whichdoc != 'online' ?>http:<?cs
-  /if ?>//fonts.googleapis.com/css?family=Roboto+Mono:400,500,700" title="roboto-mono" type="text/css"><?cs
-/if ?>
-<link href="<?cs var:toroot ?>assets/css/default.css?v=7" rel="stylesheet" type="text/css">
-=======
 if:android.whichdoc != 'online' ?>https:<?cs
 /if ?>//fonts.googleapis.com/css?family=Roboto+Condensed">
 <link rel="stylesheet" href="<?cs
@@ -70,7 +53,6 @@ if:android.whichdoc != 'online' ?>https:<?cs
   /if ?>//fonts.googleapis.com/css?family=Roboto+Mono:400,500,700" title="roboto-mono" type="text/css"><?cs
 /if ?>
 <link href="<?cs var:toroot ?>assets/css/default.css?v=19" rel="stylesheet" type="text/css">
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 <?cs if:reference && !(reference.gms || reference.gcm || preview) ?>
 <!-- FULLSCREEN STYLESHEET -->
@@ -79,11 +61,7 @@ type="text/css">
 <?cs /if ?>
 
 <!-- JAVASCRIPT -->
-<<<<<<< HEAD
-<script src="<?cs if:android.whichdoc != 'online' ?>http:<?cs /if ?>//www.google.com/jsapi" type="text/javascript"></script>
-=======
 <script src="<?cs if:android.whichdoc != 'online' ?>https:<?cs /if ?>//www.google.com/jsapi" type="text/javascript"></script>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 <?cs
 if:devsite
   ?><script src="<?cs var:toroot ?>_static/js/android_3p-bundle.js" type="text/javascript"></script><?cs
@@ -97,14 +75,9 @@ else
   var toRoot = "<?cs var:toroot ?>";
   var metaTags = [<?cs var:meta.tags ?>];
   var devsite = <?cs if:devsite ?>true<?cs else ?>false<?cs /if ?>;
-<<<<<<< HEAD
-</script>
-<script src="<?cs var:toroot ?>assets/js/docs.js?v=6" type="text/javascript"></script>
-=======
   var useUpdatedTemplates = <?cs if:useUpdatedTemplates ?>true<?cs else ?>false<?cs /if ?>;
 </script>
 <script src="<?cs var:toroot ?>assets/js/docs.js?v=19" type="text/javascript"></script>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 <?cs if:helpoutsWidget ?>
 <script type="text/javascript" src="https://helpouts.google.com/ps/res/embed.js" defer async

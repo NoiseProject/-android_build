@@ -55,12 +55,8 @@ ifneq ($(my_jni_shared_libraries),)
 my_jni_filenames := $(notdir $(my_jni_shared_libraries))
 # Make sure the JNI libraries get installed
 my_shared_library_path := $($(my_2nd_arch_prefix)TARGET_OUT$(partition_tag)_SHARED_LIBRARIES)
-<<<<<<< HEAD
-$(LOCAL_INSTALLED_MODULE) : | $(addprefix $(my_shared_library_path)/, $(my_jni_filenames))
-=======
 # Do not use order-only dependency, because we want to rebuild the image if an jni is updated.
 $(LOCAL_INSTALLED_MODULE) : $(addprefix $(my_shared_library_path)/, $(my_jni_filenames))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 
 # Create symlink in the app specific lib path
 ifdef LOCAL_POST_INSTALL_CMD
@@ -98,11 +94,7 @@ else # not my_embed_jni
 $(foreach lib, $(my_prebuilt_jni_libs), \
     $(eval $(call copy-one-file, $(lib), $(my_app_lib_path)/$(notdir $(lib)))))
 
-<<<<<<< HEAD
-$(LOCAL_INSTALLED_MODULE) : | $(addprefix $(my_app_lib_path)/, $(notdir $(my_prebuilt_jni_libs)))
-=======
 $(LOCAL_INSTALLED_MODULE) : $(addprefix $(my_app_lib_path)/, $(notdir $(my_prebuilt_jni_libs)))
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif  # my_embed_jni
 endif  # inner my_prebuilt_jni_libs
 endif  # outer my_prebuilt_jni_libs

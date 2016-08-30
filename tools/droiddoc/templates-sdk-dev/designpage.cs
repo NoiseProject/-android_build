@@ -37,24 +37,11 @@
 
 <?cs if:header.hide ?>
 <?cs else ?>
-<<<<<<< HEAD
-<div class="layout-content-row content-header <?cs if:header.justLinks ?>just-links<?cs /if ?>">
-  <div class="layout-content-col span-9">
-=======
 <div class="content-header <?cs if:header.justLinks ?>just-links<?cs /if ?>">
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     <?cs if:header.justLinks ?>&nbsp;
       <?cs elif:header.title ?><h2><?cs var:header.title ?></h2>
                    <?cs else ?><h2><?cs var:page.title ?></h2>
     <?cs /if ?>
-<<<<<<< HEAD
-  </div>
-  <div class="paging-links layout-content-col span-4" itemscope itemtype="http://schema.org/SiteNavigationElement">
-    <a href="#" class="prev-page-link">Previous</a>
-    <a href="#" class="next-page-link">Next</a>
-  </div>
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 </div>
 <?cs /if ?>
 
@@ -62,15 +49,9 @@
 
 <?cs if:footer.hide ?>
 <?cs else ?>
-<<<<<<< HEAD
-<div class="layout-content-row content-footer" itemscope itemtype="http://schema.org/SiteNavigationElement">
-  <div class="paging-links layout-content-col span-9">&nbsp;</div>
-  <div class="paging-links layout-content-col span-4">
-=======
 <div class="cols content-footer" itemscope itemtype="http://schema.org/SiteNavigationElement">
   <div class="paging-links col-9">&nbsp;</div>
   <div class="paging-links col-4">
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     <a href="#" class="prev-page-link">Previous</a>
     <a href="#" class="next-page-link">Next</a>
   </div>

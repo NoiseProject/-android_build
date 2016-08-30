@@ -33,9 +33,6 @@
       <?cs set:count = count + #1 ?>
     <?cs /each ?>
   </table>
-<<<<<<< HEAD
-<?cs /def ?>
-=======
 <?cs /def ?>
 
 <?cs
@@ -52,4 +49,3 @@ def:parameter_list(params, linebreaks) ?><?cs
       /if ?><?cs
   /each ?><?cs
 /def ?>
->>>>>>> 17e1629562b7e4d904408218673da918eb585143

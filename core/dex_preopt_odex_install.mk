@@ -88,12 +88,9 @@ endif  # TARGET_2ND_ARCH
 endif  # LOCAL_MODULE_CLASS
 endif  # boot jar
 
-<<<<<<< HEAD
-=======
 built_odex := $(strip $(built_odex))
 installed_odex := $(strip $(installed_odex))
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 ifdef built_odex
 ifndef LOCAL_DEX_PREOPT_FLAGS
 LOCAL_DEX_PREOPT_FLAGS := $(DEXPREOPT.$(TARGET_PRODUCT).$(LOCAL_MODULE).CONFIG)
@@ -102,14 +99,6 @@ LOCAL_DEX_PREOPT_FLAGS := $(PRODUCT_DEX_PREOPT_DEFAULT_FLAGS)
 endif
 endif
 
-<<<<<<< HEAD
-# Compile apps with position-independent code if WITH_DEXPREOPT_PIC=true
-ifeq (true,$(WITH_DEXPREOPT_PIC))
-  LOCAL_DEX_PREOPT_FLAGS += --compile-pic
-endif
-
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(built_odex): PRIVATE_DEX_PREOPT_FLAGS := $(LOCAL_DEX_PREOPT_FLAGS)
 
 # Use pattern rule - we may have multiple installed odex files.
@@ -125,8 +114,6 @@ endif
 ALL_MODULES.$(my_register_name).INSTALLED += $(installed_odex)
 ALL_MODULES.$(my_register_name).BUILT_INSTALLED += $(built_installed_odex)
 
-<<<<<<< HEAD
-=======
 # Record dex-preopt config.
 DEXPREOPT.$(LOCAL_MODULE).DEX_PREOPT := $(LOCAL_DEX_PREOPT)
 DEXPREOPT.$(LOCAL_MODULE).MULTILIB := $(LOCAL_MULTILIB)
@@ -140,7 +127,6 @@ DEXPREOPT.MODULES.$(LOCAL_MODULE_CLASS) := $(sort \
   $(DEXPREOPT.MODULES.$(LOCAL_MODULE_CLASS)) $(LOCAL_MODULE))
 
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 # Make sure to install the .odex when you run "make <module_name>"
 $(my_register_name): $(installed_odex)
 

@@ -24,25 +24,18 @@ PRODUCT_NAME := core
 
 PRODUCT_PACKAGES += \
     BackupRestoreConfirmation \
-<<<<<<< HEAD
-    DownloadProvider \
-=======
     CtsShimPrebuilt \
     CtsShimPrivPrebuilt \
     DownloadProvider \
     ExtShared \
     ExtServices \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     HTMLViewer \
     MediaProvider \
     PackageInstaller \
     SettingsProvider \
     Shell \
     StatementService \
-<<<<<<< HEAD
-=======
     WallpaperBackup \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     bcc \
     bu \
     com.android.future.usb.accessory \
@@ -75,10 +68,6 @@ PRODUCT_PACKAGES += \
     libfilterfw \
     libkeystore \
     libgatekeeper \
-<<<<<<< HEAD
-    libsqlite_jni \
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     libwilhelm \
     logd \
     make_ext4fs \
@@ -98,10 +87,7 @@ PRODUCT_COPY_FILES += \
 
 # The order of PRODUCT_BOOT_JARS matters.
 PRODUCT_BOOT_JARS := \
-<<<<<<< HEAD
-=======
     core-oj \
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     core-libart \
     conscrypt \
     okhttp \
@@ -117,10 +103,6 @@ PRODUCT_BOOT_JARS := \
 
 # The order of PRODUCT_SYSTEM_SERVER_JARS matters.
 PRODUCT_SYSTEM_SERVER_JARS := \
-<<<<<<< HEAD
-    org.cyanogenmod.hardware \
-=======
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     services \
     ethernet-service \
     wifi-service
@@ -137,8 +119,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += \
     system/core/rootdir/init.zygote32.rc:root/init.zygote32.rc
 
-<<<<<<< HEAD
-=======
 PRODUCT_COPY_FILES += \
     system/core/rootdir/etc/public.libraries.android.txt:system/etc/public.libraries.txt
 
@@ -167,6 +147,5 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += $(call add-to-product-copy-files-if-exists,\
     frameworks/base/compiled-classes-phone:system/etc/compiled-classes)
 
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 $(call inherit-product, $(SRC_TARGET_DIR)/product/runtime_libart.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)

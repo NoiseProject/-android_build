@@ -4,17 +4,6 @@
 
 my_sanitize := $(strip $(LOCAL_SANITIZE))
 
-<<<<<<< HEAD
-# Keep compatibility for LOCAL_ADDRESS_SANITIZER until all targets have moved to
-# `LOCAL_SANITIZE := address`.
-ifeq ($(strip $(LOCAL_ADDRESS_SANITIZER)),true)
-  my_sanitize += address
-endif
-
-# And `LOCAL_SANITIZE := never`.
-ifeq ($(strip $(LOCAL_ADDRESS_SANITIZER)),false)
-  my_sanitize := never
-=======
 # SANITIZE_HOST is only in effect if the module is already using clang (host
 # modules that haven't set `LOCAL_CLANG := false` and device modules that
 # have set `LOCAL_CLANG := true`.
@@ -33,31 +22,10 @@ endif
 # The sanitizer specified by the environment wins over the module.
 ifneq ($(my_global_sanitize),)
   my_sanitize := $(my_global_sanitize)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 # Don't apply sanitizers to NDK code.
 ifdef LOCAL_SDK_VERSION
-<<<<<<< HEAD
-  my_sanitize := never
-endif
-
-# Configure SANITIZE_HOST.
-ifdef LOCAL_IS_HOST_MODULE
-  ifeq ($(my_sanitize),)
-    my_sanitize := $(strip $(SANITIZE_HOST))
-
-    # SANTIZIZE_HOST=true is a deprecated way to say SANITIZE_HOST=address.
-    ifeq ($(my_sanitize),true)
-      my_sanitize := address
-    endif
-
-    # SANITIZE_HOST is only in effect if the module is already using clang (host
-    # modules that haven't set `LOCAL_CLANG := false` and device modules that
-    # have set `LOCAL_CLANG := true`.
-    ifneq ($(my_clang),true)
-      my_sanitize :=
-=======
   my_sanitize :=
 endif
 
@@ -74,15 +42,10 @@ ifneq ($(filter thread,$(my_sanitize)),)
         my_sanitize := $(filter-out thread,$(my_sanitize))
     else
         $(error $(LOCAL_PATH): $(LOCAL_MODULE): TSAN cannot be used for 32-bit modules.)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     endif
   endif
 endif
 
-<<<<<<< HEAD
-ifeq ($(my_sanitize),never)
-  my_sanitize :=
-=======
 # Undefined symbols can occur if a non-sanitized library links
 # sanitized static libraries. That's OK, because the executable
 # always depends on the ASan runtime library, which defines these
@@ -99,7 +62,6 @@ ifneq ($(strip $(SANITIZE_TARGET)),)
     # Revert when external/compiler-rt is updated past r236014.
     LOCAL_PACK_MODULE_RELOCATIONS := false
   endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
 endif
 
 # Sanitizers can only be used with clang.
@@ -111,23 +73,6 @@ endif
 
 ifneq ($(filter default-ub,$(my_sanitize)),)
   my_sanitize := $(CLANG_DEFAULT_UB_CHECKS)
-<<<<<<< HEAD
-  my_ldlibs += -ldl
-
-  ifdef LOCAL_IS_HOST_MODULE
-    my_cflags += -fno-sanitize-recover=all
-  else
-    my_cflags += -fsanitize-undefined-trap-on-error
-  endif
-endif
-
-ifneq ($(my_sanitize),)
-  fsanitize_arg := $(subst $(space),$(comma),$(my_sanitize)),
-  my_cflags += -fsanitize=$(fsanitize_arg)
-
-  ifdef LOCAL_IS_HOST_MODULE
-    my_ldflags += -fsanitize=$(fsanitize_arg)
-=======
 endif
 
 ifneq ($(filter coverage,$(my_sanitize)),)
@@ -152,7 +97,6 @@ ifneq ($(my_sanitize),)
       my_cflags += -ftrap-function=abort
     endif
     my_shared_libraries += libdl
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   endif
 endif
 
@@ -164,41 +108,23 @@ ifneq ($(filter address,$(my_sanitize)),)
   ifdef LOCAL_IS_HOST_MODULE
     # -nodefaultlibs (provided with libc++) prevents the driver from linking
     # libraries needed with -fsanitize=address. http://b/18650275 (WAI)
-<<<<<<< HEAD
-    my_ldlibs += -lm -ldl -lpthread
-    my_ldflags += -Wl,--no-as-needed
-  else
-=======
     my_ldlibs += -lm -lpthread
     my_ldflags += -Wl,--no-as-needed
   else
     my_cflags += -mllvm -asan-globals=0
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
     # ASan runtime library must be the first in the link order.
     my_shared_libraries := $($(LOCAL_2ND_ARCH_VAR_PREFIX)ADDRESS_SANITIZER_RUNTIME_LIBRARY) \
                            $(my_shared_libraries) \
                            $(ADDRESS_SANITIZER_CONFIG_EXTRA_SHARED_LIBRARIES)
     my_static_libraries += $(ADDRESS_SANITIZER_CONFIG_EXTRA_STATIC_LIBRARIES)
-<<<<<<< HEAD
-    my_ldflags += -Wl,-rpath,$($(LOCAL_2ND_ARCH_VAR_PREFIX)ADDRESS_SANITIZER_RPATH)
-=======
 
     my_linker := $($(LOCAL_2ND_ARCH_VAR_PREFIX)ADDRESS_SANITIZER_LINKER)
     # Make sure linker_asan get installed.
     $(LOCAL_INSTALLED_MODULE) : | $(PRODUCT_OUT)$($(LOCAL_2ND_ARCH_VAR_PREFIX)ADDRESS_SANITIZER_LINKER)
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
   endif
 endif
 
 ifneq ($(filter undefined,$(my_sanitize)),)
-<<<<<<< HEAD
-  ifdef LOCAL_IS_HOST_MODULE
-    my_ldlibs += -ldl
-  else
-    $(error ubsan is not yet supported on the target)
-  endif
-endif
-=======
   ifndef LOCAL_IS_HOST_MODULE
     $(error ubsan is not yet supported on the target)
   endif
@@ -208,4 +134,3 @@ ifneq ($(strip $(LOCAL_SANITIZE_RECOVER)),)
   recover_arg := $(subst $(space),$(comma),$(LOCAL_SANITIZE_RECOVER)),
   my_cflags += -fsanitize-recover=$(recover_arg)
 endif
->>>>>>> 17e1629562b7e4d904408218673da918eb585143
